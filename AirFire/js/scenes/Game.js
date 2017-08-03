@@ -6,6 +6,7 @@
         this.initialize();
     }
 
+    var background, background2;
     var p = Game.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
@@ -24,13 +25,15 @@
 
         var imgBackground = 'images/milkyway.jpg';
 
-        var background = new createjs.Bitmap(imgBackground);
+        background = new createjs.Bitmap(imgBackground);
         background.scaleX = background.scaleY = 0.2;
         this.addChild(background);  
 
-        var background2 = new createjs.Bitmap(imgBackground);
+        background2 = new createjs.Bitmap(imgBackground);
         background2.scaleX = background2.scaleY = 0.2;
-        background2.x = background2.y = 300;
+        background2.x = 1200;
+
+        background.speed = background2.speed =  -2.9;
 
         this.addChild(background2);  
 
@@ -64,27 +67,42 @@
         this.orbContainer.removeChild(e.target);
     }
     p.update = function () {
-        var i, orb, nextX;
 
-        var len = this.orbContainer.getNumChildren();
-        for (i = 0; i < len; i++) {
-            orb = this.orbContainer.getChildAt(i);
-            nextX = orb.x + orb.speed;
-            if (nextX + orb.size > canvas.width) {
-                nextX = canvas.width - orb.size;
-                orb.speed *= -1;
-            }
-            else if (nextX - orb.size < 0) {
-                nextX = orb.size;
-                orb.speed *= -1;
-            }
-            orb.nextX = nextX;
+        //var i, orb, nextX;
+
+        // var len = this.orbContainer.getNumChildren();
+        // for (i = 0; i < len; i++) {
+        //     orb = this.orbContainer.getChildAt(i);
+        //     nextX = orb.x + orb.speed;
+        //     if (nextX + orb.size > canvas.width) {
+        //         nextX = canvas.width - orb.size;
+        //         orb.speed *= -1;
+        //     }
+        //     else if (nextX - orb.size < 0) {
+        //         nextX = orb.size;
+        //         orb.speed *= -1;
+        //     }
+        //     orb.nextX = nextX;
+        // }
+        var bgMovement, bg1NextX, bg2NextX;
+
+        bg1NextX = background.x + background.speed;
+        bg2NextX = background2.x + background2.speed;
+
+        background.x = bg1NextX;
+        background2.x = bg2NextX;
+        
+        if (background.x <= -1200) {
+            background.x = background2.x + 1200;            
+        }
+        if (background2.x <= -1200) {
+            background2.x = background.x + 1200;            
         }
 
 
 
-
     }
+
     p.render = function () {
         var i, orb;
         var len = this.orbContainer.getNumChildren();
