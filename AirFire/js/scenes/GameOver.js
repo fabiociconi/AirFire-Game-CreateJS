@@ -17,12 +17,16 @@
         this.addButton();
     }
     p.addBG = function () {
-        var bg = new createjs.Shape();
-        bg.graphics.beginFill('#09E').drawRect(0, 0, canvas.width, canvas.height);
-        this.addChild(bg);
+        var imgBackground = 'images/BackGOver.jpg';
+
+        var background2 = new createjs.Bitmap(imgBackground);
+        background2.scaleX = background2.scaleY = 1.19;
+        background2.x = background2.y = 0;
+
+        this.addChild(background2); 
     }
     p.addMessage = function () {
-        this.titleTxt = new createjs.Text("YOU DESTROYED THE ORBS!", '40px Arial', '#FFF');
+        this.titleTxt = new createjs.Text("GAME OVER", '40px Space Mono', '#FFF');
         this.titleTxt.x = canvas.width / 2;
         this.titleTxt.y = 200;
         this.titleTxt.textAlign = 'center';
@@ -36,12 +40,14 @@
         btn.x = canvas.width / 2;
         btn.y = 280;
         btn.on('click', this.mainMenu, this);
+        btn.setButton({upColor:'FF0000', color:'#FFF', borderColor:'#FFF', overColor:'#900'});
         this.addChild(btn);
         btn = new ui.SimpleButton('Play Again');
         btn.regX = btn.width / 2;
         btn.x = canvas.width / 2;
         btn.y = 350;
         btn.on('click', this.playGame, this);
+        btn.setButton({upColor:'FF0000', color:'#FFF', borderColor:'#FFF', overColor:'#900'});
         this.addChild(btn);
     }
     p.mainMenu = function (e) {

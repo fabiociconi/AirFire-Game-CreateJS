@@ -19,20 +19,29 @@
         this.addTitle();
         this.addOrbs();
         this.addButton();
+       
     }
     p.addBG = function () {
-        var bg = new createjs.Shape();
-        bg.graphics.beginFill('0').drawRect(0, 0, canvas.width, canvas.height);
-        this.addChild(bg);
+
+        var imgBackground = 'images/milkyway.jpg';
+
+
+        var background2 = new createjs.Bitmap(imgBackground);
+        background2.scaleX = background2.scaleY = 0.2;
+        background2.x = background2.y = 0;
+
+        this.addChild(background2);  
+        
     }
     p.addTitle = function () {
-        this.titleTxt = new createjs.Text("AIR FIRE!", '40px Tahoma', '#FFF');
+        this.titleTxt = new createjs.Text("AIR FIRE!", '40px Space Mono', '#FFF');
         this.titleTxt.x = canvas.width / 2;
         this.titleTxt.y = 200;
         this.titleTxt.textAlign = 'center';
         this.addChild(this.titleTxt);
     }
     p.addOrbs = function () {
+
         var i, orb;
         var orbContainer = new createjs.Container();
         var numOrbs = 5;
@@ -61,7 +70,7 @@
         this.dispatchEvent(game.GameStateEvents.GAME);
     }
     p.run = function () {
-        this.titleTxt.alpha = Math.cos(this.count++ * 0.1) * 0.4 + 0.6;
+        //this.titleTxt.alpha = Math.cos(this.count++ * 0.1) * 0.4 + 0.6;
     }
     window.game.GameMenu = GameMenu;
 
