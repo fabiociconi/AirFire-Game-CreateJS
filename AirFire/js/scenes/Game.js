@@ -16,9 +16,6 @@
     var p = Game.prototype = new createjs.Container();
 
     var leftKeyDown, upKeyDown, rightKeyDown, downKeyDown = false;
-
-
-   
     p.Container_initialize = p.initialize;
 
     p.msgTxt = null;
@@ -32,10 +29,7 @@
         this.addMessages();
         this.createAsteroidContainer();
         this.createAsteroids();
-        this.createBulletContainer();
-        //this.moveSpaceship();
-        //this.stopSpaceship();
-        
+        this.createBulletContainer();        
     }
     p.addBackground = function () {
 
