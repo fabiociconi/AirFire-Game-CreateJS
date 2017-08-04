@@ -17,10 +17,13 @@
 
     var leftKeyDown, upKeyDown, rightKeyDown, downKeyDown = false;
 
+
+   
     p.Container_initialize = p.initialize;
 
     p.msgTxt = null;
     p.asteroidContainer = null;
+    p.bulletContainer = null;
 
     p.initialize = function () {
         this.Container_initialize();
@@ -29,6 +32,7 @@
         this.addMessages();
         this.createAsteroidContainer();
         this.createAsteroids();
+        this.createBulletContainer();
         //this.moveSpaceship();
         //this.stopSpaceship();
         
@@ -67,7 +71,7 @@
 
 
     p.addMessages = function () {
-        this.msgTxt = new createjs.Text("HELLO", '24px Arial', '#FFF');
+        this.msgTxt = new createjs.Text("HELLO", '24px Verdana', '#F00');
         this.addChild(this.msgTxt);
     }
     p.createAsteroidContainer = function () {
@@ -81,13 +85,20 @@
         var asteroidSize = 25;
         for (i = 0; i < numAsteroids; i++) {
             color = '#' + Math.floor(Math.random() * 16777215).toString(16)
-            asteroid = new PulsingOrb(color, asteroidSize);
+            //asteroid = new PulsingOrb(color, asteroidSize);
+            var imgAsteroid = 'images/asteroid.png';
+            asteroid = new createjs.Bitmap(imgAsteroid);
             asteroid.speed = Math.random() * 2 + 2;
             asteroid.size = asteroidSize;
             asteroid.x = 800;
             asteroid.y = asteroidSize + (Math.random() * numAsteroids * asteroidSize * 2);
             asteroids.addChild(asteroid);
         }
+    }
+
+    p.createBulletContainer = function () {
+        this.bulletContainer = new createjs.Container();
+        this.addChild(this.bulletContainer);
     }
 
     p.update = function () {
@@ -99,7 +110,7 @@
             asteroid = this.asteroidContainer.getChildAt(i);
             nextX = asteroid.x - asteroid.speed;
 
-            if (nextX - asteroid.size < 0) {
+            if (nextX + asteroid.size < 0) {
                  nextX = canvas.width + asteroid.size;
             }
 
@@ -129,6 +140,7 @@
         if (leftKeyDown) 
         {
             nextX = spaceship.x - 10;
+           // shoot();
         }
         else if (rightKeyDown) 
         {
@@ -184,6 +196,24 @@
          }
      }
 
+
+
+    function shoot() 
+    { 
+        var bullets = this.bulletContainer;
+        var bulletSize = 10;
+        var ImgBullet = 'images/bullet.png';
+        var bullet = new createjs.Bitmap(ImgBullet); 
+        bullet.size = bulletSize;
+        
+        
+        bullet.x = spaceship.x + 13; 
+        bullet.y = spaceship.y - 20; 
+        
+        bullets.addChild(bullet); 
+        stage.update();   
+    }
+
     p.render = function () {
         var i, astreroid;
         var len = this.asteroidContainer.getNumChildren();
@@ -191,7 +221,7 @@
             asteroid = this.asteroidContainer.getChildAt(i);
             asteroid.x = asteroid.nextX;
         }
-        this.msgTxt.text = "ASTEROIDS LEFT: " + this.asteroidContainer.getNumChildren();
+        this.msgTxt.text = "SCORE: 0";
     }
     p.checkGame = function () {
         if (!this.asteroidContainer.getNumChildren()) {

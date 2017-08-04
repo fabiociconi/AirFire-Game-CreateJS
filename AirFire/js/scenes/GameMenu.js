@@ -17,7 +17,7 @@
         this.Container_initialize();
         this.addBG();
         this.addTitle();
-        this.addOrbs();
+        //this.addOrbs();
         this.addButton();
        
     }
@@ -34,7 +34,7 @@
         
     }
     p.addTitle = function () {
-        this.titleTxt = new createjs.Text("AIR FIRE!", '40px Space Mono', '#FFF');
+        this.titleTxt = new createjs.Text("AIR FIRE!", 'bold 40px Verdana', '#F00');
         this.titleTxt.x = canvas.width / 2;
         this.titleTxt.y = 200;
         this.titleTxt.textAlign = 'center';
@@ -63,7 +63,7 @@
         btn.regX = btn.width / 2;
         btn.x = canvas.width / 2;
         btn.y = 400;
-        btn.setButton({upColor:'FF0000', color:'#FFF', borderColor:'#FFF', overColor:'#900'});
+        btn.setButton({upColor:'FF0000', color:'#FFF', borderColor:'#F00', overColor:'#900'});
         this.addChild(btn);
     }
     p.playGame = function (e) {
