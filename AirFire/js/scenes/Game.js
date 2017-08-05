@@ -6,18 +6,27 @@
         this.initialize();
     }
 
+    //Key Constants
     const ARROW_KEY_LEFT = 37;
     const ARROW_KEY_UP = 38;
     const ARROW_KEY_RIGHT = 39;
     const ARROW_KEY_DOWN = 40;
 
-    var background, background2;
-    var spaceship;
-    var p = Game.prototype = new createjs.Container();
+    //Stage Constants
+    const STAGE_WIDTH = 1200;
+    const BG_WIDTH = 1800;
 
+    //Backgrounds
+    var background, background2;
+
+    //The Spaceship
+    var spaceship;
+
+
+
+    var p = Game.prototype = new createjs.Container();
     var leftKeyDown, upKeyDown, rightKeyDown, downKeyDown = false;
     p.Container_initialize = p.initialize;
-
     p.msgTxt = null;
     p.asteroidContainer = null;
     p.bulletContainer = null;
@@ -29,21 +38,23 @@
         this.addMessages();
         this.createAsteroidContainer();
         this.createAsteroids();
-        this.createBulletContainer();        
+        this.createBulletContainer(); 
+        this.createBullets();        
+
     }
     p.addBackground = function () {
 
         var imgBackground = 'images/milkyway.jpg';
 
         background = new createjs.Bitmap(imgBackground);
-        background.scaleX = background.scaleY = 0.2;
+        background.scaleX = background.scaleY = 0.3;
         this.addChild(background);  
 
         background2 = new createjs.Bitmap(imgBackground);
-        background2.scaleX = background2.scaleY = 0.2;
-        background2.x = 1200;
+        background2.scaleX = background2.scaleY = 0.3;
+        background2.x = BG_WIDTH;
 
-        background.speed = background2.speed =  -0.9;
+        background.speed = background2.speed =  -1;
 
         this.addChild(background2);  
 
@@ -95,6 +106,24 @@
         this.addChild(this.bulletContainer);
     }
 
+    p.createBullets = function () { 
+        var i, bullet, color;
+        var bullets = this.bulletContainer;
+        var numBullets = 50;
+        var bulletSize = 10;
+
+        for (i = 0; i < numBullets; i++) {
+            var ImgBullet = 'images/bullet.png';
+            var bullet = new createjs.Bitmap(ImgBullet); 
+            bullet.speed = 8;
+            bullet.size = bulletSize;
+            bullet.x = STAGE_WIDTH;
+            bullet.y = 400;
+            bullets.addChild(bullet);
+        }
+    }
+
+
     p.update = function () {
 
         //Moving Asteroids
@@ -111,6 +140,22 @@
             asteroid.nextX = nextX;
         }
 
+        //Moving Bullets
+        var j, bullet, bulletNextX, bulletNextY;
+        var bulletLen = this.bulletContainer.getNumChildren();
+        for (j = 0; j < bulletLen; j++) {
+            bullet = this.bulletContainer.getChildAt(j);
+            bulletNextX = bullet.x + bullet.speed;
+
+           // if (nextX + bullet.size < 0) {
+           //      nextX = canvas.width + bullet.size;
+           // }
+
+            bullet.nextX = bulletNextX;
+        }
+
+
+
 
         //Moving Spaceship
         var bg1NextX, bg2NextX;
@@ -121,11 +166,11 @@
         background.x = bg1NextX;
         background2.x = bg2NextX;
         
-        if (background.x <= -1200) {
-            background.x = background2.x + 1200;            
+        if (background.x <= -BG_WIDTH) {
+            background.x = background2.x + BG_WIDTH;            
         }
-        if (background2.x <= -1200) {
-            background2.x = background.x + 1200;            
+        if (background2.x <= -BG_WIDTH) {
+            background2.x = background.x + BG_WIDTH;            
         }
 
         var nextX = spaceship.x;
@@ -133,18 +178,34 @@
 
         if (leftKeyDown) 
         {
-            nextX = spaceship.x - 10;
-           // shoot();
+            nextX = spaceship.x - 10;  
+
+            var bulletIndex;
+
+            for (bulletIndex = 0; bulletIndex < bulletLen; bulletIndex++) {
+                bullet = this.bulletContainer.getChildAt(bulletIndex);
+                if (bullet.x > STAGE_WIDTH)
+                {
+                    bulletNextX = spaceship.x + 35;
+                    bulletNextY = spaceship.y + 25;                   
+                            
+
+                bullet.nextX = bulletNextX;
+                bullet.nextY = bulletNextY;
+                bulletIndex = bulletLen;
+                }
+            }
+
         }
-        else if (rightKeyDown) 
+        if (rightKeyDown) 
         {
             nextX = spaceship.x + 10;
         }
-        else if (upKeyDown) 
+        if (upKeyDown) 
         {
             nextY = spaceship.y - 10;
         }
-        else if (downKeyDown) 
+        if (downKeyDown) 
         {
             nextY = spaceship.y + 10;
         }
@@ -192,29 +253,25 @@
 
 
 
-    function shoot() 
-    { 
-        var bullets = this.bulletContainer;
-        var bulletSize = 10;
-        var ImgBullet = 'images/bullet.png';
-        var bullet = new createjs.Bitmap(ImgBullet); 
-        bullet.size = bulletSize;
-        
-        
-        bullet.x = spaceship.x + 13; 
-        bullet.y = spaceship.y - 20; 
-        
-        bullets.addChild(bullet); 
-        stage.update();   
-    }
+   
 
     p.render = function () {
-        var i, astreroid;
+        
+        var i, asteroid, bullet;
+
         var len = this.asteroidContainer.getNumChildren();
         for (i = 0; i < len; i++) {
             asteroid = this.asteroidContainer.getChildAt(i);
             asteroid.x = asteroid.nextX;
         }
+
+        len = this.bulletContainer.getNumChildren();
+        for (i = 0; i < len; i++) {
+            bullet = this.bulletContainer.getChildAt(i);
+            bullet.x = bullet.nextX;
+            bullet.y = bullet.nextY;
+        }
+
         this.msgTxt.text = "SCORE: 0";
     }
     p.checkGame = function () {
