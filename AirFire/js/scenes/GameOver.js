@@ -20,7 +20,7 @@
         var imgBackground = 'images/BackGOver.jpg';
 
         var background2 = new createjs.Bitmap(imgBackground);
-        background2.scaleX = background2.scaleY = 1.19;
+        background2.scaleX = background2.scaleY = 1.68;
         background2.x = background2.y = 0;
 
         this.addChild(background2); 

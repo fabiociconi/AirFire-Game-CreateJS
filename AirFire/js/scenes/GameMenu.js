@@ -74,7 +74,7 @@
         var imgBackground = 'images/milkyway.jpg';
         
         var background2 = new createjs.Bitmap(imgBackground);
-        background2.scaleX = background2.scaleY = 0.2;
+        background2.scaleX = background2.scaleY = 0.3;
         background2.x = background2.y = 0;
 
         this.addChild(background2);  
