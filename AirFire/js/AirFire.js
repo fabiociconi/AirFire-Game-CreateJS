@@ -28,6 +28,12 @@
             case game.GameStates.GAME:
                 this.currentGameStateFunction = this.gameStateGame;
                 break;
+
+            //fabio
+            case game.GameStates.CREDITS:
+                this.currentGameStateFunction = this.gameStateCredits;
+                break;
+            //fabio
             case game.GameStates.RUN_SCENE:
                 this.currentGameStateFunction = this.gameStateRunScene;
                 break;
@@ -41,15 +47,28 @@
     }
     p.gameStateMainMenu = function () {
         var scene = new game.GameMenu();
-        scene.on(game.GameStateEvents.GAME, this.onStateEvent, this, false, {state:game.GameStates.GAME});
+        scene.on(game.GameStateEvents.GAME, this.onStateEvent, this, false, { state: game.GameStates.GAME });
+        //fabio
+        scene.on(game.GameStateEvents.CREDITS, this.onStateEvent, this, false, { state: game.GameStates.CREDITS });
+        //fabio
         stage.addChild(scene);
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
         this.changeState(game.GameStates.RUN_SCENE);
     }
+    //fabio//
+    p.gameStateCredits = function () {
+        var scene = new game.Credits();
+        scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, { state: game.GameStates.MAIN_MENU });
+        stage.addChild(scene);
+        stage.removeChild(this.currentScene);
+        this.currentScene = scene;
+        this.changeState(game.GameStates.RUN_SCENE);
+    }
+    //fabio//
     p.gameStateGame = function () {
         var scene = new game.Game();
-        scene.on(game.GameStateEvents.GAME_OVER, this.onStateEvent, this, false, {state:game.GameStates.GAME_OVER});
+        scene.on(game.GameStateEvents.GAME, this.onStateEvent, this, false, { state: game.GameStates.GAME });
         stage.addChild(scene);
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
@@ -58,8 +77,8 @@
     p.gameStateGameOver = function () {
         var scene = new game.GameOver();
         stage.addChild(scene);
-        scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, {state:game.GameStates.MAIN_MENU});
-        scene.on(game.GameStateEvents.GAME, this.onStateEvent, this, false, {state:game.GameStates.GAME});
+        scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, { state: game.GameStates.MAIN_MENU });
+        scene.on(game.GameStateEvents.GAME, this.onStateEvent, this, false, { state: game.GameStates.GAME });
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
         this.changeState(game.GameStates.RUN_SCENE);

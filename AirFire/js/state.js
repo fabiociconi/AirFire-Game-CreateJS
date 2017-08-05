@@ -4,10 +4,12 @@
 
     var GameStates = {
         MAIN_MENU:0,
-        RUN_SCENE:1,
+        //RUN_SCENE:1,
         GAME:10,
         SCORE_SCREEN:11,
-        GAME_OVER:20
+        GAME_OVER:20,
+        CREDITS:25
+        
     }
 
     var GameStateEvents = {
@@ -15,7 +17,8 @@
         GAME_OVER:'game over event',
         MAIN_MENU_SELECT:'game menu select event',
         GAME:'game event',
-        SCORE_SCREEN:'score screen event'
+        SCORE_SCREEN:'score screen event',
+        CREDITS: 'screen credits'
     }
 
     window.game.GameStates = GameStates;
