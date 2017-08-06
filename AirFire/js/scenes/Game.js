@@ -36,48 +36,67 @@
     p.initialize = function () {
         this.Container_initialize();
         this.addBackground();
+        this.addPauseButton();//pause button
         this.addSpaceship();
         this.addMessages();
         this.createAsteroidContainer();
         this.createAsteroids();
-        this.createBulletContainer(); 
-        this.createBullets();        
+        this.createBulletContainer();
+        this.createBullets();
 
     }
+    //fabio ARRUMAR ESTA BAGUNCA
+    p.addPauseButton = function (e) {
+        var btn, event;
+        btn = new ui.SimpleButton('||');
+        btn.on('click', this.pausePORRA, this);
+        btn.regX = btn.width / 2;
+        btn.x = 1150;
+        btn.y = 0;
+        btn.setButton({ upColor: 'yellow', color: 'blue', borderColor: 'blue', overColor: 'white' });
+        this.addChild(btn);
+    }
+
+    p.pausePORRA = function (e) {
+               var paused = !createjs.Ticker.getPaused();
+            createjs.Ticker.setPaused(paused);
+            
+    }
+    //fabio ARRUMAR ESTA BAGUNCA
     p.addBackground = function () {
 
         var imgBackground = 'images/milkyway.jpg';
 
         background1 = new createjs.Bitmap(imgBackground);
         background1.scaleX = background1.scaleY = 0.3;
-        this.addChild(background1);  
+        this.addChild(background1);
 
         background2 = new createjs.Bitmap(imgBackground);
         background2.scaleX = background2.scaleY = 0.3;
         background2.x = BG_WIDTH;
 
-        background1.speed = background2.speed =  -1;
+        background1.speed = background2.speed = -1;
 
-        this.addChild(background2);  
+        this.addChild(background2);
 
 
     }
 
-     p.addSpaceship = function () {
+    p.addSpaceship = function () {
 
-         var imgSpaceship = 'images/spaceship.png';
+        var imgSpaceship = 'images/spaceship.png';
 
-         spaceship = new createjs.Bitmap(imgSpaceship);
+        spaceship = new createjs.Bitmap(imgSpaceship);
 
-            spaceship.regX = spaceship.width / 2;
-            spaceship.regY = spaceship.height / 2;
-         spaceship.x = 50
-         spaceship.y = (canvas.height / 2);
-         this.addChild(spaceship);
+        spaceship.regX = spaceship.width / 2;
+        spaceship.regY = spaceship.height / 2;
+        spaceship.x = 50
+        spaceship.y = (canvas.height / 2);
+        this.addChild(spaceship);
 
-         window.onkeydown = moveSpaceship;
-         window.onkeyup = stopSpaceship;
-     }
+        window.onkeydown = moveSpaceship;
+        window.onkeyup = stopSpaceship;
+    }
 
 
     p.addMessages = function () {
@@ -117,7 +136,7 @@
         this.addChild(this.bulletContainer);
     }
 
-    p.createBullets = function () { 
+    p.createBullets = function () {
         var i, bullet, color;
         var bullets = this.bulletContainer;
         var numBullets = 50;
@@ -125,7 +144,7 @@
 
         for (i = 0; i < numBullets; i++) {
             var ImgBullet = 'images/bullet.png';
-            var bullet = new createjs.Bitmap(ImgBullet); 
+            var bullet = new createjs.Bitmap(ImgBullet);
             bullet.speed = 8;
             bullet.size = bulletSize;
             bullet.x = STAGE_WIDTH;
@@ -145,7 +164,7 @@
             nextX = asteroid.x - asteroid.speed;
 
             if (nextX + asteroid.size < 0) {
-                 nextX = canvas.width + asteroid.size;
+                nextX = canvas.width + asteroid.size;
             }
 
             asteroid.nextX = nextX;
@@ -169,44 +188,38 @@
 
         background1.x = bg1NextX;
         background2.x = bg2NextX;
-        
+
         if (background1.x <= -BG_WIDTH) {
-            background1.x = background2.x + BG_WIDTH;            
+            background1.x = background2.x + BG_WIDTH;
         }
         if (background2.x <= -BG_WIDTH) {
-            background2.x = background1.x + BG_WIDTH;            
+            background2.x = background1.x + BG_WIDTH;
         }
 
         var nextX = spaceship.x;
         var nextY = spaceship.y;
 
-        if (leftKeyDown) 
-        {
-            nextX = spaceship.x - 10;  
+        if (leftKeyDown) {
+            nextX = spaceship.x - 10;
         }
-        if (rightKeyDown) 
-        {
+        if (rightKeyDown) {
             nextX = spaceship.x + 10;
         }
-        if (upKeyDown) 
-        {
+        if (upKeyDown) {
             nextY = spaceship.y - 10;
         }
-        if (downKeyDown) 
-        {
+        if (downKeyDown) {
             nextY = spaceship.y + 10;
         }
 
-        if (shootKeyDown)
-        {
+        if (shootKeyDown) {
             var bulletIndex;
 
             for (bulletIndex = 0; bulletIndex < bulletLen; bulletIndex++) {
                 bullet = this.bulletContainer.getChildAt(bulletIndex);
-                if (bullet.x > STAGE_WIDTH)
-                {
+                if (bullet.x > STAGE_WIDTH) {
                     bulletNextX = spaceship.x + 35;
-                    bulletNextY = spaceship.y + 25; 
+                    bulletNextY = spaceship.y + 25;
                     bullet.nextX = bulletNextX;
                     bullet.nextY = bulletNextY;
                     bulletIndex = bulletLen;
@@ -225,8 +238,7 @@
 
             var slot = asteroid;
             var pt = slot.globalToLocal(spaceship.x, spaceship.y);
-            if (slot.hitTest(pt.x, pt.y)) 
-            {
+            if (slot.hitTest(pt.x, pt.y)) {
                 txtScore = "COLLISION DETECTED " + i;
                 this.dispatchEvent(game.GameStateEvents.GAME_OVER);
             }
@@ -239,68 +251,67 @@
             var slot = asteroid;
 
             for (j = 0; j < bulletLen; j++) {
-            bullet = this.bulletContainer.getChildAt(j);
+                bullet = this.bulletContainer.getChildAt(j);
                 var pt = slot.globalToLocal(bullet.x, bullet.y);
-                if (slot.hitTest(pt.x, pt.y)) 
-                {
-                    txtScore = "ASTEROID DESTROYED " + i; 
+                if (slot.hitTest(pt.x, pt.y)) {
+                    txtScore = "ASTEROID DESTROYED " + i;
                     asteroid.nextX = STAGE_WIDTH;
                     bullet.nextX = STAGE_WIDTH;
                     bullet.nextY = 4000;
-                    
+
                 }
             }
         }
     }
 
-     function moveSpaceship(e) {
-         e = !e ? window.event : e;
-         switch (e.keyCode) {
-             case ARROW_KEY_LEFT:
-                 leftKeyDown = true;
-                 break;
-             case ARROW_KEY_UP:
-                 upKeyDown = true;
-                 break;  
-             case ARROW_KEY_RIGHT:
-                 rightKeyDown = true;
-                 break;
-             case ARROW_KEY_DOWN:
-                 downKeyDown = true;
-                 break;
+    function moveSpaceship(e) {
+        e = !e ? window.event : e;
+        switch (e.keyCode) {
+            case ARROW_KEY_LEFT:
+                leftKeyDown = true;
+                break;
+            case ARROW_KEY_UP:
+                upKeyDown = true;
+                break;
+            case ARROW_KEY_RIGHT:
+                rightKeyDown = true;
+                break;
+            case ARROW_KEY_DOWN:
+                downKeyDown = true;
+                break;
             case SPACE_BAR:
-                 shootKeyDown = true;
-                 break;                       
-         }
-     }
+                shootKeyDown = true;
+                break;
+        }
+    }
 
-     function stopSpaceship(e) {
-         e = !e ? window.event : e;
-         switch (e.keyCode) {
-             case 37:
-                 leftKeyDown = false;
-                 break;
-             case 38:
-                 upKeyDown = false;
-                 break;
-             case 39:
-                 rightKeyDown = false;
-                 break;
-             case 40:
-                 downKeyDown = false;
-                 break;
-             case 32:
-                 shootKeyDown = false;  
-                 break; 
-         }
-     }
+    function stopSpaceship(e) {
+        e = !e ? window.event : e;
+        switch (e.keyCode) {
+            case 37:
+                leftKeyDown = false;
+                break;
+            case 38:
+                upKeyDown = false;
+                break;
+            case 39:
+                rightKeyDown = false;
+                break;
+            case 40:
+                downKeyDown = false;
+                break;
+            case 32:
+                shootKeyDown = false;
+                break;
+        }
+    }
 
 
 
-   
+
 
     p.render = function () {
-        
+
         var i, asteroid, bullet;
 
         var len = this.asteroidContainer.getNumChildren();
@@ -323,10 +334,13 @@
             this.dispatchEvent(game.GameStateEvents.GAME_OVER);
         }
     }
-    p.run = function () {
+    p.run = function (  ) {
+
+
         this.update();
         this.render();
         this.checkGame();
+
     }
 
     window.game.Game = Game;

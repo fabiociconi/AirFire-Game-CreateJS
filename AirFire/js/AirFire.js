@@ -19,6 +19,17 @@
         createjs.Ticker.on('tick', this.onTick, this);
         this.changeState(game.GameStates.MAIN_MENU);
     }
+////PRECISO LEMBRAR DE
+////FAZER CARREGAR AS PORRAS DE TODOS AS IMAGENS E SONS AQUI
+///FABIO
+  //  p.createSpriteSheet = function () {
+    //     var assets = game.assets;
+    //     spritesheet = new createjs.SpriteSheet(assets.getAsset(assets.GAME_SPRITES_DATA));
+    // }
+////PRECISO LEMBRAR DE
+////FAZER CARREGAR AS PORRAS DE TODOS AS IMAGENS E SONS AQUI
+///FABIO
+
     p.changeState = function (state) {
         this.currentGameState = state;
         switch (this.currentGameState) {
@@ -94,8 +105,11 @@
         }
     }
     p.onTick = function (e) {
+        if(!e.paused){
+        
         this.run();
         stage.update();
+    }
     }
 
     window.game.AirFire = AirFire;
