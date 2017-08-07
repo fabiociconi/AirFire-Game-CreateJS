@@ -15,20 +15,48 @@
     p.initialize = function () {
         canvas = document.getElementById('canvas');
         stage = new createjs.Stage(canvas);
+        //createjs.Ticker.setFPS(60);
+        //createjs.Ticker.on('tick', this.onTick, this);
+        this.preloadAssets();
+        // this.changeState(game.GameStates.MAIN_MENU);
+    }
+
+    //chama preloader and carrega todos os assets do jogo
+    p.preloadAssets = function () {
+        game.assets = new game.AssetManager();
+        this.preloader = new ui.Preloader('#d2354c', 'black');
+        this.preloader.x = (canvas.width / 2) - (this.preloader.width / 2);
+        this.preloader.y = (canvas.height / 2) - (this.preloader.height / 2);
+        stage.addChild(this.preloader);
+        game.assets.on(game.assets.ASSETS_PROGRESS, this.onAssetsProgress, this);
+        game.assets.on(game.assets.ASSETS_COMPLETE, this.assetsReady, this);
+        game.assets.preloadAssets();
+    }
+    p.onAssetsProgress = function () {
+        this.preloader.update(game.assets.loadProgress);
+        stage.update();
+    }
+    p.assetsReady = function () {
+        stage.removeChild(this.preloader);
+        this.createSpriteSheet();
+        this.gameReady();
+    }
+    //sprite sheets - paths
+    p.createSpriteSheet = function () {
+        var assets = game.assets;
+        spritesheet = new createjs.SpriteSheet(assets.getAsset(assets.GAME_SPRITES_DATA));
+        
+    }
+
+    ///inicia o game//
+    p.gameReady = function () {
         createjs.Ticker.setFPS(60);
-        createjs.Ticker.on('tick', this.onTick, this);
+        createjs.Ticker.on("tick", this.onTick, this);
         this.changeState(game.GameStates.MAIN_MENU);
     }
-////PRECISO LEMBRAR DE
-////FAZER CARREGAR AS PORRAS DE TODOS AS IMAGENS E SONS AQUI
-///FABIO
-  //  p.createSpriteSheet = function () {
-    //     var assets = game.assets;
-    //     spritesheet = new createjs.SpriteSheet(assets.getAsset(assets.GAME_SPRITES_DATA));
-    // }
-////PRECISO LEMBRAR DE
-////FAZER CARREGAR AS PORRAS DE TODOS AS IMAGENS E SONS AQUI
-///FABIO
+
+
+    ///FABIO
 
     p.changeState = function (state) {
         this.currentGameState = state;
@@ -105,11 +133,11 @@
         }
     }
     p.onTick = function (e) {
-        if(!e.paused){
-        
-        this.run();
-        stage.update();
-    }
+        if (!e.paused) {
+
+            this.run();
+            stage.update();
+        }
     }
 
     window.game.AirFire = AirFire;

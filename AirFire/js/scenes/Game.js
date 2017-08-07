@@ -21,8 +21,8 @@
     var background1, background2;
 
     //The Spaceship
-    var spaceship;
-
+    //var spaceship;
+    var nave;
 
     var txtScore;
     var p = Game.prototype = new createjs.Container();
@@ -84,15 +84,24 @@
 
     p.addSpaceship = function () {
 
-        var imgSpaceship = 'images/spaceship.png';
+       
+        //var imgSpaceship = 'images/spaceship.png';
+        nave  = new game.Nave();
+        //spaceship = new createjs.Bitmap(imgSpaceship);
+ 
 
-        spaceship = new createjs.Bitmap(imgSpaceship);
-
-        spaceship.regX = spaceship.width / 2;
-        spaceship.regY = spaceship.height / 2;
-        spaceship.x = 50
-        spaceship.y = (canvas.height / 2);
-        this.addChild(spaceship);
+        nave.regX = nave.width / 2;
+        nave.regY = nave.height / 2;
+        nave.x = 50;
+        nave.scaleX =.2;
+        nave.scaleY=.2;
+        nave.rotation = 90;
+        nave.y = (canvas.height / 2);
+        //spaceship.regX = spaceship.width / 2;
+        //spaceship.regY = spaceship.height / 2;
+        //spaceship.x = 50
+        //spaceship.y = (canvas.height / 2);
+        this.addChild(nave);
 
         window.onkeydown = moveSpaceship;
         window.onkeyup = stopSpaceship;
@@ -196,20 +205,20 @@
             background2.x = background1.x + BG_WIDTH;
         }
 
-        var nextX = spaceship.x;
-        var nextY = spaceship.y;
+        var nextX = nave.x;
+        var nextY = nave.y;
 
         if (leftKeyDown) {
-            nextX = spaceship.x - 10;
+            nextX = nave.x - 10;
         }
         if (rightKeyDown) {
-            nextX = spaceship.x + 10;
+            nextX = nave.x + 10;
         }
         if (upKeyDown) {
-            nextY = spaceship.y - 10;
+            nextY = nave.y - 10;
         }
         if (downKeyDown) {
-            nextY = spaceship.y + 10;
+            nextY = nave.y + 10;
         }
 
         if (shootKeyDown) {
@@ -218,8 +227,8 @@
             for (bulletIndex = 0; bulletIndex < bulletLen; bulletIndex++) {
                 bullet = this.bulletContainer.getChildAt(bulletIndex);
                 if (bullet.x > STAGE_WIDTH) {
-                    bulletNextX = spaceship.x + 35;
-                    bulletNextY = spaceship.y + 25;
+                    bulletNextX = nave.x + 35;
+                    bulletNextY = nave.y + 25;
                     bullet.nextX = bulletNextX;
                     bullet.nextY = bulletNextY;
                     bulletIndex = bulletLen;
@@ -227,8 +236,8 @@
             }
         }
 
-        spaceship.x = nextX;
-        spaceship.y = nextY;
+        nave.x = nextX;
+        nave.y = nextY;
 
 
 
@@ -237,7 +246,7 @@
             asteroid = this.asteroidContainer.getChildAt(i);
 
             var slot = asteroid;
-            var pt = slot.globalToLocal(spaceship.x, spaceship.y);
+            var pt = slot.globalToLocal(nave.x, nave.y);
             if (slot.hitTest(pt.x, pt.y)) {
                 txtScore = "COLLISION DETECTED " + i;
                 this.dispatchEvent(game.GameStateEvents.GAME_OVER);
@@ -334,7 +343,7 @@
             this.dispatchEvent(game.GameStateEvents.GAME_OVER);
         }
     }
-    p.run = function (  ) {
+    p.run = function () {
 
 
         this.update();

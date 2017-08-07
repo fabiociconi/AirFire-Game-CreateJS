@@ -1,0 +1,30 @@
+{
+    "images": ["assets/spritesheet.png"],
+    "frames": [
+        [768, 512, 256, 256],
+        [1280, 512, 256, 256],
+        [512, 768, 256, 256],
+        [2304, 512, 256, 256],
+        [3328, 512, 256, 256],
+        [256, 768, 256, 256],
+        [3584, 512, 256, 256],
+        [0, 768, 256, 256],
+        [512, 1536, 512, 512],
+	    [2560, 1536, 512, 512],
+	    [1024, 1536, 512, 512],
+	    [1536, 1536, 512, 512]
+    ],
+    "animations": {
+        "butPlay":[0],
+        "butPlay2":[1],
+        "butOptions":[2, 3],
+        "butCredits":[4, 5],
+        "butExit":[6, 7],   
+        "nave": [9,10]   
+
+    },
+    "texturepacker": [
+        "SmartUpdateHash: $TexturePacker:SmartUpdate:315d977bf7eb3e898c6fee19087359cb$",
+        "Created with TexturePacker (http://www.texturepacker.com) for EasalJS"
+    ]
+}

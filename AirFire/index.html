@@ -16,17 +16,28 @@
     <script src="js/AirFire.js"></script>  
     <script src="js/state.js"></script>
     
+
+    <!--retirar depois -->  
     <script src="js/SimpleButton.js"></script>
     <script src="js/PulsingOrb.js"></script>
-    <!-- <script src="js/Preloader.js"></script> -->
+    
+    <!--COMPONENTS-->
+    <script src="js/components/Preloader.js"></script>
+    <script src="js/data/data.js"></script>
 
-    <script src="js/data.js"></script>
+     <!--SPRITES-->
+    <script src="js/Nave.js"></script>
+
+
+    
     <!--Scenes-->
     <script src="js/scenes/GameMenu.js"></script>
     <script src="js/scenes/Game.js"></script>
     <script src="js/scenes/GameOver.js"></script>    
     <script src="js/scenes/Credits.js"></script> 
-
+    
+    <!--MANAGERS-->
+    <script src="js/managers/AssetManager.js"></script>
 
 </head>
 
@@ -39,7 +50,8 @@
 <script>
     var stage;
     var canvas;
-
+    var spritesheet;
+    
     function init() 
     {
         window.game = window.game || {};
