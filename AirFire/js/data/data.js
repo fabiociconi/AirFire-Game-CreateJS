@@ -8,9 +8,8 @@
 
    PlayerData = {
         frame:'nave',
-        frame: 'nave2',
         life:99,
-        explode:'explode'
+        
         
         //weakness:'',
         //power:2,

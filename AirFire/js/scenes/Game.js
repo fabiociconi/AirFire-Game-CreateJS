@@ -30,6 +30,7 @@
     var shootKeyDown = false;
     p.Container_initialize = p.initialize;
     p.msgTxt = null;
+    p.fpsTxt=null;
     p.asteroidContainer = null;
     p.bulletContainer = null;
 
@@ -107,6 +108,8 @@
     p.addMessages = function () {
         this.msgTxt = new createjs.Text("HELLO", '24px Verdana', '#F00');
         this.addChild(this.msgTxt);
+        
+
     }
     p.createAsteroidContainer = function () {
         this.asteroidContainer = new createjs.Container();
@@ -149,7 +152,7 @@
 
         for (i = 0; i < numBullets; i++) {
 
-            
+
             var ImgBullet = 'images/bullet.png';
             var bullet = new createjs.Bitmap(ImgBullet);
             bullet.speed = 8;

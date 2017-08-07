@@ -132,9 +132,14 @@
     }
     p.onTick = function (e) {
         if (!e.paused) {
-
+            // p.fpsTxt = new createjs.Text(" FPS : "+(createjs.Ticker.getMeasuredFPS() + 0.5 | 0), '30px Verdana', '#F00');
+            // this.fpsTxt.x=440;
+            // this.fpsTxt.y=0;
+            // stage.addChild(this.fpsTxt);
             this.run();
             stage.update();
+            
+
         }
     }
 

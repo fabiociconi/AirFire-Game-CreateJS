@@ -15,12 +15,13 @@
 	    [1536, 1536, 512, 512]
     ],
     "animations": {
-        "butPlay":[0],
-        "butOptions":[2, 3],
-        "butCredits":[4, 5],
-        "butExit":[6, 7],   
-        "nave": [8,9],  
-        "nave2": [10,11]   
+        "butPlay":{"frames":[0,1],"speed":0.1},
+        "butOptions":{"frames":[2],"speed":0.1},
+        "butCredits":{"frames":[4],"speed":0.1},
+        "butExit":{"frames":[6],"speed":0.1},   
+        "nave": { "frames": [8,9,10,11],
+            "speed":0.2}
+        
 
     },
     "texturepacker": [
