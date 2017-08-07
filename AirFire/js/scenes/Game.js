@@ -65,13 +65,15 @@
     //fabio ARRUMAR ESTA BAGUNCA
     p.addBackground = function () {
 
-        var imgBackground = 'images/milkyway.jpg';
+        background1 = new createjs.Bitmap(game.assets.getAsset(game.assets.BATTLE_BG));
+        background2 = new createjs.Bitmap(game.assets.getAsset(game.assets.BATTLE_BG));
+        //var imgBackground = 'images/milkyway.jpg';
 
-        background1 = new createjs.Bitmap(imgBackground);
+        //background1 = new createjs.Bitmap(imgBackground);
         background1.scaleX = background1.scaleY = 0.3;
         this.addChild(background1);
-
-        background2 = new createjs.Bitmap(imgBackground);
+      
+        //background2 = new createjs.Bitmap(imgBackground);
         background2.scaleX = background2.scaleY = 0.3;
         background2.x = BG_WIDTH;
 
@@ -83,16 +85,10 @@
     }
 
     p.addSpaceship = function () {
-
-       
-        //var imgSpaceship = 'images/spaceship.png';
         nave  = new game.Nave();
-        //spaceship = new createjs.Bitmap(imgSpaceship);
- 
-
         nave.regX = nave.width / 2;
         nave.regY = nave.height / 2;
-        nave.x = 50;
+        nave.x = 100;
         nave.scaleX =.2;
         nave.scaleY=.2;
         nave.rotation = 90;
@@ -152,12 +148,14 @@
         var bulletSize = 10;
 
         for (i = 0; i < numBullets; i++) {
+
+            
             var ImgBullet = 'images/bullet.png';
             var bullet = new createjs.Bitmap(ImgBullet);
             bullet.speed = 8;
             bullet.size = bulletSize;
             bullet.x = STAGE_WIDTH;
-            bullet.y = 400;
+            bullet.y = 100;
             bullets.addChild(bullet);
         }
     }
@@ -314,10 +312,6 @@
                 break;
         }
     }
-
-
-
-
 
     p.render = function () {
 

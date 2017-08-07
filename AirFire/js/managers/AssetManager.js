@@ -38,7 +38,7 @@
             {id:this.GAME_SPRITES_DATA, src:this.assetsPath + 'spritesheet.json'},
             {id:this.GAME_SPRITES, src:this.assetsPath + 'spritesheet.png'},
             
-            {id:this.BATTLE_BG, src:this.assetsPath + 'milkyway.jpg'},
+            {id:this.BATTLE_BG, src:this.assetsPath + 'MilkyWay.jpg'},
             {id:this.MENU_BG, src:this.assetsPath + 'menu.jpg'}
         ];
     }

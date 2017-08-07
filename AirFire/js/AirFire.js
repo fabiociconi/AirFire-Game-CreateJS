@@ -54,8 +54,6 @@
         createjs.Ticker.on("tick", this.onTick, this);
         this.changeState(game.GameStates.MAIN_MENU);
     }
-
-
     ///FABIO
 
     p.changeState = function (state) {
