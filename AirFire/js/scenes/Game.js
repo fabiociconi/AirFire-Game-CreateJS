@@ -8,6 +8,7 @@
 // - Acess backgroud through Assets, using preload           */
 // - pause button                                            */
 //************************************************************/
+
 (function (window) {
 
     window.game = window.game || {}
@@ -56,37 +57,30 @@
         this.createBullets();
 
     }
-    //fabio ARRUMAR ESTA BAGUNCA
+    
     p.addPauseButton = function (e) {
-        var btn, event;
-        btn = new ui.SimpleButton('||');
-        btn.on('click', this.pausePORRA, this);
-        btn.regX = btn.width / 2;
-        btn.x = 1150;
-        btn.y = 0;
-        btn.setButton({ upColor: 'yellow', color: 'blue', borderColor: 'blue', overColor: 'white' });
-        this.addChild(btn);
+        var btnPause, event;
+        btnPause = new ui.SimpleButton('||');
+        btnPause.on('click', this.pausePORRA, this);
+        btnPause.regX = btnPause.width / 2;
+        btnPause.x = 1160;
+        btnPause.y = 15;
+        btnPause.setButton({ upColor: 'yellow', color: 'blue', borderColor: 'blue', overColor: 'white' });
+        this.addChild(btnPause);
     }
 
     p.pausePORRA = function (e) {
         var paused = !createjs.Ticker.getPaused();
         createjs.Ticker.setPaused(paused);
-
     }
-    //fabio ARRUMAR ESTA BAGUNCA
 
     p.addBackground = function () {
         background1 = new createjs.Bitmap(game.assets.getAsset(game.assets.BATTLE_BG));
         background2 = new createjs.Bitmap(game.assets.getAsset(game.assets.BATTLE_BG));
-        //var imgBackground = 'images/milkyway.jpg';
-        //background1 = new createjs.Bitmap(imgBackground);
-        background1.scaleX = background1.scaleY = 0.3;
-        this.addChild(background1);
-        //background2 = new createjs.Bitmap(imgBackground);
-        background2.scaleX = background2.scaleY = 0.3;
-        background2.x = BG_WIDTH;
+        background1.scaleX = background1.scaleY = background2.scaleX = background2.scaleY = 0.3;
         background1.speed = background2.speed = -1;
-        this.addChild(background2);
+        background2.x = BG_WIDTH;        
+        this.addChild(background1, background2);
     }
 
     p.addSpaceship = function () {
@@ -97,11 +91,7 @@
         nave.scaleX = .2;
         nave.scaleY = .2;
         nave.rotation = 90;
-        nave.y = (canvas.height / 2);
-        //spaceship.regX = spaceship.width / 2;
-        //spaceship.regY = spaceship.height / 2;
-        //spaceship.x = 50
-        //spaceship.y = (canvas.height / 2);
+        nave.y = (canvas.height / 2);        
         this.addChild(nave);
 
         window.onkeydown = moveSpaceship;
@@ -150,13 +140,13 @@
     p.createBullets = function () {
         var i, bullet, color;
         var bullets = this.bulletContainer;
-        var numBullets = 50;
+        var numBullets = 10;
         var bulletSize = 10;
 
         for (i = 0; i < numBullets; i++) {
             var ImgBullet = 'images/bullet.png';
             var bullet = new createjs.Bitmap(ImgBullet);
-            bullet.speed = 8;
+            bullet.speed = 15;
             bullet.size = bulletSize;
             bullet.x = STAGE_WIDTH;
             bullet.y = 100;
@@ -222,11 +212,12 @@
             for (bulletIndex = 0; bulletIndex < bulletLen; bulletIndex++) {
                 bullet = this.bulletContainer.getChildAt(bulletIndex);
                 if (bullet.x > STAGE_WIDTH) {
-                    bulletNextX = nave.x + 35;
-                    bulletNextY = nave.y + 25;
+                    bulletNextX = nave.x - 27;
+                    bulletNextY = nave.y + 47;
                     bullet.nextX = bulletNextX;
                     bullet.nextY = bulletNextY;
                     bulletIndex = bulletLen;
+                    shootKeyDown = false;
                 }
             }
         }
