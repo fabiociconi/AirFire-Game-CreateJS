@@ -29,7 +29,7 @@
         this.addTitle();
         this.playSound();
         this.addButtons();
-    
+
 
     }
     p.playSound = function () {
@@ -38,16 +38,32 @@
     p.addBG = function () {
         var bg = new createjs.Bitmap(game.assets.getAsset(game.assets.MENU_BG));
         bg.x = bg.y = 0;
-        this.addChild(bg);    
+        this.addChild(bg);
 
     }
     p.addTitle = function () {
         this.titleTxt = new createjs.Text("AIR FIRE!", 'bold 40px Verdana', '#F00');
         this.titleTxt.x = canvas.width / 2;
         this.titleTxt.y = 200;
-        this.titleTxt.textAlign = 'center';
-        this.addChild(this.titleTxt);
+        this.titleTxt.textAlign = 'center'
+
+        //animations
+        createjs.Tween.get(this.titleTxt, { loop: true })
+            .to({ x: 590 }, 1000).to({ x: 600 }, 1000);
+
+
+        //animation mothership
+        var motherShip = new createjs.Sprite(spritesheet, 'mother');
+        motherShip.x = 550;
+        motherShip.y = 450;
+        motherShip.scaleX = .8;
+        motherShip.scaleY = .8;
+        createjs.Tween.get(motherShip, { loop: true })
+            .to({ rotation: 360 }, 5000);
+
+        this.addChild(this.titleTxt, motherShip);
     }
+
     p.addButtons = function () {
 
         this.playButton = new createjs.Sprite(spritesheet, 'butPlay');
@@ -57,6 +73,9 @@
         this.playButton.scaleY = 0.5;
         this.playButton.x = 550;
         this.playButton.y = 280;
+
+    
+        //createjs.Tween.get(this.playButton).call(this.changeButton, null, this);
 
 
 

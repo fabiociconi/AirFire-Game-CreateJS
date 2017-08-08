@@ -15,8 +15,7 @@
    PlayerData = {
         frame:'nave',
         life:99,
-        
-        
+
         //weakness:'',
         //power:2,
         //defense:0
