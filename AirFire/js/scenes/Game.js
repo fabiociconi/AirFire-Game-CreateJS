@@ -64,7 +64,7 @@
         btnPause.on('click', this.pausePORRA, this);
         btnPause.regX = btnPause.width / 2;
         btnPause.x = 1160;
-        btnPause.y = 15;
+        btnPause.y = 15;        
         btnPause.setButton({ upColor: 'yellow', color: 'blue', borderColor: 'blue', overColor: 'white' });
         this.addChild(btnPause);
     }
@@ -140,7 +140,7 @@
     p.createBullets = function () {
         var i, bullet, color;
         var bullets = this.bulletContainer;
-        var numBullets = 10;
+        var numBullets = 3;
         var bulletSize = 10;
 
         for (i = 0; i < numBullets; i++) {
@@ -247,6 +247,7 @@
                 if (slot.hitTest(pt.x, pt.y)) {
                     txtScore = "ASTEROID DESTROYED " + i;
                     asteroid.nextX = STAGE_WIDTH;
+                    //asteroid.nextY = asteroidSize + (Math.random() * numAsteroids * asteroidSize * 2);
                     bullet.nextX = STAGE_WIDTH;
                     bullet.nextY = 4000;
                 }
