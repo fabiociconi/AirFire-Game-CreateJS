@@ -16,6 +16,8 @@
     //p.FONT_SPRITES = 'font sprites';
     p.BATTLE_BG = 'game bg';
     p.MENU_BG = 'menu bg';
+    p.CREDITS_BG = 'credits bg';
+    p.SOUND_MENU = 'menu sound';
 
     //data
     p.GAME_SPRITES_DATA = 'game sprites data';
@@ -39,7 +41,10 @@
             {id:this.GAME_SPRITES, src:this.assetsPath + 'spritesheet.png'},
             
             {id:this.BATTLE_BG, src:this.assetsPath + 'MilkyWay.jpg'},
-            {id:this.MENU_BG, src:this.assetsPath + 'menu.jpg'}
+            {id:this.MENU_BG, src:this.assetsPath + 'menu.jpg'},
+            {id:this.CREDITS_BG, src:this.assetsPath + 'BackGOver.jpg'},
+            
+            {id:this.SOUND_MENU,src:this.assetsPath +'Theme - Star Wars.ogg'}
         ];
     }
     p.preloadAssets = function () {

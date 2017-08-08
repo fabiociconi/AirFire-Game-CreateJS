@@ -11,7 +11,7 @@
     p.currentGameStateFunction;
     p.currentGameState;
     p.currentScene;
-
+    p.loadTxt =null;
     p.initialize = function () {
         canvas = document.getElementById('canvas');
         stage = new createjs.Stage(canvas);
@@ -23,8 +23,15 @@
 
     //chama preloader and carrega todos os assets do jogo
     p.preloadAssets = function () {
+
+        this.loadTxt = new createjs.Text("Loading.....", '40px Verdana', 'red');
+        this.loadTxt.x = canvas.width / 2;
+        this.loadTxt.y = 500;
+        this.loadTxt.textAlign = 'center';
+        stage.addChild(this.loadTxt);
+
         game.assets = new game.AssetManager();
-        this.preloader = new ui.Preloader('#d2354c', 'black');
+        this.preloader = new ui.Preloader('blue', 'red');
         this.preloader.x = (canvas.width / 2) - (this.preloader.width / 2);
         this.preloader.y = (canvas.height / 2) - (this.preloader.height / 2);
         stage.addChild(this.preloader);

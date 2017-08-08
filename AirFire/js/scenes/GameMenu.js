@@ -12,21 +12,25 @@
 
     p.titleTxt = null;
     p.count = 0;
+    p.som=null;
      
     p.initialize = function () {
         this.Container_initialize();
         this.addBG();
         this.addTitle();
-   
-
+        this.playSound();
         //fabio menu buttons
         this.addButtons();
         //fabio menu buttons
 
     }
+    p.playSound = function(){
+        createjs.Sound.play(game.assets.SOUND_MENU);
+        //this.dispatchEvent(game.GameStateEvents.GAME);
+    }
     p.addBG = function () {
         var bg = new createjs.Bitmap(game.assets.getAsset(game.assets.MENU_BG));
-        bg.scaleX = bg.scaleY = .8;
+        //bg.scaleX = bg.scaleY = 1;
         bg.x = bg.y = 0;
         this.addChild(bg);
         //this.addChild(background2);
@@ -48,6 +52,7 @@
         this.playButton.scaleY = 0.5;
         this.playButton.x = 550;
         this.playButton.y = 280;
+
 
 
         this.optButton = new createjs.Sprite(spritesheet, 'butOptions');
@@ -81,6 +86,7 @@
             this.exitButton);
     }
     p.playGame = function (e) {
+        createjs.Sound.removeSound(game.assets.SOUND_MENU);
         this.dispatchEvent(game.GameStateEvents.GAME);
     }
     p.credits = function(e){

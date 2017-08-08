@@ -69,17 +69,13 @@
         background1 = new createjs.Bitmap(game.assets.getAsset(game.assets.BATTLE_BG));
         background2 = new createjs.Bitmap(game.assets.getAsset(game.assets.BATTLE_BG));
         //var imgBackground = 'images/milkyway.jpg';
-
         //background1 = new createjs.Bitmap(imgBackground);
         background1.scaleX = background1.scaleY = 0.3;
         this.addChild(background1);
-      
         //background2 = new createjs.Bitmap(imgBackground);
         background2.scaleX = background2.scaleY = 0.3;
         background2.x = BG_WIDTH;
-
         background1.speed = background2.speed = -1;
-
         this.addChild(background2);
 
 

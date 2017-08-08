@@ -15,7 +15,7 @@
 	    [1536, 1536, 512, 512]
     ],
     "animations": {
-        "butPlay":{"frames":[0,1],"speed":0.1},
+        "butPlay":{"frames":[0,1],"speed":0.1},        
         "butOptions":{"frames":[2],"speed":0.1},
         "butCredits":{"frames":[4],"speed":0.1},
         "butExit":{"frames":[6],"speed":0.1},   
