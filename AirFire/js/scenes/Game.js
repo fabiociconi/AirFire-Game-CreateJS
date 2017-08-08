@@ -26,7 +26,7 @@
 
     //Stage Constants
     const STAGE_WIDTH = 1200;
-    const BG_WIDTH = 1800;
+    const BG_WIDTH = 1200;
 
     //Backgrounds
     var background1, background2;
@@ -88,8 +88,8 @@
         nave.regX = nave.width / 2;
         nave.regY = nave.height / 2;
         nave.x = 100;
-        nave.scaleX = .2;
-        nave.scaleY = .2;
+        nave.scaleX = .15;
+        nave.scaleY = .15;
         nave.rotation = 90;
         nave.y = (canvas.height / 2);        
         this.addChild(nave);
@@ -119,6 +119,8 @@
             var imgAsteroid = 'images/asteroid.png';
             asteroid = new createjs.Bitmap(imgAsteroid);
             asteroid.speed = Math.random() * 2 + 2;
+            asteroid.scaleX = .75; 
+            asteroid.scaleY = .75;
             asteroid.size = asteroidSize;
             asteroid.regX = asteroid.width / 2;
             asteroid.regY = asteroid.height / 2;
@@ -149,7 +151,7 @@
             var bullet = new createjs.Sprite(spritesheet, 'bullet');
             bullet.speed = 15;
             bullet.rotation = 90;
-            bullet.scaleX = .5;
+            bullet.scaleX = .3;
             bullet.size = bulletSize;
             bullet.x = STAGE_WIDTH;
             bullet.y = 100;
