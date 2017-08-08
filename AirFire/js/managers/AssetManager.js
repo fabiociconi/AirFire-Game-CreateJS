@@ -45,7 +45,7 @@
         this.EventDispatcher_initialize();
         this.loadManifest = [
             {id:this.GAME_SPRITES_DATA, src:this.assetsPath + 'spritesheet.json'},
-            {id:this.GAME_SPRITES, src:this.assetsPath + 'spritesheet.png'},
+            {id:this.GAME_SPRITES, src:this.assetsPath + 'spritesheet-part1.png'},
             
             {id:this.BATTLE_BG, src:this.assetsPath + 'MilkyWay.jpg'},
             {id:this.MENU_BG, src:this.assetsPath + 'menu.jpg'},

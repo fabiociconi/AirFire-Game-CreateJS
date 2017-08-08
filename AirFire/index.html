@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
-    <meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1 maximum-scale=1.0"/>
-
+    <meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1 maximum-scale=1.0" />
     <title>AirFire</title>
-    
+
     <!--CreateJs Libs -->
     <script src="js/lib/easeljs-0.7.1.min.js"></script>
     <script src="js/lib/tweenjs-0.5.1.min.js"></script>
     <script src="js/lib/preloadjs-0.4.1.min.js"></script>
-    <script src="js/lib/soundjs-0.5.2.min.js"></script>  
+    <script src="js/lib/soundjs-0.5.2.min.js"></script>
 
-    <!--Game Libs -->  
-    <script src="js/AirFire.js"></script>  
+    <!--Game Libs -->
+    <script src="js/AirFire.js"></script>
     <script src="js/state.js"></script>
-    
 
-    <!--retirar depois -->  
+
+    <!--retirar depois -->
     <script src="js/SimpleButton.js"></script>
     <script src="js/PulsingOrb.js"></script>
-    
+
     <!--COMPONENTS-->
     <script src="js/components/Preloader.js"></script>
     <script src="js/data/data.js"></script>
 
-     <!--SPRITES-->
+    <!--SPRITES-->
     <script src="js/Nave.js"></script>
 
 
-    
+
     <!--Scenes-->
     <script src="js/scenes/GameMenu.js"></script>
     <script src="js/scenes/Game.js"></script>
-    <script src="js/scenes/GameOver.js"></script>    
-    <script src="js/scenes/Credits.js"></script> 
-    
+    <script src="js/scenes/GameOver.js"></script>
+    <script src="js/scenes/Credits.js"></script>
+
     <!--MANAGERS-->
     <script src="js/managers/AssetManager.js"></script>
 
@@ -43,7 +43,7 @@
 
 <body onload="init();">
 
-<canvas id="canvas" width="1200" height="900" style="border: black solid 1px; background-color:black"></canvas>
+    <canvas id="canvas" width="1200" height="900" style="border: black solid 1px; background-color:black"></canvas>
 
 </body>
 
@@ -51,12 +51,12 @@
     var stage;
     var canvas;
     var spritesheet;
-    
-    function init() 
-    {
+
+    function init() {
         window.game = window.game || {};
         game.main = new game.AirFire();
     }
 
 </script>
+
 </html>
