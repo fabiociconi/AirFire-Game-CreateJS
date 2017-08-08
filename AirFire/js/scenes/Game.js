@@ -77,7 +77,7 @@
     p.addBackground = function () {
         background1 = new createjs.Bitmap(game.assets.getAsset(game.assets.BATTLE_BG));
         background2 = new createjs.Bitmap(game.assets.getAsset(game.assets.BATTLE_BG));
-        background1.scaleX = background1.scaleY = background2.scaleX = background2.scaleY = 0.3;
+        background1.scaleX = background1.scaleY = background2.scaleX = background2.scaleY = 0.2;
         background1.speed = background2.speed = -1;
         background2.x = BG_WIDTH;        
         this.addChild(background1, background2);
@@ -140,13 +140,16 @@
     p.createBullets = function () {
         var i, bullet, color;
         var bullets = this.bulletContainer;
-        var numBullets = 3;
+        var numBullets = 30;
         var bulletSize = 10;
 
         for (i = 0; i < numBullets; i++) {
-            var ImgBullet = 'images/bullet.png';
-            var bullet = new createjs.Bitmap(ImgBullet);
+            //var ImgBullet = 'images/bullet.png';
+            //var bullet = new createjs.Bitmap(ImgBullet);
+            var bullet = new createjs.Sprite(spritesheet, 'bullet');
             bullet.speed = 15;
+            bullet.rotation = 90;
+            bullet.scaleX = .5;
             bullet.size = bulletSize;
             bullet.x = STAGE_WIDTH;
             bullet.y = 100;
@@ -211,14 +214,27 @@
 
             for (bulletIndex = 0; bulletIndex < bulletLen; bulletIndex++) {
                 bullet = this.bulletContainer.getChildAt(bulletIndex);
+                bullet2 = this.bulletContainer.getChildAt(bulletIndex  + 1);
+                bulletIndex++;
                 if (bullet.x > STAGE_WIDTH) {
-                    bulletNextX = nave.x - 27;
-                    bulletNextY = nave.y + 47;
+                    bulletNextX = nave.x + 75;
+                    bulletNextY = nave.y;
                     bullet.nextX = bulletNextX;
                     bullet.nextY = bulletNextY;
                     bulletIndex = bulletLen;
                     shootKeyDown = false;
                 }
+
+                if (bullet2.x > STAGE_WIDTH) {
+                    bulletNextX = nave.x + 75;
+                    bulletNextY = nave.y + 40;
+                    bullet2.nextX = bulletNextX;
+                    bullet2.nextY = bulletNextY;
+                    bulletIndex = bulletLen;
+                    shootKeyDown = false;
+                }
+
+                
             }
         }
         nave.x = nextX;
