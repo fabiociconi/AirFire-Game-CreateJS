@@ -1,10 +1,15 @@
+//************************************************************/
+// state.js                                                  */
+//                                                           */
+// Main Function : Keep Game states - Scenes                 */
+//-----------------------------------------------------------*/
 (function () {
 
     window.game = window.game || {};
 
     var GameStates = {
-        MAIN_MENU:0,
-        //RUN_SCENE:1,
+        RUN_SCENE:0,
+        MAIN_MENU:1,
         GAME:10,
         SCORE_SCREEN:11,
         GAME_OVER:20,

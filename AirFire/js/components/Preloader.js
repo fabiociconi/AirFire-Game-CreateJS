@@ -1,3 +1,10 @@
+//************************************************************/
+// Preloader.js                                              */
+//                                                           */
+// Main Function : Creates a srceen that shows the bar       */
+// progress                                                  */
+//-----------------------------------------------------------*/
+
 (function () {
 ////
 // Funcao que cria uma barra de load e atualiza a %

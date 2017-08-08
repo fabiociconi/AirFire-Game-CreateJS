@@ -1,3 +1,13 @@
+//************************************************************/
+// Game.js                                                   */
+//                                                           */
+// Main Function : Game Engine, responsible by physics,      */
+//collision, moviment and game levels                        */
+//-----------------------------------------------------------*/
+// Last Modification: 08/08/2017 - Fabio A. Ciconi           */
+// - Acess backgroud through Assets, using preload           */
+// - pause button                                            */
+//************************************************************/
 (function (window) {
 
     window.game = window.game || {}
@@ -30,7 +40,7 @@
     var shootKeyDown = false;
     p.Container_initialize = p.initialize;
     p.msgTxt = null;
-    p.fpsTxt=null;
+    p.fpsTxt = null;
     p.asteroidContainer = null;
     p.bulletContainer = null;
 
@@ -59,13 +69,13 @@
     }
 
     p.pausePORRA = function (e) {
-               var paused = !createjs.Ticker.getPaused();
-            createjs.Ticker.setPaused(paused);
-            
+        var paused = !createjs.Ticker.getPaused();
+        createjs.Ticker.setPaused(paused);
+
     }
     //fabio ARRUMAR ESTA BAGUNCA
-    p.addBackground = function () {
 
+    p.addBackground = function () {
         background1 = new createjs.Bitmap(game.assets.getAsset(game.assets.BATTLE_BG));
         background2 = new createjs.Bitmap(game.assets.getAsset(game.assets.BATTLE_BG));
         //var imgBackground = 'images/milkyway.jpg';
@@ -77,17 +87,15 @@
         background2.x = BG_WIDTH;
         background1.speed = background2.speed = -1;
         this.addChild(background2);
-
-
     }
 
     p.addSpaceship = function () {
-        nave  = new game.Nave();
+        nave = new game.Nave();
         nave.regX = nave.width / 2;
         nave.regY = nave.height / 2;
         nave.x = 100;
-        nave.scaleX =.2;
-        nave.scaleY=.2;
+        nave.scaleX = .2;
+        nave.scaleY = .2;
         nave.rotation = 90;
         nave.y = (canvas.height / 2);
         //spaceship.regX = spaceship.width / 2;
@@ -100,17 +108,16 @@
         window.onkeyup = stopSpaceship;
     }
 
-
     p.addMessages = function () {
         this.msgTxt = new createjs.Text("HELLO", '24px Verdana', '#F00');
         this.addChild(this.msgTxt);
-        
-
     }
+
     p.createAsteroidContainer = function () {
         this.asteroidContainer = new createjs.Container();
         this.addChild(this.asteroidContainer);
     }
+
     p.createAsteroids = function () {
         var i, asteroid, color;
         var asteroids = this.asteroidContainer;
@@ -147,8 +154,6 @@
         var bulletSize = 10;
 
         for (i = 0; i < numBullets; i++) {
-
-
             var ImgBullet = 'images/bullet.png';
             var bullet = new createjs.Bitmap(ImgBullet);
             bullet.speed = 8;
@@ -159,20 +164,16 @@
         }
     }
 
-
     p.update = function () {
-
         //Moving Asteroids
         var i, asteroid, nextX;
         var len = this.asteroidContainer.getNumChildren();
         for (i = 0; i < len; i++) {
             asteroid = this.asteroidContainer.getChildAt(i);
             nextX = asteroid.x - asteroid.speed;
-
             if (nextX + asteroid.size < 0) {
                 nextX = canvas.width + asteroid.size;
             }
-
             asteroid.nextX = nextX;
         }
 
@@ -185,13 +186,11 @@
             bullet.nextX = bulletNextX;
         }
 
-
         //Moving Spaceship
         var bg1NextX, bg2NextX;
 
         bg1NextX = background1.x + background1.speed;
         bg2NextX = background2.x + background2.speed;
-
         background1.x = bg1NextX;
         background2.x = bg2NextX;
 
@@ -217,7 +216,6 @@
         if (downKeyDown) {
             nextY = nave.y + 10;
         }
-
         if (shootKeyDown) {
             var bulletIndex;
 
@@ -232,16 +230,12 @@
                 }
             }
         }
-
         nave.x = nextX;
         nave.y = nextY;
-
-
 
         //Asteroid and Spaceship Collision
         for (i = 0; i < len; i++) {
             asteroid = this.asteroidContainer.getChildAt(i);
-
             var slot = asteroid;
             var pt = slot.globalToLocal(nave.x, nave.y);
             if (slot.hitTest(pt.x, pt.y)) {
@@ -264,7 +258,6 @@
                     asteroid.nextX = STAGE_WIDTH;
                     bullet.nextX = STAGE_WIDTH;
                     bullet.nextY = 4000;
-
                 }
             }
         }
@@ -315,8 +308,8 @@
     p.render = function () {
 
         var i, asteroid, bullet;
-
         var len = this.asteroidContainer.getNumChildren();
+
         for (i = 0; i < len; i++) {
             asteroid = this.asteroidContainer.getChildAt(i);
             asteroid.x = asteroid.nextX;
@@ -336,13 +329,11 @@
             this.dispatchEvent(game.GameStateEvents.GAME_OVER);
         }
     }
+
     p.run = function () {
-
-
         this.update();
         this.render();
         this.checkGame();
-
     }
 
     window.game.Game = Game;

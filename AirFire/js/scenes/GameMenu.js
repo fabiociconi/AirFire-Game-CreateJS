@@ -1,3 +1,13 @@
+//************************************************************/
+// GameMenu.js                                               */
+//                                                           */
+// Main Function : Show menu to the user.                    */
+//-----------------------------------------------------------*/
+// Last Modification: 08/08/2017 - Fabio A. Ciconi           */
+// - new background, buttons                                 */
+// - Screen transition to game and Credits                   */
+// - Added Music - Star Wars Theme (temporarilly)            */
+//************************************************************/
 (function (window) {
 
     window.game = window.game || {}
@@ -9,31 +19,26 @@
     var p = GameMenu.prototype = new createjs.Container();
 
     p.Container_initialize = p.initialize;
-
     p.titleTxt = null;
     p.count = 0;
-    p.som=null;
-     
+    p.som = null;
+
     p.initialize = function () {
         this.Container_initialize();
         this.addBG();
         this.addTitle();
         this.playSound();
-        //fabio menu buttons
         this.addButtons();
-        //fabio menu buttons
+    
 
     }
-    p.playSound = function(){
+    p.playSound = function () {
         createjs.Sound.play(game.assets.SOUND_MENU);
-        //this.dispatchEvent(game.GameStateEvents.GAME);
     }
     p.addBG = function () {
         var bg = new createjs.Bitmap(game.assets.getAsset(game.assets.MENU_BG));
-        //bg.scaleX = bg.scaleY = 1;
         bg.x = bg.y = 0;
-        this.addChild(bg);
-        //this.addChild(background2);
+        this.addChild(bg);    
 
     }
     p.addTitle = function () {
@@ -44,7 +49,7 @@
         this.addChild(this.titleTxt);
     }
     p.addButtons = function () {
-         
+
         this.playButton = new createjs.Sprite(spritesheet, 'butPlay');
         this.playButton.on('click', this.playGame, this);
         this.playButton.regX = this.playButton.width / 2;
@@ -64,7 +69,7 @@
         this.optButton.y = 350;
 
         this.optCredits = new createjs.Sprite(spritesheet, 'butCredits');
-        this.optCredits.on('click',this.credits,this);
+        this.optCredits.on('click', this.credits, this);
         this.optCredits.regX = this.optCredits.width / 2;
         this.optCredits.scaleX = 0.5;
         this.optCredits.scaleY = 0.5;
@@ -89,7 +94,7 @@
         createjs.Sound.removeSound(game.assets.SOUND_MENU);
         this.dispatchEvent(game.GameStateEvents.GAME);
     }
-    p.credits = function(e){
+    p.credits = function (e) {
         this.dispatchEvent(game.GameStateEvents.CREDITS);
     }
 

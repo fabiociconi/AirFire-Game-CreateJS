@@ -1,3 +1,12 @@
+//************************************************************/
+// AirFire.js                                                */
+//                                                           */
+// Main Function : Controls Scenes, preload assets           */
+//                                                           */
+//-----------------------------------------------------------*/
+// Last Modification: 08/08/2017 - Fabio A. Ciconi           */
+// - Preload                                                 */
+//************************************************************/
 (function (window) {
 
     window.game = window.game || {}

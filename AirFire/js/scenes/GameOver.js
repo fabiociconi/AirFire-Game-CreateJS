@@ -1,3 +1,8 @@
+//************************************************************/
+// GemeOver.js                                               */
+//                                                           */
+// Main Function : Show Game Over Screen                     */
+//-----------------------------------------------------------*/
 (function (window) {
 
     window.game = window.game || {}

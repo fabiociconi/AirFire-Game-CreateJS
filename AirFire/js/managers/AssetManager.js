@@ -1,3 +1,8 @@
+//************************************************************/
+// AssestManager.js                                          */
+//                                                           */
+// Main Function : Control every Asset of the game           */
+//-----------------------------------------------------------*/
 (function () {
 
     window.game = window.game || {};
@@ -10,6 +15,8 @@
     p.EventDispatcher_initialize = p.initialize;
 
     //sounds
+    p.SOUND_MENU = 'menu sound';
+
 
     //graphics
     p.GAME_SPRITES = 'game sprites';
@@ -17,7 +24,7 @@
     p.BATTLE_BG = 'game bg';
     p.MENU_BG = 'menu bg';
     p.CREDITS_BG = 'credits bg';
-    p.SOUND_MENU = 'menu sound';
+   
 
     //data
     p.GAME_SPRITES_DATA = 'game sprites data';
