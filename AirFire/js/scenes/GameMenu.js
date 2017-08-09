@@ -7,6 +7,9 @@
 // - new background, buttons                                 */
 // - Screen transition to game and Credits                   */
 // - Added Music - Star Wars Theme (temporarilly)            */
+// ----------------------------------------------------------*/
+//  09/09/2017 - Fabio A. Ciconi                             */
+// Include boarder and animations                            */
 //************************************************************/
 
 (function (window) {
@@ -24,11 +27,18 @@
     p.count = 0;
     p.som = null;
 
+    const BUTTON_POSITION_X = 550;
+    const BUTTON_POSITION_Y = 200;
+
+    const BUTTON_SCALE_X = .5;
+    const BUTTON_SCALE_Y = .5;
+
     p.initialize = function () {
         this.Container_initialize();
         this.addBackground();
         this.addTitle();
         this.playSound();
+        this.addBoarder();
         this.addButtons();
     }
 
@@ -46,14 +56,14 @@
     }
 
     p.addTitle = function () {
-        this.titleTxt = new createjs.Text("AIR FIRE", 'bold 40px Calibri', '#F00');
+        this.titleTxt = new createjs.Text("AIR FIRE", 'bold 40px Cambria', 'red');
         this.titleTxt.x = canvas.width / 2;
-        this.titleTxt.y = 200;
+        this.titleTxt.y = 150;
         this.titleTxt.textAlign = 'center'
 
         //animations
         createjs.Tween.get(this.titleTxt, { loop: true })
-            .to({ x: canvas.width / 2 - 20}, 1000).to({ x: canvas.width / 2 }, 1000);
+            .to({ x: canvas.width / 2 - 20 }, 1000).to({ x: canvas.width / 2 }, 1000);
 
 
         //animation mothership
@@ -67,38 +77,46 @@
 
         this.addChild(this.titleTxt, motherShip);
     }
-
+    p.addBoarder = function () {
+        this.boaderMenu = new createjs.Sprite(spritesheet, 'grade');
+        this.boaderMenu.regX = this.boaderMenu.width / 2;
+        this.boaderMenu.scaleX = 2.0;
+        this.boaderMenu.scaleY = 2.0;
+        this.boaderMenu.x = BUTTON_POSITION_X -40;
+        this.boaderMenu.y = BUTTON_POSITION_Y;
+        this.addChild(this.boaderMenu);
+    }
     p.addButtons = function () {
 
         this.playButton = new createjs.Sprite(spritesheet, 'butPlay');
         this.playButton.on('click', this.playGame, this);
-        this.playButton.regX = this.playButton.width / 2;
-        this.playButton.scaleX = 0.5;
-        this.playButton.scaleY = 0.5;
-        this.playButton.x = canvas.width / 2;
-        this.playButton.y = 280;    
+        //this.playButton.regX = this.playButton.width / 2;
+        this.playButton.scaleX = BUTTON_SCALE_X;
+        this.playButton.scaleY = BUTTON_SCALE_Y;
+        this.playButton.x = BUTTON_POSITION_X;
+        this.playButton.y = BUTTON_POSITION_Y;
 
         this.optButton = new createjs.Sprite(spritesheet, 'butOptions');
-        this.optButton.regX = this.optButton.width / 2;
-        this.optButton.scaleX = 0.5;
-        this.optButton.scaleY = 0.5;
-        this.optButton.x = canvas.width / 2;
-        this.optButton.y = 350;
+        //this.optButton.regX = this.optButton.width / 2;
+        this.optButton.scaleX = BUTTON_SCALE_X;
+        this.optButton.scaleY = BUTTON_SCALE_Y;
+        this.optButton.x = BUTTON_POSITION_X;
+        this.optButton.y = BUTTON_POSITION_Y + 70;;
 
         this.optCredits = new createjs.Sprite(spritesheet, 'butCredits');
         this.optCredits.on('click', this.credits, this);
-        this.optCredits.regX = this.optCredits.width / 2;
-        this.optCredits.scaleX = 0.5;
-        this.optCredits.scaleY = 0.5;
-        this.optCredits.x = canvas.width / 2;
-        this.optCredits.y = 420;
+        //this.optCredits.regX = this.optCredits.width / 2;
+        this.optCredits.scaleX = BUTTON_SCALE_X;
+        this.optCredits.scaleY = BUTTON_SCALE_Y;
+        this.optCredits.x = BUTTON_POSITION_X;
+        this.optCredits.y = BUTTON_POSITION_Y + 140;
 
         this.exitButton = new createjs.Sprite(spritesheet, 'butExit');
-        this.exitButton.regX = this.exitButton.width / 2;
-        this.exitButton.scaleX = 0.5;
-        this.exitButton.scaleY = 0.5;
-        this.exitButton.x = canvas.width / 2;
-        this.exitButton.y = 490;
+        //this.exitButton.regX = this.exitButton.width / 2;
+        this.exitButton.scaleX = BUTTON_SCALE_X;
+        this.exitButton.scaleY = BUTTON_SCALE_Y;
+        this.exitButton.x = BUTTON_POSITION_X;
+        this.exitButton.y = BUTTON_POSITION_Y +210;
 
         this.addChild(this.playButton,
             this.optButton,
