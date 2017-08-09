@@ -22,6 +22,7 @@
 
     //graphics
     p.GAME_SPRITES = 'game sprites';
+    p.GAME_SPRITES_2 = 'game sprites 2';
     //p.FONT_SPRITES = 'font sprites';
     p.BATTLE_BG = 'game bg';
     p.MENU_BG = 'menu bg';
@@ -46,13 +47,15 @@
     p.initialize = function () {
         this.EventDispatcher_initialize();
         this.loadManifest = [
+            //sprites
             {id:this.GAME_SPRITES_DATA, src:this.assetsPath + 'spritesheet.json'},
             {id:this.GAME_SPRITES, src:this.assetsPath + 'spritesheet-part1.png'},
-            
-            {id:this.BATTLE_BG, src:this.assetsPath + 'MilkyWay.jpg'},
-            {id:this.MENU_BG, src:this.assetsPath + 'menu.jpg'},
+            {id:this.GAME_SPRITES_2, src:this.assetsPath + 'spritesheet-part2-grade.png'},
+            //backgrounds
+            {id:this.BATTLE_BG, src:this.assetsPath + 'Level1BG.jpg'},
+            {id:this.MENU_BG, src:this.assetsPath + 'MenuBG.jpg'},
             {id:this.CREDITS_BG, src:this.assetsPath + 'BackGOver.jpg'},
-            
+            //sound
             {id:this.SOUND_MENU,src:this.assetsPath +'Theme - Star Wars.ogg'},
             {id:this.SOUND_SHOOT,src:this.assetsPath +'laser.wav'},
             {id:this.SOUND_ASTEROID_EXPLOSION,src:this.assetsPath +'asteroid_explosion.wav'}

@@ -1,17 +1,19 @@
 {
-    "images": ["assets/spritesheet-part1.png"],
+    "images": ["assets/spritesheet-part1.png",
+               "assets/spritesheet-part2-grade.png" ],
     "frames": [
-        [0, 256, 256, 256],
-        [1536, 0, 256, 256],
-        [256, 256, 256, 256],
-        [768, 256, 256, 256],
-        [256, 0, 256, 256],
-        [1536,512,512,512],
-        [512, 512,512,512],
-        [1024,512,512,512],
-        [0,512,512,512],
-        [0,2304,1024,1024],
-        [0,0,128,128]
+        [0, 256, 256, 256,0],
+        [1536, 0, 256, 256,0],
+        [256, 256, 256, 256,0],
+        [768, 256, 256, 256,0],
+        [256, 0, 256, 256,0],
+        [1536,512,512,512,0],
+        [512, 512,512,512,0],
+        [1024,512,512,512,0],
+        [0,512,512,512,0],
+        [0,2304,1024,1024,0],
+        [0,0,128,128,0],
+        [0,0,107,168,1]
 
     ],
     "animations": {
@@ -21,10 +23,13 @@
         "butExit":{"frames":[4],"speed":0.1},   
         "nave": { "frames": [5,6,7 ,8], "speed":0.1},
         "mother":{"frames": [9]},
-        "bullet":{"frames":[10]}
+        "bullet":{"frames":[10]},
+        "grade":{"frames":[11]}
         
 
     },
+
+
     "texturepacker": [
         "SmartUpdateHash: $TexturePacker:SmartUpdate:315d977bf7eb3e898c6fee19087359cb$",
         "Created with TexturePacker (http://www.texturepacker.com) for EasalJS"
