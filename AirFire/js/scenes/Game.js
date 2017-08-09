@@ -34,6 +34,8 @@
     //The Spaceship
     //var spaceship;
     var nave;
+    var speedUp = false;
+    var speed;
 
     var txtScore, txtMessage;
     var intScore = 0;
@@ -140,12 +142,16 @@
             var imgAsteroid = 'images/asteroid.png';
             asteroid = new createjs.Bitmap(imgAsteroid);
             asteroid.speed = Math.random() * 2 + 4;
+            asteroid.bounds = asteroid.getBounds();
+            asteroid.regX = asteroid.bounds.width / 2;
+            asteroid.regY = asteroid.bounds.height / 2;
+
             asteroid.scaleX = 1; 
             asteroid.scaleY = 1;
             asteroid.size = asteroidSize;
-            asteroid.regX = asteroid.width / 2;
-            asteroid.regY = asteroid.height / 2;
-            asteroid.nextX = STAGE_WIDTH;
+            //asteroid.regX = asteroid.width / 2;
+            //asteroid.regY = asteroid.height / 2;
+            asteroid.nextX = STAGE_WIDTH + (Math.random() * numAsteroids * asteroidSize * 2);
             asteroid.nextY = asteroidSize + (Math.random() * numAsteroids * asteroidSize * 2);
             asteroid.x = asteroid.nextX;
             asteroid.y = asteroid.nextY;
@@ -184,6 +190,13 @@
         var len = this.asteroidContainer.getNumChildren();
         for (i = 0; i < len; i++) {
             asteroid = this.asteroidContainer.getChildAt(i);
+            
+            //if ((intScore == 2000) && (!speedUp))
+            //{                
+            //this.increaseSpeed(intScore, speedUp);
+            //}
+
+            asteroid.rotation += asteroid.speed / 10;
             nextX = asteroid.x - asteroid.speed;
             nextY = asteroid.y;
             if (nextX + asteroid.size < 0) {
@@ -192,6 +205,7 @@
             }
             asteroid.nextX = nextX;
             asteroid.nextY = nextY;
+            
         }
 
         //Moving Bullets
@@ -358,6 +372,18 @@
             case 32:
                 shootKeyDown = false;
                 break;
+        }
+    }
+
+    p.increaseSpeed = function (intScore, speedUp){
+        if ((intScore == 2000) && (speedUp == false)){  
+
+            var len = this.asteroidContainer.getNumChildren();      
+            for (var ispeed = 0; ispeed < len; ispeed++) {
+                asteroid = this.asteroidContainer.getChildAt(ispeed);
+                asteroid.speed *= 1.5;                
+            }
+            this.speedUp = true;
         }
     }
 
