@@ -78,7 +78,7 @@
         background1 = new createjs.Bitmap(game.assets.getAsset(game.assets.BATTLE_BG));
         background2 = new createjs.Bitmap(game.assets.getAsset(game.assets.BATTLE_BG));
         background1.scaleX = background1.scaleY = background2.scaleX = background2.scaleY = 0.2;
-        background1.speed = background2.speed = -1;
+        background1.speed = background2.speed = -0.9;
         background2.x = BG_WIDTH;        
         this.addChild(background1, background2);
     }
@@ -335,9 +335,9 @@
         this.msgTxt.text = txtScore;
     }
     p.checkGame = function () {
-        if (!this.asteroidContainer.getNumChildren()) {
-            this.dispatchEvent(game.GameStateEvents.GAME_OVER);
-        }
+        //if (!this.asteroidContainer.getNumChildren()) {
+            this.dispatchEvent(game.GameStateEvents.CREDITS);
+        //}
     }
 
     p.run = function () {

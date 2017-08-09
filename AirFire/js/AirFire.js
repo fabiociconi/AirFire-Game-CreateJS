@@ -31,14 +31,14 @@
     //Call Preloader and load all game assets
     p.preloadAssets = function () {
 
-        this.loadTxt = new createjs.Text("Loading...", '40px Calibri', 'red');
+        this.loadTxt = new createjs.Text("Loading...", '40px Calibri', 'cyan');
         this.loadTxt.x = canvas.width / 2;
         this.loadTxt.y = (canvas.height / 2) + 50;
         this.loadTxt.textAlign = 'center';
         stage.addChild(this.loadTxt);
 
         game.assets = new game.AssetManager();
-        this.preloader = new ui.Preloader('blue', 'red');
+        this.preloader = new ui.Preloader('red', 'cyan');
         this.preloader.x = (canvas.width / 2) - (this.preloader.width / 2);
         this.preloader.y = (canvas.height / 2) - (this.preloader.height / 2);
         stage.addChild(this.preloader);

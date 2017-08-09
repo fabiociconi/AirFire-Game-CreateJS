@@ -39,19 +39,21 @@
     p.addBackground = function () {
         var background = new createjs.Bitmap(game.assets.getAsset(game.assets.MENU_BG));
         background.x = background.y = 0;
+        background.scaleX = .75;
+        background.scaleY = .7;
         this.addChild(background);
 
     }
 
     p.addTitle = function () {
-        this.titleTxt = new createjs.Text("AIR FIRE!", 'bold 40px Verdana', '#F00');
+        this.titleTxt = new createjs.Text("AIR FIRE", 'bold 40px Calibri', '#F00');
         this.titleTxt.x = canvas.width / 2;
         this.titleTxt.y = 200;
         this.titleTxt.textAlign = 'center'
 
         //animations
         createjs.Tween.get(this.titleTxt, { loop: true })
-            .to({ x: canvas.width / 2 - 30}, 1000).to({ x: canvas.width / 2 }, 1000);
+            .to({ x: canvas.width / 2 - 20}, 1000).to({ x: canvas.width / 2 }, 1000);
 
 
         //animation mothership
