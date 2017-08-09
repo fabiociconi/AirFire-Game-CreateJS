@@ -16,6 +16,8 @@
 
     //sounds
     p.SOUND_MENU = 'menu sound';
+    p.SOUND_SHOOT = 'game shoot';
+    p.SOUND_ASTEROID_EXPLOSION = 'game asteroid explosion';
 
 
     //graphics
@@ -51,7 +53,11 @@
             {id:this.MENU_BG, src:this.assetsPath + 'menu.jpg'},
             {id:this.CREDITS_BG, src:this.assetsPath + 'BackGOver.jpg'},
             
-            {id:this.SOUND_MENU,src:this.assetsPath +'Theme - Star Wars.ogg'}
+            {id:this.SOUND_MENU,src:this.assetsPath +'Theme - Star Wars.ogg'},
+            {id:this.SOUND_SHOOT,src:this.assetsPath +'laser.wav'},
+            {id:this.SOUND_ASTEROID_EXPLOSION,src:this.assetsPath +'asteroid_explosion.wav'}
+            
+
         ];
     }
     p.preloadAssets = function () {

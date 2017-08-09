@@ -57,6 +57,14 @@
         this.createBullets();
 
     }
+
+    p.playSoundShoot = function () {
+        createjs.Sound.play(game.assets.SOUND_SHOOT);
+    }
+
+    p.playSoundAsteroidExplosion = function () {
+        createjs.Sound.play(game.assets.SOUND_ASTEROID_EXPLOSION);
+    }
     
     p.addPauseButton = function (e) {
         var btnPause, event;
@@ -114,25 +122,24 @@
         var numAsteroids = 12;
         var asteroidSize = 25;
         for (i = 0; i < numAsteroids; i++) {
-            color = '#' + Math.floor(Math.random() * 16777215).toString(16)
-            //asteroid = new PulsingOrb(color, asteroidSize);
+            color = '#' + Math.floor(Math.random() * 16777215).toString(16);            
             var imgAsteroid = 'images/asteroid.png';
             asteroid = new createjs.Bitmap(imgAsteroid);
-            asteroid.speed = Math.random() * 2 + 2;
-            asteroid.scaleX = .75; 
-            asteroid.scaleY = .75;
+            asteroid.speed = Math.random() * 2 + 4;
+            asteroid.scaleX = 1; 
+            asteroid.scaleY = 1;
             asteroid.size = asteroidSize;
             asteroid.regX = asteroid.width / 2;
             asteroid.regY = asteroid.height / 2;
-            asteroid.x = STAGE_WIDTH;
-            asteroid.y = asteroidSize + (Math.random() * numAsteroids * asteroidSize * 2);
+            asteroid.nextX = STAGE_WIDTH;
+            asteroid.nextY = asteroidSize + (Math.random() * numAsteroids * asteroidSize * 2);
+            asteroid.x = asteroid.nextX;
+            asteroid.y = asteroid.nextY;
             asteroids.addChild(asteroid);
+            
         }
     }
-
-    p.onAsteroidShoot = function (e) {
-        this.asteroidContainer.removeChild(e.target);
-    }
+    
 
     p.createBulletContainer = function () {
         this.bulletContainer = new createjs.Container();
@@ -142,12 +149,10 @@
     p.createBullets = function () {
         var i, bullet, color;
         var bullets = this.bulletContainer;
-        var numBullets = 30;
+        var numBullets = 3;
         var bulletSize = 10;
 
         for (i = 0; i < numBullets; i++) {
-            //var ImgBullet = 'images/bullet.png';
-            //var bullet = new createjs.Bitmap(ImgBullet);
             var bullet = new createjs.Sprite(spritesheet, 'bullet');
             bullet.speed = 15;
             bullet.rotation = 90;
@@ -161,15 +166,18 @@
 
     p.update = function () {
         //Moving Asteroids
-        var i, asteroid, nextX;
+        var i, asteroid, nextX, nextY;
         var len = this.asteroidContainer.getNumChildren();
         for (i = 0; i < len; i++) {
             asteroid = this.asteroidContainer.getChildAt(i);
             nextX = asteroid.x - asteroid.speed;
+            nextY = asteroid.y;
             if (nextX + asteroid.size < 0) {
                 nextX = canvas.width + asteroid.size;
+                nextY = 25 + (Math.random() * 575);
             }
             asteroid.nextX = nextX;
+            asteroid.nextY = nextY;
         }
 
         //Moving Bullets
@@ -201,15 +209,28 @@
 
         if (leftKeyDown) {
             nextX = nave.x - 10;
+            if (nextX - 70 < 0){
+                nextX = 70;
+            }
         }
         if (rightKeyDown) {
             nextX = nave.x + 10;
+            if (nextX > canvas.width * .6){
+                nextX = canvas.width * .6;
+            }
         }
         if (upKeyDown) {
             nextY = nave.y - 10;
+            if (nextY + 10 < 0){
+                nextY = -10;
+            }
+
         }
         if (downKeyDown) {
             nextY = nave.y + 10;
+            if (nextY > canvas.height - 67){
+                nextY = canvas.height - 67;
+            }
         }
         if (shootKeyDown) {
             var bulletIndex;
@@ -220,24 +241,28 @@
                 bulletIndex++;
                 if (bullet.x > STAGE_WIDTH) {
                     bulletNextX = nave.x + 75;
-                    bulletNextY = nave.y;
+                    bulletNextY = nave.y + 19;
                     bullet.nextX = bulletNextX;
                     bullet.nextY = bulletNextY;
                     bulletIndex = bulletLen;
+                    this.playSoundShoot();
                     shootKeyDown = false;
                 }
 
-                if (bullet2.x > STAGE_WIDTH) {
-                    bulletNextX = nave.x + 75;
-                    bulletNextY = nave.y + 40;
-                    bullet2.nextX = bulletNextX;
-                    bullet2.nextY = bulletNextY;
-                    bulletIndex = bulletLen;
-                    shootKeyDown = false;
-                }
+                // if (bullet2.x > STAGE_WIDTH) {
+                //     bulletNextX = nave.x + 75;
+                //     bulletNextY = nave.y + 40;
+                //     bullet2.nextX = bulletNextX;
+                //     bullet2.nextY = bulletNextY;
+                //     bulletIndex = bulletLen;
+                //     shootKeyDown = false;
+                // }
 
-                
+             
+              
             }
+             
+            
         }
         nave.x = nextX;
         nave.y = nextY;
@@ -249,7 +274,10 @@
             var pt = slot.globalToLocal(nave.x, nave.y);
             if (slot.hitTest(pt.x, pt.y)) {
                 txtScore = "COLLISION DETECTED " + i;
-                this.dispatchEvent(game.GameStateEvents.GAME_OVER);
+                this.dispatchEvent(game.GameStateEvents.CREDITS);
+                //this.playButton.on('click', this.playGame, this);
+                //this.dispatchEvent(this.gameover);
+                //this.dispatchEvent(game.GameStateEvents.GAME_OVER);
             }
         }
 
@@ -265,9 +293,11 @@
                 if (slot.hitTest(pt.x, pt.y)) {
                     txtScore = "ASTEROID DESTROYED " + i;
                     asteroid.nextX = STAGE_WIDTH;
-                    //asteroid.nextY = asteroidSize + (Math.random() * numAsteroids * asteroidSize * 2);
+                    asteroid.nextY = 25 + (Math.random() * 575);
                     bullet.nextX = STAGE_WIDTH;
                     bullet.nextY = 4000;
+
+                    this.playSoundAsteroidExplosion();
                 }
             }
         }
@@ -323,6 +353,7 @@
         for (i = 0; i < len; i++) {
             asteroid = this.asteroidContainer.getChildAt(i);
             asteroid.x = asteroid.nextX;
+            asteroid.y = asteroid.nextY;
         }
 
         len = this.bulletContainer.getNumChildren();
@@ -334,9 +365,10 @@
 
         this.msgTxt.text = txtScore;
     }
+
     p.checkGame = function () {
         //if (!this.asteroidContainer.getNumChildren()) {
-            this.dispatchEvent(game.GameStateEvents.CREDITS);
+            //this.dispatchEvent(game.GameStateEvents.CREDITS);
         //}
     }
 
