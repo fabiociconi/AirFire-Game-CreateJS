@@ -35,12 +35,14 @@
     //var spaceship;
     var nave;
 
-    var txtScore;
+    var txtScore, txtMessage;
+    var intScore = 0;
     var p = Game.prototype = new createjs.Container();
     var leftKeyDown, upKeyDown, rightKeyDown, downKeyDown = false;
     var shootKeyDown = false;
     p.Container_initialize = p.initialize;
     p.msgTxt = null;
+    p.msgScore = null;
     p.fpsTxt = null;
     p.asteroidContainer = null;
     p.bulletContainer = null;
@@ -69,15 +71,15 @@
     p.addPauseButton = function (e) {
         var btnPause, event;
         btnPause = new ui.SimpleButton('||');
-        btnPause.on('click', this.pausePORRA, this);
+        btnPause.on('click', this.pauseOption, this);
         btnPause.regX = btnPause.width / 2;
         btnPause.x = 1160;
         btnPause.y = 15;        
-        btnPause.setButton({ upColor: 'yellow', color: 'blue', borderColor: 'blue', overColor: 'white' });
+        btnPause.setButton({ upColor: 'yellow', color: 'cyan', borderColor: 'cyan', overColor: 'white' });
         this.addChild(btnPause);
     }
 
-    p.pausePORRA = function (e) {
+    p.pauseOption = function (e) {
         var paused = !createjs.Ticker.getPaused();
         createjs.Ticker.setPaused(paused);
     }
@@ -107,8 +109,20 @@
     }
 
     p.addMessages = function () {
-        this.msgTxt = new createjs.Text("HELLO", '24px Verdana', '#F00');
-        this.addChild(this.msgTxt);
+        this.msgTxt = new createjs.Text("HELLO", '24px Cambria', '#F00');
+        this.msgTxt.x = 50;
+        this.msgTxt.y = 10;
+        this.msgScore = new createjs.Text("HELLO", '24px Cambria', 'cyan');
+
+
+        var b = this.msgScore.getBounds();
+        this.msgScore.x = BG_WIDTH/2 - b.width; 
+       
+
+        this.msgScore.y = 10;
+        
+        this.addChild(this.msgTxt, this.msgScore);
+
     }
 
     p.createAsteroidContainer = function () {
@@ -273,7 +287,7 @@
             var slot = asteroid;
             var pt = slot.globalToLocal(nave.x, nave.y);
             if (slot.hitTest(pt.x, pt.y)) {
-                txtScore = "COLLISION DETECTED " + i;
+                txtMessage = "COLLISION DETECTED " + i;
                 this.dispatchEvent(game.GameStateEvents.CREDITS);
                 //this.playButton.on('click', this.playGame, this);
                 //this.dispatchEvent(this.gameover);
@@ -291,7 +305,9 @@
                 bullet = this.bulletContainer.getChildAt(j);
                 var pt = slot.globalToLocal(bullet.x, bullet.y);
                 if (slot.hitTest(pt.x, pt.y)) {
-                    txtScore = "ASTEROID DESTROYED " + i;
+                    txtMessage = "ASTEROID DESTROYED " + i;
+                    intScore += 200;
+                    txtScore = "SCORE: " + intScore;
                     asteroid.nextX = STAGE_WIDTH;
                     asteroid.nextY = 25 + (Math.random() * 575);
                     bullet.nextX = STAGE_WIDTH;
@@ -363,7 +379,8 @@
             bullet.y = bullet.nextY;
         }
 
-        this.msgTxt.text = txtScore;
+        this.msgTxt.text = txtMessage;
+        this.msgScore.text = txtScore;
     }
 
     p.checkGame = function () {
