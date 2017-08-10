@@ -1,0 +1,30 @@
+{"frames": [
+
+{
+	"filename": "asteroid.png",
+	"frame": {"x":0,"y":0,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":75,"h":75},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "spritesheet-part2-grade.png",
+	"frame": {"x":0,"y":75,"w":107,"h":168},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":107,"h":168},
+	"sourceSize": {"w":107,"h":168},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "spritesheet-part2.png",
+	"format": "RGBA8888",
+	"size": {"w":107,"h":243},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:2d4c71122053383ec353b237d316ff31:a34a0e760866f5ef67261906aca88b30:57a35f616c192c39c2ed4f03e35c2b10$"
+}
+}

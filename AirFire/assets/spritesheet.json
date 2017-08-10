@@ -1,6 +1,6 @@
 {
     "images": ["assets/spritesheet-part1.png",
-               "assets/spritesheet-part2-grade.png" ],
+               "assets/spritesheet-part2.png" ],
     "frames": [
         [0, 256, 256, 256,0],
         [1536, 0, 256, 256,0],
@@ -13,7 +13,8 @@
         [0,512,512,512,0],
         [0,2304,1024,1024,0],
         [0,0,128,128,0],
-        [0,0,107,168,1]
+        [0,0,75,75,1],
+        [0,75,107,168,1]
 
     ],
     "animations": {
@@ -21,12 +22,12 @@
         "butOptions":{"frames":[2],"speed":0.1},
         "butCredits":{"frames":[3],"speed":0.1},
         "butExit":{"frames":[4],"speed":0.1},   
-        "nave": { "frames": [5,6,7 ,8], "speed":0.1},
-        "mother":{"frames": [9]},
-        "bullet":{"frames":[10]},
-        "grade":{"frames":[11]}
-        
-
+        "SpaceShip": { "frames": [5,6,7 ,8], "speed":0.1},
+        "mother":{"frames": [9], "speed":0.1},
+        "bullet":{"frames":[10], "speed":0.1},
+        "asteroides":{"frames":[11], "speed":0.1},
+        "grade":{"frames":[12], "speed":0.1}
+   
     },
 
 

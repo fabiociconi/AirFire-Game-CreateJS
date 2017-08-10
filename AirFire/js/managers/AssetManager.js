@@ -27,6 +27,7 @@
     p.BATTLE_BG = 'game bg';
     p.MENU_BG = 'menu bg';
     p.CREDITS_BG = 'credits bg';
+    p.GAMEOVER_BG = 'game over bg';
    
 
     //data
@@ -47,15 +48,16 @@
     p.initialize = function () {
         this.EventDispatcher_initialize();
         this.loadManifest = [
+           
             //sprites
             {id:this.GAME_SPRITES_DATA, src:this.assetsPath + 'spritesheet.json'},
-            {id:this.GAME_SPRITES, src:this.assetsPath + 'spritesheet-part1.png'},
-            {id:this.GAME_SPRITES_2, src:this.assetsPath + 'spritesheet-part2-grade.png'},
+            {id:this.GAME_SPRITES, src:this.assetsPath    + 'spritesheet-part1.png'},
+            {id:this.GAME_SPRITES_2, src:this.assetsPath + 'spritesheet-part2.png'},
             //backgrounds
             {id:this.BATTLE_BG, src:this.assetsPath +  'Level1BG.jpg'},
             {id:this.MENU_BG, src:this.assetsPath    + 'MenuBG.jpg'},
             {id:this.GAMEOVER_BG, src:this.assetsPath + 'GameOverBG.jpg'},
-            {id:this.CREDITS_BG, src:this.assetsPath + 'Credits.jpg'},
+            {id:this.CREDITS_BG, src:this.assetsPath + 'CreditsBG.jpg'},
             
             //sound
             {id:this.SOUND_MENU,src:this.assetsPath +'Theme - Star Wars.ogg'},
