@@ -22,16 +22,14 @@
         this.addButton();
     }
     p.addBG = function () {
-        var imgBackground = 'images/BackGOver.jpg';
+        var bg = new createjs.Bitmap(game.assets.getAsset(game.assets.GAMEOVER_BG));
+        bg.scaleX = bg.scaleY = 1.68;
+        bg.x = bg.y = 0;
 
-        var background2 = new createjs.Bitmap(imgBackground);
-        background2.scaleX = background2.scaleY = 1.68;
-        background2.x = background2.y = 0;
-
-        this.addChild(background2); 
+        this.addChild(bg); 
     }
     p.addMessage = function () {
-        this.titleTxt = new createjs.Text("GAME OVER", '40px Space Mono', '#FFF');
+        this.titleTxt = new createjs.Text("GAME OVER", 'bold 40px Cambria', '#F00');
         this.titleTxt.x = canvas.width / 2;
         this.titleTxt.y = 200;
         this.titleTxt.textAlign = 'center';
@@ -45,14 +43,14 @@
         btn.x = canvas.width / 2;
         btn.y = 280;
         btn.on('click', this.mainMenu, this);
-        btn.setButton({upColor:'FF0000', color:'#FFF', borderColor:'#FFF', overColor:'#900'});
+        btn.setButton({upColor:'', color:'cyan', borderColor:'cyan', overColor:'blue'});
         this.addChild(btn);
         btn = new ui.SimpleButton('Play Again');
         btn.regX = btn.width / 2;
         btn.x = canvas.width / 2;
         btn.y = 350;
         btn.on('click', this.playGame, this);
-        btn.setButton({upColor:'FF0000', color:'#FFF', borderColor:'#FFF', overColor:'#900'});
+        btn.setButton({upColor:'', color:'cyan', borderColor:'cyan', overColor:'blue'});
         this.addChild(btn);
     }
     p.mainMenu = function (e) {

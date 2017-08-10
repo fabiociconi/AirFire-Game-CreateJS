@@ -52,10 +52,10 @@
             {id:this.GAME_SPRITES, src:this.assetsPath + 'spritesheet-part1.png'},
             {id:this.GAME_SPRITES_2, src:this.assetsPath + 'spritesheet-part2-grade.png'},
             //backgrounds
-            {id:this.BATTLE_BG, src:this.assetsPath + 'Level1BG.jpg'},
-            {id:this.MENU_BG, src:this.assetsPath + 'MenuBG.jpg'},
-            //{id:this.CREDITS_BG, src:this.assetsPath + 'BackGOver.jpg'},
-            {id:this.CREDITS_BG, src:this.assetsPath + 'bg_credits.jpg'},
+            {id:this.BATTLE_BG, src:this.assetsPath +  'Level1BG.jpg'},
+            {id:this.MENU_BG, src:this.assetsPath    + 'MenuBG.jpg'},
+            {id:this.GAMEOVER_BG, src:this.assetsPath + 'GameOverBG.jpg'},
+            {id:this.CREDITS_BG, src:this.assetsPath + 'Credits.jpg'},
             
             //sound
             {id:this.SOUND_MENU,src:this.assetsPath +'Theme - Star Wars.ogg'},
