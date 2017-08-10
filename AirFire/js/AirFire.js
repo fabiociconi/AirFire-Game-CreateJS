@@ -52,7 +52,7 @@
         stage.update();
     }
     p.assetsReady = function () {
-        stage.removeChild(this.preloader);
+        stage.removeChild(this.preloader, this.loadTxt);
         this.createSpriteSheet();
         this.gameReady();
     }

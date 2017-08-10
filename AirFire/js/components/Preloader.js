@@ -28,7 +28,7 @@
 
     p.initialize = function () {
         this.Container_initialize();
-        this.addMessages();
+       // this.addMessages();
         this.drawPreloader();
     }
 
@@ -43,12 +43,11 @@
         this.addChild(this.bar, outline);
     }
 
-      p.addMessages = function () {
+    //   p.addMessages = function () {
+    //     this.msgTxt = new createjs.Text("Loading Contents", '24px Verdana', '#F00');
 
-        this.msgTxt = new createjs.Text("Loading Contents", '24px Verdana', '#F00');
-        
-        this.addChild(this.msgTxt);
-    }
+    //     this.addChild(this.msgTxt);
+    // }
 
     p.update = function (perc) {
         perc = perc > 1 ? 1 : perc;

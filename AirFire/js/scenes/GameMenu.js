@@ -63,7 +63,8 @@
 
         //animations
         createjs.Tween.get(this.titleTxt, { loop: true })
-            .to({ x: canvas.width / 2 - 20 }, 1000).to({ x: canvas.width / 2 }, 1000);
+            .to({ x: canvas.width / 2 - 20 }, 1000)
+            .to({ x: canvas.width / 2 }, 1000);
 
 
         //animation mothership
@@ -73,7 +74,7 @@
         motherShip.scaleX = .8;
         motherShip.scaleY = .8;
         createjs.Tween.get(motherShip, { loop: true })
-            .to({ rotation: 360 }, 5000);
+            .to({ rotation: 360 }, 7000);
 
         this.addChild(this.titleTxt, motherShip);
     }
@@ -128,6 +129,7 @@
         this.dispatchEvent(game.GameStateEvents.GAME);
     }
     p.credits = function (e) {
+        createjs.Sound.removeSound(game.assets.SOUND_MENU);
         this.dispatchEvent(game.GameStateEvents.CREDITS);
     }
 
