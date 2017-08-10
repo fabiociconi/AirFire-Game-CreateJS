@@ -1,24 +1,26 @@
 //************************************************************/
-// Nave.js                                                   */
-//                                                           */
-// Main Function :  player data                              */
+// Enemy.js                                                 */
+//                                                          */
+// Main Function :  Enemy data                              */
 //-----------------------------------------------------------*/
+
+
 (function () {
 
     window.game = window.game || {}
 
-    function Nave() {
-        this.data = data.PlayerData;
+    function Enemy() {
+        this.data = data.EnemyData;
         this.initialize();
     }
 
-    var p = Nave.prototype = new createjs.Container();
-
+    var p = Enemy.prototype = new createjs.Container();
+    
     p.data = null;
-    p.naveSprite = null;
-    //p.targetSprite = null;
-    //p.magicSprite = null;
-     p.healthBar = null;
+    p.enemySprite = null;
+    p.targetSprite = null;
+    p.magicSprite = null;
+    p.healthBar = null;
 
     //p.targetTween = null;
     //p.targetable = false;
@@ -27,14 +29,14 @@
 
     p.initialize = function () {
         this.Container_initialize();
-        this.createNaveSprite();
+        this.createEnemy();
        // this.createHealthBar();
         //this.addHealthBar();
 
     }
-    p.createNaveSprite = function () {
-        this.naveSprite = new createjs.Sprite(spritesheet, this.data.frame);
-        this.addChild(this.naveSprite);
+    p.createEnemy = function () {
+        this.enemySprite = new createjs.Sprite(spritesheet, this.data.frame);
+        this.addChild(this.enemySprite);
     }
     // p.createHealthBar = function () {
     //     var naveBounds = this.enemySprite.getBounds();
@@ -71,6 +73,6 @@
     //     this.addHP();
     //     createjs.Tween.get(this.progressBar).to({scaleX:perc}, 400);
     // }
-    window.game.Nave = Nave;
+    window.game.Enemy = Enemy;
 
 }());

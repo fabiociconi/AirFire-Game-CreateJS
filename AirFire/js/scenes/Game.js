@@ -32,8 +32,8 @@
     var background1, background2;
 
     //The Spaceship
-    //var spaceship;
-    var nave;
+
+    var spaceship;
     var speedUp = false;
     var speed;
 
@@ -52,7 +52,7 @@
     p.initialize = function () {
         this.Container_initialize();
         this.addBackground();
-        this.addPauseButton();//pause button
+        this.addPauseButton();
         this.addSpaceship();
         this.addMessages();
         this.createAsteroidContainer();
@@ -96,15 +96,15 @@
     }
 
     p.addSpaceship = function () {
-        nave = new game.Nave();
-        nave.regX = nave.width / 2;
-        nave.regY = nave.height / 2;
-        nave.x = 100;
-        nave.scaleX = .15;
-        nave.scaleY = .15;
-        nave.rotation = 90;
-        nave.y = (canvas.height / 2);
-        this.addChild(nave);
+        spaceship = new game.SpaceShip();
+        spaceship.regX = spaceship.width / 2;
+        spaceship.regY = spaceship.height / 2;
+        spaceship.x = 100;
+        spaceship.scaleX = .15;
+        spaceship.scaleY = .15;
+        spaceship.rotation = 90;
+        spaceship.y = (canvas.height / 2);
+        this.addChild(spaceship);
 
         window.onkeydown = moveSpaceship;
         window.onkeyup = stopSpaceship;
@@ -133,21 +133,26 @@
     }
 
     p.createAsteroids = function () {
-        var i, asteroid, color;
+        var i, asteroid;
+        //, color;
         var asteroids = this.asteroidContainer;
         var numAsteroids = 12;
         var asteroidSize = 25;
         for (i = 0; i < numAsteroids; i++) {
-            color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-            var imgAsteroid = 'images/asteroid.png';
-            asteroid = new createjs.Bitmap(imgAsteroid);
+            //color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+
+            asteroid = new game.Enemy();
+            //var imgAsteroid = 'images/asteroid.png';
+            //asteroid = new createjs.Bitmap(imgAsteroid);
+
+
             asteroid.speed = Math.random() * 2 + 4;
             asteroid.bounds = asteroid.getBounds();
             asteroid.regX = asteroid.bounds.width / 2;
             asteroid.regY = asteroid.bounds.height / 2;
-
-            asteroid.scaleX = 1;
+            
             asteroid.scaleY = 1;
+            asteroid.scaleX = 1;
             asteroid.size = asteroidSize;
             //asteroid.regX = asteroid.width / 2;
             //asteroid.regY = asteroid.height / 2;
@@ -236,30 +241,30 @@
             background2.x = background1.x + BG_WIDTH;
         }
 
-        var nextX = nave.x;
-        var nextY = nave.y;
+        var nextX = spaceship.x;
+        var nextY = spaceship.y;
 
         if (leftKeyDown) {
-            nextX = nave.x - 10;
+            nextX = spaceship.x - 10;
             if (nextX - 70 < 0) {
                 nextX = 70;
             }
         }
         if (rightKeyDown) {
-            nextX = nave.x + 10;
+            nextX = spaceship.x + 10;
             if (nextX > canvas.width * .6) {
                 nextX = canvas.width * .6;
             }
         }
         if (upKeyDown) {
-            nextY = nave.y - 10;
+            nextY = spaceship.y - 10;
             if (nextY + 10 < 0) {
                 nextY = -10;
             }
 
         }
         if (downKeyDown) {
-            nextY = nave.y + 10;
+            nextY = spaceship.y + 10;
             if (nextY > canvas.height - 67) {
                 nextY = canvas.height - 67;
             }
@@ -272,8 +277,8 @@
                 bullet2 = this.bulletContainer.getChildAt(bulletIndex + 1);
                 bulletIndex++;
                 if (bullet.x > STAGE_WIDTH) {
-                    bulletNextX = nave.x + 75;
-                    bulletNextY = nave.y + 19;
+                    bulletNextX = spaceship.x + 75;
+                    bulletNextY = spaceship.y + 19;
                     bullet.nextX = bulletNextX;
                     bullet.nextY = bulletNextY;
                     bulletIndex = bulletLen;
@@ -296,14 +301,14 @@
 
 
         }
-        nave.x = nextX;
-        nave.y = nextY;
+        spaceship.x = nextX;
+        spaceship.y = nextY;
 
         //Asteroid and Spaceship Collision
         for (i = 0; i < len; i++) {
             asteroid = this.asteroidContainer.getChildAt(i);
             var slot = asteroid;
-            var pt = slot.globalToLocal(nave.x, nave.y);
+            var pt = slot.globalToLocal(spaceship.x, spaceship.y);
             if (slot.hitTest(pt.x, pt.y)) {
                 txtMessage = "COLLISION DETECTED " + i;
                 this.gameOver();
