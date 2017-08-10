@@ -54,7 +54,9 @@
             //backgrounds
             {id:this.BATTLE_BG, src:this.assetsPath + 'Level1BG.jpg'},
             {id:this.MENU_BG, src:this.assetsPath + 'MenuBG.jpg'},
-            {id:this.CREDITS_BG, src:this.assetsPath + 'BackGOver.jpg'},
+            //{id:this.CREDITS_BG, src:this.assetsPath + 'BackGOver.jpg'},
+            {id:this.CREDITS_BG, src:this.assetsPath + 'bg_credits.jpg'},
+            
             //sound
             {id:this.SOUND_MENU,src:this.assetsPath +'Theme - Star Wars.ogg'},
             {id:this.SOUND_SHOOT,src:this.assetsPath +'laser.wav'},

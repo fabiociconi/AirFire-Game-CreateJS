@@ -114,7 +114,7 @@
         this.msgTxt = new createjs.Text("HELLO", '24px Cambria', '#F00');
         this.msgTxt.x = 50;
         this.msgTxt.y = 10;
-        this.msgScore = new createjs.Text("HELLO", '24px Cambria', 'cyan');
+        this.msgScore = new createjs.Text("SCORE: ", '24px Cambria', 'cyan');
 
 
         var b = this.msgScore.getBounds();
@@ -189,19 +189,23 @@
         var i, asteroid, nextX, nextY;
         var len = this.asteroidContainer.getNumChildren();
         for (i = 0; i < len; i++) {
-            asteroid = this.asteroidContainer.getChildAt(i);
-            
-            //if ((intScore == 2000) && (!speedUp))
-            //{                
-            //this.increaseSpeed(intScore, speedUp);
-            //}
+            asteroid = this.asteroidContainer.getChildAt(i);            
+                         
+            if ((intScore == 2000) && (!speedUp)){              
+            var len = this.asteroidContainer.getNumChildren();      
+            for (var ispeed = 0; ispeed < len; ispeed++) {
+                asteroid = this.asteroidContainer.getChildAt(ispeed);
+                asteroid.speed *= 1.6;                
+            }
+            speedUp = true;
+        }
 
             asteroid.rotation += asteroid.speed / 10;
             nextX = asteroid.x - asteroid.speed;
             nextY = asteroid.y;
             if (nextX + asteroid.size < 0) {
                 nextX = canvas.width + asteroid.size;
-                nextY = 25 + (Math.random() * 575);
+                nextY = 25 + (Math.random() * 550);
             }
             asteroid.nextX = nextX;
             asteroid.nextY = nextY;
@@ -277,14 +281,14 @@
                     shootKeyDown = false;
                 }
 
-                // if (bullet2.x > STAGE_WIDTH) {
-                //     bulletNextX = nave.x + 75;
-                //     bulletNextY = nave.y + 40;
-                //     bullet2.nextX = bulletNextX;
-                //     bullet2.nextY = bulletNextY;
-                //     bulletIndex = bulletLen;
-                //     shootKeyDown = false;
-                // }
+                //  if (bullet2.x > STAGE_WIDTH) {
+                //      bulletNextX = nave.x + 75;
+                //      bulletNextY = nave.y + 40;
+                //      bullet2.nextX = bulletNextX;
+                //      bullet2.nextY = bulletNextY;
+                //      bulletIndex = bulletLen;
+                //      shootKeyDown = false;
+                //  }
 
              
               
@@ -302,10 +306,7 @@
             var pt = slot.globalToLocal(nave.x, nave.y);
             if (slot.hitTest(pt.x, pt.y)) {
                 txtMessage = "COLLISION DETECTED " + i;
-                this.dispatchEvent(game.GameStateEvents.CREDITS);
-                //this.playButton.on('click', this.playGame, this);
-                //this.dispatchEvent(this.gameover);
-                //this.dispatchEvent(game.GameStateEvents.GAME_OVER);
+                this.gameOver();
             }
         }
 
@@ -320,8 +321,7 @@
                 var pt = slot.globalToLocal(bullet.x, bullet.y);
                 if (slot.hitTest(pt.x, pt.y)) {
                     txtMessage = "ASTEROID DESTROYED " + i;
-                    intScore += 200;
-                    txtScore = "SCORE: " + intScore;
+                    intScore += 200;                    
                     asteroid.nextX = STAGE_WIDTH;
                     asteroid.nextY = 25 + (Math.random() * 575);
                     bullet.nextX = STAGE_WIDTH;
@@ -375,18 +375,6 @@
         }
     }
 
-    p.increaseSpeed = function (intScore, speedUp){
-        if ((intScore == 2000) && (speedUp == false)){  
-
-            var len = this.asteroidContainer.getNumChildren();      
-            for (var ispeed = 0; ispeed < len; ispeed++) {
-                asteroid = this.asteroidContainer.getChildAt(ispeed);
-                asteroid.speed *= 1.5;                
-            }
-            this.speedUp = true;
-        }
-    }
-
     p.render = function () {
 
         var i, asteroid, bullet;
@@ -406,7 +394,12 @@
         }
 
         this.msgTxt.text = txtMessage;
+        txtScore = "SCORE: " + intScore;
         this.msgScore.text = txtScore;
+    }
+
+    p.gameOver = function () {
+        this.dispatchEvent(game.GameStateEvents.GAME_OVER);
     }
 
     p.checkGame = function () {

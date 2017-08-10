@@ -21,22 +21,22 @@
         this.addButton();
     }
     p.addTitle = function () {
-        this.titleTxt = new createjs.Text("Credits!", 'bold 40px Verdana', '#F00');
+        this.titleTxt = new createjs.Text("Credits!", 'bold 40px Cambria', '#F00');
         this.titleTxt.x = canvas.width / 2;
-        this.titleTxt.y = 200;
+        this.titleTxt.y = 150;
         this.titleTxt.textAlign = 'center';
        // this.addChild(this.titleTxt);
 
-        this.titleTxt1 = new createjs.Text("Andre\n" +
-                                           "Fabio\n" +
-                                           "Rodrigo\n"+
-                                           "\n\n"+
+        this.titleTxt1 = new createjs.Text("Andre Lemos\n" +
+                                           "Fabio Ciconi\n" +
+                                           "Rodrigo Geronimo\n"+
+                                           "\n"+
                                            "\nThanks to: "+
-                                           "Sprites:http://unluckystudio.com/", 
-                                           'bold 40px News Gothic', 
+                                           "Sprites: http://unluckystudio.com/", 
+                                           '40px Cambria', 
                                            'yellow');
         this.titleTxt1.x = canvas.width / 2;;
-        this.titleTxt1.y = 500;
+        this.titleTxt1.y = canvas.height / 2 - 50;
         this.titleTxt1.textAlign = 'center';
        
         this.addChild(this.titleTxt1,this.titleTxt);
@@ -52,7 +52,8 @@
         //var background2 = new createjs.Bitmap(imgBackground);
 
         var bg = new createjs.Bitmap(game.assets.getAsset(game.assets.CREDITS_BG));
-        bg.scaleX = bg.scaleY = 1.68;
+        bg.scaleX = .35;
+        bg.scaleY = .32;
         bg.x = bg.y = 0;
 
 
@@ -63,11 +64,11 @@
     }
     p.addButton = function () {
         var btn, event;
-        btn = new ui.SimpleButton('VOLTA');
+        btn = new ui.SimpleButton('BACK');
         btn.on('click', this.mainMenu, this);
         btn.regX = btn.width / 2;
         btn.x = canvas.width / 2;
-        btn.y = 400;
+        btn.y = canvas.height - 75;
         btn.setButton({ upColor: 'FF0000', color: '#FFF', borderColor: '#F00', overColor: '#900' });
         this.addChild(btn);
     }
