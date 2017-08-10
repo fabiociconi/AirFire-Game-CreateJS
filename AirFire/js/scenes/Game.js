@@ -69,14 +69,14 @@
     p.playSoundAsteroidExplosion = function () {
         createjs.Sound.play(game.assets.SOUND_ASTEROID_EXPLOSION);
     }
-    
+
     p.addPauseButton = function (e) {
         var btnPause, event;
         btnPause = new ui.SimpleButton('||');
         btnPause.on('click', this.pauseOption, this);
         btnPause.regX = btnPause.width / 2;
         btnPause.x = 1160;
-        btnPause.y = 15;        
+        btnPause.y = 15;
         btnPause.setButton({ upColor: 'yellow', color: 'cyan', borderColor: 'cyan', overColor: 'white' });
         this.addChild(btnPause);
     }
@@ -91,7 +91,7 @@
         background2 = new createjs.Bitmap(game.assets.getAsset(game.assets.BATTLE_BG));
         background1.scaleX = background1.scaleY = background2.scaleX = background2.scaleY = 0.2;
         background1.speed = background2.speed = -0.9;
-        background2.x = BG_WIDTH;        
+        background2.x = BG_WIDTH;
         this.addChild(background1, background2);
     }
 
@@ -103,7 +103,7 @@
         nave.scaleX = .15;
         nave.scaleY = .15;
         nave.rotation = 90;
-        nave.y = (canvas.height / 2);        
+        nave.y = (canvas.height / 2);
         this.addChild(nave);
 
         window.onkeydown = moveSpaceship;
@@ -118,11 +118,11 @@
 
 
         var b = this.msgScore.getBounds();
-        this.msgScore.x = BG_WIDTH/2 - b.width; 
-       
+        this.msgScore.x = BG_WIDTH / 2 - b.width;
+
 
         this.msgScore.y = 10;
-        
+
         this.addChild(this.msgTxt, this.msgScore);
 
     }
@@ -138,7 +138,7 @@
         var numAsteroids = 12;
         var asteroidSize = 25;
         for (i = 0; i < numAsteroids; i++) {
-            color = '#' + Math.floor(Math.random() * 16777215).toString(16);            
+            color = '#' + Math.floor(Math.random() * 16777215).toString(16);
             var imgAsteroid = 'images/asteroid.png';
             asteroid = new createjs.Bitmap(imgAsteroid);
             asteroid.speed = Math.random() * 2 + 4;
@@ -146,7 +146,7 @@
             asteroid.regX = asteroid.bounds.width / 2;
             asteroid.regY = asteroid.bounds.height / 2;
 
-            asteroid.scaleX = 1; 
+            asteroid.scaleX = 1;
             asteroid.scaleY = 1;
             asteroid.size = asteroidSize;
             //asteroid.regX = asteroid.width / 2;
@@ -156,10 +156,10 @@
             asteroid.x = asteroid.nextX;
             asteroid.y = asteroid.nextY;
             asteroids.addChild(asteroid);
-            
+
         }
     }
-    
+
 
     p.createBulletContainer = function () {
         this.bulletContainer = new createjs.Container();
@@ -189,16 +189,16 @@
         var i, asteroid, nextX, nextY;
         var len = this.asteroidContainer.getNumChildren();
         for (i = 0; i < len; i++) {
-            asteroid = this.asteroidContainer.getChildAt(i);            
-                         
-            if ((intScore == 2000) && (!speedUp)){              
-            var len = this.asteroidContainer.getNumChildren();      
-            for (var ispeed = 0; ispeed < len; ispeed++) {
-                asteroid = this.asteroidContainer.getChildAt(ispeed);
-                asteroid.speed *= 1.6;                
+            asteroid = this.asteroidContainer.getChildAt(i);
+
+            if ((intScore == 2000) && (!speedUp)) {
+                var len = this.asteroidContainer.getNumChildren();
+                for (var ispeed = 0; ispeed < len; ispeed++) {
+                    asteroid = this.asteroidContainer.getChildAt(ispeed);
+                    asteroid.speed *= 1.6;
+                }
+                speedUp = true;
             }
-            speedUp = true;
-        }
 
             asteroid.rotation += asteroid.speed / 10;
             nextX = asteroid.x - asteroid.speed;
@@ -209,7 +209,7 @@
             }
             asteroid.nextX = nextX;
             asteroid.nextY = nextY;
-            
+
         }
 
         //Moving Bullets
@@ -241,26 +241,26 @@
 
         if (leftKeyDown) {
             nextX = nave.x - 10;
-            if (nextX - 70 < 0){
+            if (nextX - 70 < 0) {
                 nextX = 70;
             }
         }
         if (rightKeyDown) {
             nextX = nave.x + 10;
-            if (nextX > canvas.width * .6){
+            if (nextX > canvas.width * .6) {
                 nextX = canvas.width * .6;
             }
         }
         if (upKeyDown) {
             nextY = nave.y - 10;
-            if (nextY + 10 < 0){
+            if (nextY + 10 < 0) {
                 nextY = -10;
             }
 
         }
         if (downKeyDown) {
             nextY = nave.y + 10;
-            if (nextY > canvas.height - 67){
+            if (nextY > canvas.height - 67) {
                 nextY = canvas.height - 67;
             }
         }
@@ -269,7 +269,7 @@
 
             for (bulletIndex = 0; bulletIndex < bulletLen; bulletIndex++) {
                 bullet = this.bulletContainer.getChildAt(bulletIndex);
-                bullet2 = this.bulletContainer.getChildAt(bulletIndex  + 1);
+                bullet2 = this.bulletContainer.getChildAt(bulletIndex + 1);
                 bulletIndex++;
                 if (bullet.x > STAGE_WIDTH) {
                     bulletNextX = nave.x + 75;
@@ -290,11 +290,11 @@
                 //      shootKeyDown = false;
                 //  }
 
-             
-              
+
+
             }
-             
-            
+
+
         }
         nave.x = nextX;
         nave.y = nextY;
@@ -321,7 +321,7 @@
                 var pt = slot.globalToLocal(bullet.x, bullet.y);
                 if (slot.hitTest(pt.x, pt.y)) {
                     txtMessage = "ASTEROID DESTROYED " + i;
-                    intScore += 200;                    
+                    intScore += 200;
                     asteroid.nextX = STAGE_WIDTH;
                     asteroid.nextY = 25 + (Math.random() * 575);
                     bullet.nextX = STAGE_WIDTH;
@@ -404,7 +404,7 @@
 
     p.checkGame = function () {
         //if (!this.asteroidContainer.getNumChildren()) {
-            //this.dispatchEvent(game.GameStateEvents.CREDITS);
+        //this.dispatchEvent(game.GameStateEvents.CREDITS);
         //}
     }
 
