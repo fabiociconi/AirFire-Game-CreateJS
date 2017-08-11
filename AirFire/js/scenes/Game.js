@@ -38,6 +38,7 @@
     var boolLevelUp = true;
     var speed;
     var numBullets;
+    var numAsteroids;
 
     var startTime;
 
@@ -86,11 +87,22 @@
     p.levelUp = function () {        
         intLevel++;
         boolLevelUp = false;
-       
 
-           // this.msgLevelMain.x = canvas.width/2 - 130;
-           // this.msgLevelMain.y = canvas.height/2 - 100;
+        var i, asteroid, nextX, nextY;
+        var len = this.asteroidContainer.getNumChildren();
+        for (i = 0; i < len; i++) {
+            asteroid = this.asteroidContainer.getChildAt(i);
+            nextX = canvas.width * 2 + asteroid.size;            
+            asteroid.nextX = nextX;
+        }
 
+
+        this.showLevelMain();
+    }
+
+    p.showLevelMain = function () { 
+        this.msgLevelMain.x = canvas.width/2 - 130;
+        this.msgLevelMain.y = canvas.height/2 - 100;
     }
 
     p.addPauseButton = function (e) {
@@ -162,9 +174,9 @@
     p.createAsteroids = function () {
         var i, asteroid;
         var asteroids = this.asteroidContainer;
-        var numAsteroids = 12;
+        this.numAsteroids = 12;
         var asteroidSize = 25;
-        for (i = 0; i < numAsteroids; i++) {
+        for (i = 0; i < this.numAsteroids; i++) {
             color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
             asteroid = new game.Enemy();
@@ -182,8 +194,8 @@
             asteroid.size = asteroidSize;
             //asteroid.regX = asteroid.width / 2;
             //asteroid.regY = asteroid.height / 2;
-            asteroid.nextX = STAGE_WIDTH + (Math.random() * numAsteroids * asteroidSize * 2);
-            asteroid.nextY = asteroidSize + (Math.random() * numAsteroids * asteroidSize * 2);
+            asteroid.nextX = STAGE_WIDTH + (Math.random() * this.numAsteroids * asteroidSize * 2);
+            asteroid.nextY = asteroidSize + (Math.random() * this.numAsteroids * asteroidSize * 2);
             asteroid.x = asteroid.nextX;
             asteroid.y = asteroid.nextY;
             asteroids.addChild(asteroid);
