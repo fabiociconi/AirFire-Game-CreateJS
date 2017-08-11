@@ -92,8 +92,8 @@
             this.numBullets = 6;
         }
 
-            this.msgLevelMain.x = canvas.width/2 - 130;
-            this.msgLevelMain.y = canvas.height/2 - 100;
+           // this.msgLevelMain.x = canvas.width/2 - 130;
+           // this.msgLevelMain.y = canvas.height/2 - 100;
 
     }
 
@@ -308,29 +308,29 @@
             for (bulletIndex = 0; bulletIndex < bulletLen; bulletIndex++) {
                 bullet = this.bulletContainer.getChildAt(bulletIndex);
                 
-                if (intLevel > 1)
-                {                    
-                    var bullet2 = this.bulletContainer.getChildAt(bulletIndex + 1);
-                    bulletIndex++;
+                if (bullet.x > STAGE_WIDTH)
+                {          
 
-                    if (bullet.x > STAGE_WIDTH) {
+                    if (intLevel > 1) {
                         bulletNextX = spaceship.x + 75;
                         bulletNextY = spaceship.y + 19;
                         bullet.nextX = bulletNextX;
                         bullet.nextY = bulletNextY;
                         bulletIndex = bulletLen;
                         this.playSoundShoot();
-                        shootKeyDown = false;
-                    }
 
-                    if (bullet2.x > STAGE_WIDTH) {
+                        bulletIndex++;
+                        bullet = this.bulletContainer.getChildAt(bulletIndex);                  
+
                         bulletNextX = spaceship.x + 75;
                         bulletNextY = spaceship.y + 40;
-                        bullet2.nextX = bulletNextX;
-                        bullet2.nextY = bulletNextY;
+                        bullet.nextX = bulletNextX;
+                        bullet.nextY = bulletNextY;
                         bulletIndex = bulletLen;
                         shootKeyDown = false;
+
                     }
+                    
                 }
                 else{
                     if (bullet.x > STAGE_WIDTH) {
