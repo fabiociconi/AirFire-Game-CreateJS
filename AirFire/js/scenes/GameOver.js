@@ -23,13 +23,14 @@
     }
     p.addBG = function () {
         var bg = new createjs.Bitmap(game.assets.getAsset(game.assets.GAMEOVER_BG));
-        bg.scaleX = bg.scaleY = 1.68;
+        bg.scaleX = 0.32;
+        bg.scaleY = 0.3;
         bg.x = bg.y = 0;
 
         this.addChild(bg); 
     }
     p.addMessage = function () {
-        this.titleTxt = new createjs.Text("GAME OVER", 'bold 40px Cambria', '#F00');
+        this.titleTxt = new createjs.Text("GAME OVER", 'bold 40px Calibri', '#F00');
         this.titleTxt.x = canvas.width / 2;
         this.titleTxt.y = 200;
         this.titleTxt.textAlign = 'center';

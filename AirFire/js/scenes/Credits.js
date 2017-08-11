@@ -27,7 +27,7 @@
         this.addButton();
     }
     p.addTitle = function () {
-        this.titleTxt = new createjs.Text("Credits!", 'bold 40px Cambria', '#F00');
+        this.titleTxt = new createjs.Text("CREDITS!", 'bold 40px Cambria', '#F00');
         this.titleTxt.x = canvas.width / 2;
         this.titleTxt.y = 150;
         this.titleTxt.textAlign = 'center';

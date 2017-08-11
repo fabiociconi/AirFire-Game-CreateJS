@@ -62,8 +62,9 @@
         this.titleTxt.textAlign = 'center'
 
         //animations
-        createjs.Tween.get(this.titleTxt, { loop: true })
-            .to({ x: canvas.width / 2 - 20 }, 1000)
+        createjs.Tween.get(this.titleTxt, { loop: true })        
+            .to({ x: canvas.width / 2 + 20 }, 1000)
+            .to({ x: canvas.width / 2 - 20 }, 2000)
             .to({ x: canvas.width / 2 }, 1000);
 
 

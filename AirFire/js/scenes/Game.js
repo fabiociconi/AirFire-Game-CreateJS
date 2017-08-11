@@ -37,14 +37,20 @@
     var speedUp = false;
     var speed;
 
-    var txtScore, txtMessage;
+    var startTime;
+
+
+    var txtScore, txtLevel, txtClock;
     var intScore = 0;
+    var intLevel = 1
     var p = Game.prototype = new createjs.Container();
     var leftKeyDown, upKeyDown, rightKeyDown, downKeyDown = false;
     var shootKeyDown = false;
     p.Container_initialize = p.initialize;
-    p.msgTxt = null;
+    p.msgLevel = null;
+    p.msgLevelMain = null;
     p.msgScore = null;
+    p.msgClock = null;
     p.fpsTxt = null;
     p.asteroidContainer = null;
     p.bulletContainer = null;
@@ -59,6 +65,9 @@
         this.createAsteroids();
         this.createBulletContainer();
         this.createBullets();
+        intScore = 0;
+        startTime = (new Date()).getTime();
+
 
     }
 
@@ -111,19 +120,25 @@
     }
 
     p.addMessages = function () {
-        this.msgTxt = new createjs.Text("HELLO", '24px Cambria', '#F00');
-        this.msgTxt.x = 50;
-        this.msgTxt.y = 10;
+        this.msgLevel = new createjs.Text("LEVEL: ", '24px Cambria', 'cyan');
+        this.msgLevel.x = 10;
+        this.msgLevel.y = 10;
         this.msgScore = new createjs.Text("SCORE: ", '24px Cambria', 'cyan');
-
-
         var b = this.msgScore.getBounds();
         this.msgScore.x = BG_WIDTH / 2 - b.width;
-
-
         this.msgScore.y = 10;
 
-        this.addChild(this.msgTxt, this.msgScore);
+        this.msgClock = new createjs.Text("", '24px Cambria', 'cyan');
+        this.msgClock.x = BG_WIDTH - 150;
+        this.msgClock.y = 10;
+
+        this.msgLevelMain = new createjs.Text('LEVEL: '+ intLevel, '60px Calibri', 'cyan');
+        this.msgLevelMain.x = canvas.width/2 - 130;
+        this.msgLevelMain.y = canvas.height/2 - 100;
+        this.addChild(this.msgLevelMain);
+                
+
+        this.addChild(this.msgLevel, this.msgScore, this.msgClock);
 
     }
 
@@ -182,8 +197,11 @@
             bullet.rotation = 90;        
             bullet.scaleX = .3;
             bullet.size = bulletSize;
-            bullet.x = STAGE_WIDTH;
-            bullet.y = 100;
+            bullet.nextX = STAGE_WIDTH *2;
+            bullet.nextY = STAGE_WIDTH * 2;
+
+            bullet.x = bullet.nextX;
+            bullet.y = bullet.nextY;
             bullets.addChild(bullet);
         }
     }
@@ -322,7 +340,6 @@
             spaceship.x > asteroid.x - aBounds.width/3 &&
             spaceship.y < asteroid.y + aBounds.height/2 &&
             spaceship.y > asteroid.y - aBounds.height) {
-                txtMessage = "COLLISION DETECTED " + i;
                 this.gameOver();
             }
         }
@@ -332,7 +349,6 @@
             //var collision;
             //collision = ndgmr.checkRectCollision(spaceship, asteroid);
             // if (collision) {
-            //     txtMessage = "COLLISION DETECTED " + i;
             //        this.gameOver();
             // }
         
@@ -356,7 +372,6 @@
                 bullet.x > asteroid.x - aBounds.width/3 &&
                 bullet.y < asteroid.y + aBounds.height/2 &&
                 bullet.y > asteroid.y - aBounds.height) {
-                    txtMessage = "ASTEROID DESTROYED " + i;
                     intScore += 200;
                     asteroid.nextX = STAGE_WIDTH;
                     asteroid.nextY = 25 + (Math.random() * 575);
@@ -370,7 +385,6 @@
                 //var collision;
                 //collision = ndgmr.checkRectCollision(bullet, asteroid);
                 // if (collision) {
-                //     txtMessage = "COLLISION DETECTED " + i;
                 //     intScore += 200;
                 //     asteroid.nextX = STAGE_WIDTH;
                 //     asteroid.nextY = 25 + (Math.random() * 575);
@@ -381,6 +395,7 @@
                 
             }
         }
+
     }
 
     function moveSpaceship(e) {
@@ -443,9 +458,31 @@
             bullet.y = bullet.nextY;
         }
 
-        this.msgTxt.text = txtMessage;
+
+
+        txtLevel = "LEVEL: " + intLevel;   
+        this.msgLevel.text = txtLevel;   
         txtScore = "SCORE: " + intScore;
         this.msgScore.text = txtScore;
+
+        
+        var currentTime = (new Date()).getTime();
+        txtClock = Math.floor((currentTime-startTime)/1000);
+
+        var minutes = Math.floor(txtClock / 60);
+        var seconds = txtClock - minutes * 60;        
+
+        var finalTime = str_pad_left(minutes,'0',2)+':'+str_pad_left(seconds,'0',2);
+        
+        this.msgClock.text = finalTime;
+
+        if (txtClock > 1){
+            this.msgLevelMain.y = STAGE_WIDTH;
+        }
+    }
+
+    function str_pad_left(string,pad,length) {
+        return (new Array(length+1).join(pad)+string).slice(-length);
     }
 
     p.gameOver = function () {
