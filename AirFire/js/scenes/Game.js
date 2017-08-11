@@ -67,6 +67,7 @@
         this.createBullets();
         intScore = 0;
         startTime = (new Date()).getTime();
+        speedUp = false;
 
 
     }

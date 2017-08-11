@@ -36,10 +36,10 @@
     p.initialize = function () {
         this.Container_initialize();
         this.addBackground();
-        this.addTitle();
-        this.playSound();
+        this.addTitle();        
         this.addBoarder();
         this.addButtons();
+        this.playSound();
     }
 
     p.playSound = function () {
