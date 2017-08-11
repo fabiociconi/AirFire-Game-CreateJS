@@ -75,7 +75,7 @@
         btn.regX = btn.width / 2;
         btn.x = canvas.width / 2;
         btn.y = canvas.height - 75;
-        btn.setButton({ upColor: 'FF0000', color: '#FFF', borderColor: '#F00', overColor: '#900' });
+        btn.setButton({ upColor: 'FF0000', color: 'cyan', borderColor: 'cyan', overColor: '#900' });
         this.addChild(btn);
     }
     p.mainMenu = function (e) {
