@@ -35,7 +35,9 @@
 
     var spaceship;
     var speedUp = false;
+    var boolLevelUp = true;
     var speed;
+    var numBullets;
 
     var startTime;
 
@@ -66,6 +68,7 @@
         this.createBulletContainer();
         this.createBullets();
         intScore = 0;
+        intLevel = 1;
         startTime = (new Date()).getTime();
         speedUp = false;
 
@@ -78,6 +81,20 @@
 
     p.playSoundAsteroidExplosion = function () {
         createjs.Sound.play(game.assets.SOUND_ASTEROID_EXPLOSION);
+    }
+
+    p.levelUp = function () {        
+        intLevel++;
+        boolLevelUp = false;
+
+        if (intLevel > 1)
+        {
+            this.numBullets = 6;
+        }
+
+            this.msgLevelMain.x = canvas.width/2 - 130;
+            this.msgLevelMain.y = canvas.height/2 - 100;
+
     }
 
     p.addPauseButton = function (e) {
@@ -135,11 +152,9 @@
 
         this.msgLevelMain = new createjs.Text('LEVEL: '+ intLevel, '60px Calibri', 'cyan');
         this.msgLevelMain.x = canvas.width/2 - 130;
-        this.msgLevelMain.y = canvas.height/2 - 100;
-        this.addChild(this.msgLevelMain);
-                
+        this.msgLevelMain.y = canvas.height/2 - 100;                
 
-        this.addChild(this.msgLevel, this.msgScore, this.msgClock);
+        this.addChild(this.msgLevel, this.msgScore, this.msgClock, this.msgLevelMain);
 
     }
 
@@ -189,10 +204,10 @@
     p.createBullets = function () {
         var i, bullet, color;
         var bullets = this.bulletContainer;
-        var numBullets = 3;
+        this.numBullets = 3;
         var bulletSize = 10;
 
-        for (i = 0; i < numBullets; i++) {
+        for (i = 0; i < this.numBullets; i++) {
             var bullet = new createjs.Sprite(spritesheet, 'bullet');
             bullet.speed = 15;
             bullet.rotation = 90;        
@@ -292,30 +307,42 @@
 
             for (bulletIndex = 0; bulletIndex < bulletLen; bulletIndex++) {
                 bullet = this.bulletContainer.getChildAt(bulletIndex);
-                bullet2 = this.bulletContainer.getChildAt(bulletIndex + 1);
-                bulletIndex++;
+                
+                if (intLevel > 1)
+                {                    
+                    var bullet2 = this.bulletContainer.getChildAt(bulletIndex + 1);
+                    bulletIndex++;
 
+                    if (bullet.x > STAGE_WIDTH) {
+                        bulletNextX = spaceship.x + 75;
+                        bulletNextY = spaceship.y + 19;
+                        bullet.nextX = bulletNextX;
+                        bullet.nextY = bulletNextY;
+                        bulletIndex = bulletLen;
+                        this.playSoundShoot();
+                        shootKeyDown = false;
+                    }
 
-                if (bullet.x > STAGE_WIDTH) {
-                    bulletNextX = spaceship.x + 75;
-                    bulletNextY = spaceship.y + 19;
-                    bullet.nextX = bulletNextX;
-                    bullet.nextY = bulletNextY;
-                    bulletIndex = bulletLen;
-                    this.playSoundShoot();
-                    shootKeyDown = false;
+                    if (bullet2.x > STAGE_WIDTH) {
+                        bulletNextX = spaceship.x + 75;
+                        bulletNextY = spaceship.y + 40;
+                        bullet2.nextX = bulletNextX;
+                        bullet2.nextY = bulletNextY;
+                        bulletIndex = bulletLen;
+                        shootKeyDown = false;
+                    }
                 }
-
-                //  if (bullet2.x > STAGE_WIDTH) {
-                //      bulletNextX = nave.x + 75;
-                //      bulletNextY = nave.y + 40;
-                //      bullet2.nextX = bulletNextX;
-                //      bullet2.nextY = bulletNextY;
-                //      bulletIndex = bulletLen;
-                //      shootKeyDown = false;
-                //  }
-
-
+                else{
+                    if (bullet.x > STAGE_WIDTH) {
+                        bulletNextX = spaceship.x + 75;
+                        bulletNextY = spaceship.y + 19;
+                        bullet.nextX = bulletNextX;
+                        bullet.nextY = bulletNextY;
+                        bulletIndex = bulletLen;
+                        this.playSoundShoot();
+                        shootKeyDown = false;
+                    }
+                }
 
             }
 
@@ -374,6 +401,7 @@
                 bullet.y < asteroid.y + aBounds.height/2 &&
                 bullet.y > asteroid.y - aBounds.height) {
                     intScore += 200;
+                    boolLevelUp = true;
                     asteroid.nextX = STAGE_WIDTH;
                     asteroid.nextY = 25 + (Math.random() * 575);
                     bullet.nextX = STAGE_WIDTH;
@@ -396,6 +424,10 @@
                 
             }
         }
+        
+        if ((intScore == 5000 || intScore == 10000) && (boolLevelUp)){
+            this.levelUp();  
+        }        
 
     }
 
@@ -462,9 +494,11 @@
 
 
         txtLevel = "LEVEL: " + intLevel;   
-        this.msgLevel.text = txtLevel;   
+        this.msgLevel.text = this.msgLevelMain.text = txtLevel;   
         txtScore = "SCORE: " + intScore;
         this.msgScore.text = txtScore;
+
+
 
         
         var currentTime = (new Date()).getTime();
@@ -491,9 +525,7 @@
     }
 
     p.checkGame = function () {
-        //if (!this.asteroidContainer.getNumChildren()) {
-        //this.dispatchEvent(game.GameStateEvents.CREDITS);
-        //}
+
     }
 
     p.run = function () {
