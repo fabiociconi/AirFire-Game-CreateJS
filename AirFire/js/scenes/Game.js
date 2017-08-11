@@ -275,6 +275,8 @@
                 bullet = this.bulletContainer.getChildAt(bulletIndex);
                 bullet2 = this.bulletContainer.getChildAt(bulletIndex + 1);
                 bulletIndex++;
+
+
                 if (bullet.x > STAGE_WIDTH) {
                     bulletNextX = spaceship.x + 75;
                     bulletNextY = spaceship.y + 19;
@@ -303,23 +305,37 @@
         spaceship.x = nextX;
         spaceship.y = nextY;
 
-        // Asteroid and Spaceship Collision
+        //Asteroid and Spaceship Collision
         for (i = 0; i < len; i++) {
-            ndgmr.DEBUG_COLLISION = true;
             asteroid = this.asteroidContainer.getChildAt(i);
-            //var slot = asteroid;
-            var collision;
-            collision = ndgmr.checkRectCollision(spaceship, asteroid);
-            // var pt = slot.globalToLocal(spaceship.x, spaceship.y);
-            // if (slot.hitTest(pt.x, pt.y)) {
-            //     txtMessage = "COLLISION DETECTED " + i;
-            //     this.gameOver();
-            // }
-            if (collision) {
+
+            var aBounds = asteroid.getBounds();
+            var sBounds = spaceship.getBounds();
+
+           // spaceship.regX = sBounds.width / 2;
+           // spaceship.regY = sBounds.height / 2;
+            
+            asteroid.regX = aBounds.width / 2;
+            asteroid.regY = aBounds.height / 2;
+
+            if (spaceship.x < asteroid.x + aBounds.width/3 &&
+            spaceship.x > asteroid.x - aBounds.width/3 &&
+            spaceship.y < asteroid.y + aBounds.height/2 &&
+            spaceship.y > asteroid.y - aBounds.height) {
                 txtMessage = "COLLISION DETECTED " + i;
-                   this.gameOver();
+                this.gameOver();
             }
         }
+
+        
+            //ndgmr.DEBUG_COLLISION = true;
+            //var collision;
+            //collision = ndgmr.checkRectCollision(spaceship, asteroid);
+            // if (collision) {
+            //     txtMessage = "COLLISION DETECTED " + i;
+            //        this.gameOver();
+            // }
+        
 
         //Asteroid and Shoot Collision
         for (i = 0; i < len; i++) {
@@ -329,29 +345,40 @@
             
             for (j = 0; j < bulletLen; j++) {
                 bullet = this.bulletContainer.getChildAt(j);
-                var collision;
-                collision = ndgmr.checkRectCollision(bullet, asteroid);
-                if (collision) {
-                    txtMessage = "COLLISION DETECTED " + i;
+
+                var aBounds = asteroid.getBounds();
+                var bBounds = bullet.getBounds();
+                
+                asteroid.regX = aBounds.width / 2;
+                asteroid.regY = aBounds.height / 2;
+
+                if (bullet.x < asteroid.x + aBounds.width/3 &&
+                bullet.x > asteroid.x - aBounds.width/3 &&
+                bullet.y < asteroid.y + aBounds.height/2 &&
+                bullet.y > asteroid.y - aBounds.height) {
+                    txtMessage = "ASTEROID DESTROYED " + i;
                     intScore += 200;
                     asteroid.nextX = STAGE_WIDTH;
                     asteroid.nextY = 25 + (Math.random() * 575);
                     bullet.nextX = STAGE_WIDTH;
                     bullet.nextY = 4000;
+
                     this.playSoundAsteroidExplosion();
                 }
-                // var pt = slot.globalToLocal(bullet.x, bullet.y);
-                // txtMessage = "ASTEROID DESTROYED " + pt.x + "" + pt.y;
-                // if (slot.hitTest(pt.x, pt.y)) {
-                //     txtMessage = "ASTEROID DESTROYED " + i;
+                
+                
+                //var collision;
+                //collision = ndgmr.checkRectCollision(bullet, asteroid);
+                // if (collision) {
+                //     txtMessage = "COLLISION DETECTED " + i;
                 //     intScore += 200;
                 //     asteroid.nextX = STAGE_WIDTH;
                 //     asteroid.nextY = 25 + (Math.random() * 575);
                 //     bullet.nextX = STAGE_WIDTH;
                 //     bullet.nextY = 4000;
-
                 //     this.playSoundAsteroidExplosion();
                 // }
+                
             }
         }
     }
