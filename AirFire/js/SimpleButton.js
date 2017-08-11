@@ -32,7 +32,7 @@
     }
     p.drawButton = function(){
         this.removeAllChildren();
-        this.labelTxt = new createjs.Text(this.label,this.fontSize + 'px Arial',this.color);
+        this.labelTxt = new createjs.Text(this.label,this.fontSize + 'px Cambria',this.color);
         this.labelTxt.textAlign = 'center';
         this.labelTxt.textBaseline = 'top';
         this.width = this.labelTxt.getMeasuredWidth() + 30;
