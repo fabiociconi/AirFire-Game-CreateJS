@@ -45,7 +45,8 @@
 
     var txtScore, txtLevel, txtClock;
     var intScore = 0;
-    var intLevel = 1
+    var intLevel = 1;
+    var TimeShowOn, TimeShowOff;
     var p = Game.prototype = new createjs.Container();
     var leftKeyDown, upKeyDown, rightKeyDown, downKeyDown = false;
     var shootKeyDown = false;
@@ -95,12 +96,11 @@
             nextX = canvas.width * 2 + asteroid.size;            
             asteroid.nextX = nextX;
         }
-
-
         this.showLevelMain();
     }
 
     p.showLevelMain = function () { 
+        TimeShowOn = (new Date()).getTime();
         this.msgLevelMain.x = canvas.width/2 - 130;
         this.msgLevelMain.y = canvas.height/2 - 100;
     }
@@ -159,8 +159,7 @@
         this.msgClock.y = 10;
 
         this.msgLevelMain = new createjs.Text('LEVEL: '+ intLevel, '60px Calibri', 'cyan');
-        this.msgLevelMain.x = canvas.width/2 - 130;
-        this.msgLevelMain.y = canvas.height/2 - 100;                
+        this.showLevelMain();                
 
         this.addChild(this.msgLevel, this.msgScore, this.msgClock, this.msgLevelMain);
 
@@ -527,9 +526,15 @@
         
         this.msgClock.text = finalTime;
 
-        if (txtClock > 1){
+        
+
+
+        TimeShowOff =  Math.floor((currentTime-TimeShowOn)/1000);
+
+        if (TimeShowOff > 2){
             this.msgLevelMain.y = STAGE_WIDTH;
         }
+        
     }
 
     function str_pad_left(string,pad,length) {
