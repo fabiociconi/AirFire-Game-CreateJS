@@ -86,11 +86,7 @@
     p.levelUp = function () {        
         intLevel++;
         boolLevelUp = false;
-
-        if (intLevel > 1)
-        {
-            this.numBullets = 6;
-        }
+       
 
            // this.msgLevelMain.x = canvas.width/2 - 130;
            // this.msgLevelMain.y = canvas.height/2 - 100;
@@ -204,7 +200,7 @@
     p.createBullets = function () {
         var i, bullet, color;
         var bullets = this.bulletContainer;
-        this.numBullets = 3;
+        this.numBullets = 30;
         var bulletSize = 10;
 
         for (i = 0; i < this.numBullets; i++) {
@@ -308,32 +304,43 @@
             for (bulletIndex = 0; bulletIndex < bulletLen; bulletIndex++) {
                 bullet = this.bulletContainer.getChildAt(bulletIndex);
                 
-                if (bullet.x > STAGE_WIDTH)
+                if (intLevel > 1)
                 {          
 
-                    if (intLevel > 1) {
-                        bulletNextX = spaceship.x + 75;
-                        bulletNextY = spaceship.y + 19;
-                        bullet.nextX = bulletNextX;
-                        bullet.nextY = bulletNextY;
-                        bulletIndex = bulletLen;
-                        this.playSoundShoot();
+                    if ((bullet.x > STAGE_WIDTH) && (bulletIndex < 2)) {
+                        
+                    
+                        for (var bullet2Index = 0; bullet2Index < bulletLen; bullet2Index++) {
+                        var bullet2 = this.bulletContainer.getChildAt(bullet2Index);
 
-                        bulletIndex++;
-                        bullet = this.bulletContainer.getChildAt(bulletIndex);                  
+                            if ((bullet2.x > STAGE_WIDTH) && (bulletIndex != bullet2Index) && (bulletIndex < 2)) {                 
 
-                        bulletNextX = spaceship.x + 75;
-                        bulletNextY = spaceship.y + 40;
-                        bullet.nextX = bulletNextX;
-                        bullet.nextY = bulletNextY;
-                        bulletIndex = bulletLen;
-                        shootKeyDown = false;
 
+                                bulletNextX = spaceship.x + 75;
+                                bulletNextY = spaceship.y + 7;
+                                bullet.nextX = bulletNextX;
+                                bullet.nextY = bulletNextY;
+
+                                var bullet2NextX = spaceship.x + 75;
+                                var bullet2NextY = spaceship.y + 31;
+                                bullet2.nextX = bullet2NextX;
+                                bullet2.nextY = bullet2NextY;
+
+                                bulletIndex = bulletLen;
+                                bullet2Index = bulletLen;
+
+                                this.playSoundShoot();
+                                shootKeyDown = false;
+                            }
+                        }
+
+                        
                     }
+                    
                     
                 }
                 else{
-                    if (bullet.x > STAGE_WIDTH) {
+                    if ((bullet.x > STAGE_WIDTH) && (bulletIndex < 2)) {
                         bulletNextX = spaceship.x + 75;
                         bulletNextY = spaceship.y + 19;
                         bullet.nextX = bulletNextX;
@@ -343,10 +350,7 @@
                         shootKeyDown = false;
                     }
                 }
-
             }
-
-
         }
         spaceship.x = nextX;
         spaceship.y = nextY;
