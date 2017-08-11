@@ -1,4 +1,4 @@
-{
+{    "framerate":24,
     "images": ["assets/spritesheet-part1.png",
                "assets/spritesheet-part2.png" ],
     "frames": [

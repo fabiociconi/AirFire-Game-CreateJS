@@ -97,7 +97,7 @@
 
     p.addSpaceship = function () {
         spaceship = new game.SpaceShip();
-        spaceship.regX = spaceship.width / 2;
+        spaceship.regX = spaceship.width / 2;        
         spaceship.regY = spaceship.height / 2;
         spaceship.x = 100;
         spaceship.scaleX = .15;
@@ -134,12 +134,11 @@
 
     p.createAsteroids = function () {
         var i, asteroid;
-        //, color;
         var asteroids = this.asteroidContainer;
         var numAsteroids = 12;
         var asteroidSize = 25;
         for (i = 0; i < numAsteroids; i++) {
-            //color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+            color = '#' + Math.floor(Math.random() * 16777215).toString(16);
 
             asteroid = new game.Enemy();
             //var imgAsteroid = 'images/asteroid.png';
@@ -150,7 +149,7 @@
             asteroid.bounds = asteroid.getBounds();
             asteroid.regX = asteroid.bounds.width / 2;
             asteroid.regY = asteroid.bounds.height / 2;
-            
+
             asteroid.scaleY = 1;
             asteroid.scaleX = 1;
             asteroid.size = asteroidSize;
@@ -180,7 +179,7 @@
         for (i = 0; i < numBullets; i++) {
             var bullet = new createjs.Sprite(spritesheet, 'bullet');
             bullet.speed = 15;
-            bullet.rotation = 90;
+            bullet.rotation = 90;        
             bullet.scaleX = .3;
             bullet.size = bulletSize;
             bullet.x = STAGE_WIDTH;
@@ -304,14 +303,21 @@
         spaceship.x = nextX;
         spaceship.y = nextY;
 
-        //Asteroid and Spaceship Collision
+        // Asteroid and Spaceship Collision
         for (i = 0; i < len; i++) {
+            ndgmr.DEBUG_COLLISION = true;
             asteroid = this.asteroidContainer.getChildAt(i);
-            var slot = asteroid;
-            var pt = slot.globalToLocal(spaceship.x, spaceship.y);
-            if (slot.hitTest(pt.x, pt.y)) {
+            //var slot = asteroid;
+            var collision;
+            collision = ndgmr.checkRectCollision(spaceship, asteroid);
+            // var pt = slot.globalToLocal(spaceship.x, spaceship.y);
+            // if (slot.hitTest(pt.x, pt.y)) {
+            //     txtMessage = "COLLISION DETECTED " + i;
+            //     this.gameOver();
+            // }
+            if (collision) {
                 txtMessage = "COLLISION DETECTED " + i;
-                this.gameOver();
+                   this.gameOver();
             }
         }
 
@@ -320,20 +326,32 @@
             asteroid = this.asteroidContainer.getChildAt(i);
 
             var slot = asteroid;
-
+            
             for (j = 0; j < bulletLen; j++) {
                 bullet = this.bulletContainer.getChildAt(j);
-                var pt = slot.globalToLocal(bullet.x, bullet.y);
-                if (slot.hitTest(pt.x, pt.y)) {
-                    txtMessage = "ASTEROID DESTROYED " + i;
+                var collision;
+                collision = ndgmr.checkRectCollision(bullet, asteroid);
+                if (collision) {
+                    txtMessage = "COLLISION DETECTED " + i;
                     intScore += 200;
                     asteroid.nextX = STAGE_WIDTH;
                     asteroid.nextY = 25 + (Math.random() * 575);
                     bullet.nextX = STAGE_WIDTH;
                     bullet.nextY = 4000;
-
                     this.playSoundAsteroidExplosion();
                 }
+                // var pt = slot.globalToLocal(bullet.x, bullet.y);
+                // txtMessage = "ASTEROID DESTROYED " + pt.x + "" + pt.y;
+                // if (slot.hitTest(pt.x, pt.y)) {
+                //     txtMessage = "ASTEROID DESTROYED " + i;
+                //     intScore += 200;
+                //     asteroid.nextX = STAGE_WIDTH;
+                //     asteroid.nextY = 25 + (Math.random() * 575);
+                //     bullet.nextX = STAGE_WIDTH;
+                //     bullet.nextY = 4000;
+
+                //     this.playSoundAsteroidExplosion();
+                // }
             }
         }
     }
