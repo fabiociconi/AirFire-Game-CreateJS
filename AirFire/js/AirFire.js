@@ -80,6 +80,10 @@
                 this.currentGameStateFunction = this.gameStateGame;
                 break;
            
+            case game.GameStates.OPTIONS:
+                this.currentGameStateFunction = this.gameStateOptions;
+                break;
+                
             case game.GameStates.CREDITS:
                 this.currentGameStateFunction = this.gameStateCredits;
                 break;
@@ -101,6 +105,7 @@
         var scene = new game.GameMenu();
         scene.on(game.GameStateEvents.GAME, this.onStateEvent, this, false, { state: game.GameStates.GAME });        
         scene.on(game.GameStateEvents.CREDITS, this.onStateEvent, this, false, { state: game.GameStates.CREDITS });
+        scene.on(game.GameStateEvents.OPTIONS, this.onStateEvent, this, false, { state: game.GameStates.OPTIONS });
         stage.addChild(scene);
         stage.removeChild(this.currentScene);
         this.currentScene = scene;
@@ -109,6 +114,15 @@
 
     p.gameStateCredits = function () {
         var scene = new game.Credits();
+        scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, { state: game.GameStates.MAIN_MENU });
+        stage.addChild(scene);
+        stage.removeChild(this.currentScene);
+        this.currentScene = scene;
+        this.changeState(game.GameStates.RUN_SCENE);
+    }
+    
+     p.gameStateOptions = function () {
+        var scene = new game.Options();
         scene.on(game.GameStateEvents.MAIN_MENU, this.onStateEvent, this, false, { state: game.GameStates.MAIN_MENU });
         stage.addChild(scene);
         stage.removeChild(this.currentScene);

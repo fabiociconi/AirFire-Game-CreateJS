@@ -98,12 +98,13 @@
         this.playButton.x = BUTTON_POSITION_X;
         this.playButton.y = BUTTON_POSITION_Y;
 
-        this.optButton = new createjs.Sprite(spritesheet, 'butOptions');
+        this.optOptions = new createjs.Sprite(spritesheet, 'butOptions');
+        this.optOptions.on('click', this.optionsGame, this);
         //this.optButton.regX = this.optButton.width / 2;
-        this.optButton.scaleX = BUTTON_SCALE_X;
-        this.optButton.scaleY = BUTTON_SCALE_Y;
-        this.optButton.x = BUTTON_POSITION_X;
-        this.optButton.y = BUTTON_POSITION_Y + 70;;
+        this.optOptions.scaleX = BUTTON_SCALE_X;
+        this.optOptions.scaleY = BUTTON_SCALE_Y;
+        this.optOptions.x = BUTTON_POSITION_X;
+        this.optOptions.y = BUTTON_POSITION_Y + 70;
 
         this.optCredits = new createjs.Sprite(spritesheet, 'butCredits');
         this.optCredits.on('click', this.credits, this);
@@ -122,6 +123,7 @@
 
         this.addChild(this.playButton,
             this.optButton,
+            this.optOptions,
             this.optCredits,
             this.exitButton);
     }
@@ -129,6 +131,12 @@
         createjs.Sound.removeSound(game.assets.SOUND_MENU);
         this.dispatchEvent(game.GameStateEvents.GAME);
     }
+
+    p.optionsGame = function (e) {
+        createjs.Sound.removeSound(game.assets.SOUND_MENU);
+        this.dispatchEvent(game.GameStateEvents.OPTIONS);
+    }
+
     p.credits = function (e) {
         createjs.Sound.removeSound(game.assets.SOUND_MENU);
         this.dispatchEvent(game.GameStateEvents.CREDITS);
