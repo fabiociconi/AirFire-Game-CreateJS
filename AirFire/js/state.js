@@ -13,7 +13,8 @@
         GAME:10,
         SCORE_SCREEN:11,
         GAME_OVER:20,
-        CREDITS:25
+        CREDITS:25,
+        OPTIONS:30
         
     }
 
@@ -23,7 +24,8 @@
         MAIN_MENU_SELECT:'game menu select event',
         GAME:'game event',
         SCORE_SCREEN:'score screen event',
-        CREDITS: 'screen credits'
+        CREDITS: 'screen credits',
+        OPTIONS: 'option control'
     }
 
     window.game.GameStates = GameStates;
