@@ -30,12 +30,15 @@
         this.addChild(bg); 
     }
     p.addMessage = function () {
-        this.titleTxt = new createjs.Text("GAME OVER", 'bold 40px Calibri', '#F00');
+        this.titleTxt = new createjs.Text("GAME OVER", 'bold 150px Cambria', 'red');
         this.titleTxt.x = canvas.width / 2;
-        this.titleTxt.y = 200;
+        this.titleTxt.y = 10;
+        this.titleTxt.shadow = new createjs.Shadow("cyan", 5, 5, 10);
         this.titleTxt.textAlign = 'center';
         this.addChild(this.titleTxt);
     }
+
+
 
     p.addButton = function () {
 

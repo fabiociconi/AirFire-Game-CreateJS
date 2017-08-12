@@ -116,12 +116,25 @@
     p.playSoundAsteroidExplosion = function () {
         createjs.Sound.play(game.assets.SOUND_ASTEROID_EXPLOSION);
     }
+    p.explosionSpaceShip = function(x,y){
+       var explode = new createjs.Sprite(spritesheet, 'explosionSpaceShip');
+        explode.x = x-140;
+        explode.y = y-100;
+        console.log(x);
+        console.log(y);
+       
+
+        this.addChild(explode);
+        explode.on('animationend', this.explosionComplete, this, true);
+        explode.gotoAndPlay('explosionSpaceShip');
+
+    }
     p.explosionAsteroids = function (x,y) {
         var explode = new createjs.Sprite(spritesheet, 'explosionAsteroids');
         explode.x = x-150;
         explode.y = y-140;
-        console.log(x);
-        console.log(y);
+        //console.log(x);
+        //console.log(y);
 
         this.addChild(explode);
         explode.on('animationend', this.explosionComplete, this, true);
@@ -488,7 +501,10 @@ p.update = function () {
         if (spaceship.x < asteroid.x + aBounds.width / 3 &&
             spaceship.x > asteroid.x - aBounds.width / 3 &&
             spaceship.y < asteroid.y + aBounds.height / 2 &&
-            spaceship.y > asteroid.y - aBounds.height) {
+            spaceship.y > asteroid.y - aBounds.height) 
+            {
+            this.explosionSpaceShip(spaceship.x,spaceship.y);
+            //setTimeout(gameOver, 1500);
             this.gameOver();
         }
     }
