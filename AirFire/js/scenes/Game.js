@@ -47,9 +47,11 @@
     var intScore = 0;
     var intLevel = 1;
     var TimeShowOn, TimeShowOff;
+
     var p = Game.prototype = new createjs.Container();
     var leftKeyDown, upKeyDown, rightKeyDown, downKeyDown = false;
     var shootKeyDown = false;
+
     p.Container_initialize = p.initialize;
     p.msgLevel = null;
     p.msgLevelMain = null;
@@ -76,7 +78,20 @@
 
 
     }
+    p.addBoss = function () {
+        var boss = new createjs.Sprite(spritesheet, 'boss');
+        boss.bounds = boss.getBounds();
+        boss.regX = boss.bounds.width / 2;
+        boss.regY = boss.bounds.height / 2;
 
+        boss.scaleY = 1;
+        boss.scaleX = 1;
+        //boss.nextX = STAGE_WIDTH + (Math.random() * this.numAsteroids * asteroidSize * 2);
+        //boss.nextY = asteroidSize + (Math.random() * this.numAsteroids * asteroidSize * 2);
+        //boss.x = boss.nextX;
+        //boss.y = boss.nextY;
+        this.addChild(this.msgLevel);
+    }
     p.playSoundShoot = function () {
         createjs.Sound.play(game.assets.SOUND_SHOOT);
     }
@@ -85,7 +100,7 @@
         createjs.Sound.play(game.assets.SOUND_ASTEROID_EXPLOSION);
     }
 
-    p.levelUp = function () {        
+    p.levelUp = function () {
         intLevel++;
         boolLevelUp = false;
 
@@ -93,16 +108,16 @@
         var len = this.asteroidContainer.getNumChildren();
         for (i = 0; i < len; i++) {
             asteroid = this.asteroidContainer.getChildAt(i);
-            nextX = canvas.width * 2 + asteroid.size;            
+            nextX = canvas.width * 2 + asteroid.size;
             asteroid.nextX = nextX;
         }
         this.showLevelMain();
     }
 
-    p.showLevelMain = function () { 
+    p.showLevelMain = function () {
         TimeShowOn = (new Date()).getTime();
-        this.msgLevelMain.x = canvas.width/2 - 130;
-        this.msgLevelMain.y = canvas.height/2 - 100;
+        this.msgLevelMain.x = canvas.width / 2 - 130;
+        this.msgLevelMain.y = canvas.height / 2 - 100;
     }
 
     p.addPauseButton = function (e) {
@@ -132,7 +147,7 @@
 
     p.addSpaceship = function () {
         spaceship = new game.SpaceShip();
-        spaceship.regX = spaceship.width / 2;        
+        spaceship.regX = spaceship.width / 2;
         spaceship.regY = spaceship.height / 2;
         spaceship.x = 100;
         spaceship.scaleX = .15;
@@ -158,8 +173,8 @@
         this.msgClock.x = BG_WIDTH - 150;
         this.msgClock.y = 10;
 
-        this.msgLevelMain = new createjs.Text('LEVEL: '+ intLevel, '60px Calibri', 'cyan');
-        this.showLevelMain();                
+        this.msgLevelMain = new createjs.Text('LEVEL: ' + intLevel, '60px Calibri', 'cyan');
+        this.showLevelMain();
 
         this.addChild(this.msgLevel, this.msgScore, this.msgClock, this.msgLevelMain);
 
@@ -176,13 +191,11 @@
         this.numAsteroids = 12;
         var asteroidSize = 25;
         for (i = 0; i < this.numAsteroids; i++) {
-            color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-
+            //color = '#' + Math.floor(Math.random() * 16777215).toString(16);
             asteroid = new game.Enemy();
+
             //var imgAsteroid = 'images/asteroid.png';
             //asteroid = new createjs.Bitmap(imgAsteroid);
-
-
             asteroid.speed = Math.random() * 2 + 4;
             asteroid.bounds = asteroid.getBounds();
             asteroid.regX = asteroid.bounds.width / 2;
@@ -217,10 +230,10 @@
         for (i = 0; i < this.numBullets; i++) {
             var bullet = new createjs.Sprite(spritesheet, 'bullet');
             bullet.speed = 15;
-            bullet.rotation = 90;        
+            bullet.rotation = 90;
             bullet.scaleX = .3;
             bullet.size = bulletSize;
-            bullet.nextX = STAGE_WIDTH *2;
+            bullet.nextX = STAGE_WIDTH * 2;
             bullet.nextY = STAGE_WIDTH * 2;
 
             bullet.x = bullet.nextX;
@@ -314,17 +327,16 @@
 
             for (bulletIndex = 0; bulletIndex < bulletLen; bulletIndex++) {
                 bullet = this.bulletContainer.getChildAt(bulletIndex);
-                
-                if (intLevel > 1)
-                {          
+
+                if (intLevel > 1) {
 
                     if ((bullet.x > STAGE_WIDTH) && (bulletIndex < 2)) {
-                        
-                    
-                        for (var bullet2Index = 0; bullet2Index < bulletLen; bullet2Index++) {
-                        var bullet2 = this.bulletContainer.getChildAt(bullet2Index);
 
-                            if ((bullet2.x > STAGE_WIDTH) && (bulletIndex != bullet2Index) && (bulletIndex < 2)) {                 
+
+                        for (var bullet2Index = 0; bullet2Index < bulletLen; bullet2Index++) {
+                            var bullet2 = this.bulletContainer.getChildAt(bullet2Index);
+
+                            if ((bullet2.x > STAGE_WIDTH) && (bulletIndex != bullet2Index) && (bulletIndex < 2)) {
 
 
                                 bulletNextX = spaceship.x + 75;
@@ -345,12 +357,12 @@
                             }
                         }
 
-                        
+
                     }
-                    
-                    
+
+
                 }
-                else{
+                else {
                     if ((bullet.x > STAGE_WIDTH) && (bulletIndex < 2)) {
                         bulletNextX = spaceship.x + 75;
                         bulletNextY = spaceship.y + 19;
@@ -373,48 +385,48 @@
             var aBounds = asteroid.getBounds();
             var sBounds = spaceship.getBounds();
 
-           // spaceship.regX = sBounds.width / 2;
-           // spaceship.regY = sBounds.height / 2;
-            
+            // spaceship.regX = sBounds.width / 2;
+            // spaceship.regY = sBounds.height / 2;
+
             asteroid.regX = aBounds.width / 2;
             asteroid.regY = aBounds.height / 2;
 
-            if (spaceship.x < asteroid.x + aBounds.width/3 &&
-            spaceship.x > asteroid.x - aBounds.width/3 &&
-            spaceship.y < asteroid.y + aBounds.height/2 &&
-            spaceship.y > asteroid.y - aBounds.height) {
+            if (spaceship.x < asteroid.x + aBounds.width / 3 &&
+                spaceship.x > asteroid.x - aBounds.width / 3 &&
+                spaceship.y < asteroid.y + aBounds.height / 2 &&
+                spaceship.y > asteroid.y - aBounds.height) {
                 this.gameOver();
             }
         }
 
-        
-            //ndgmr.DEBUG_COLLISION = true;
-            //var collision;
-            //collision = ndgmr.checkRectCollision(spaceship, asteroid);
-            // if (collision) {
-            //        this.gameOver();
-            // }
-        
+
+        //ndgmr.DEBUG_COLLISION = true;
+        //var collision;
+        //collision = ndgmr.checkRectCollision(spaceship, asteroid);
+        // if (collision) {
+        //        this.gameOver();
+        // }
+
 
         //Asteroid and Shoot Collision
         for (i = 0; i < len; i++) {
             asteroid = this.asteroidContainer.getChildAt(i);
 
             var slot = asteroid;
-            
+
             for (j = 0; j < bulletLen; j++) {
                 bullet = this.bulletContainer.getChildAt(j);
 
                 var aBounds = asteroid.getBounds();
                 var bBounds = bullet.getBounds();
-                
+
                 asteroid.regX = aBounds.width / 2;
                 asteroid.regY = aBounds.height / 2;
 
-                if (bullet.x < asteroid.x + aBounds.width/3 &&
-                bullet.x > asteroid.x - aBounds.width/3 &&
-                bullet.y < asteroid.y + aBounds.height/2 &&
-                bullet.y > asteroid.y - aBounds.height) {
+                if (bullet.x < asteroid.x + aBounds.width / 3 &&
+                    bullet.x > asteroid.x - aBounds.width / 3 &&
+                    bullet.y < asteroid.y + aBounds.height / 2 &&
+                    bullet.y > asteroid.y - aBounds.height) {
                     intScore += 200;
                     boolLevelUp = true;
                     asteroid.nextX = STAGE_WIDTH;
@@ -424,8 +436,8 @@
 
                     this.playSoundAsteroidExplosion();
                 }
-                
-                
+
+
                 //var collision;
                 //collision = ndgmr.checkRectCollision(bullet, asteroid);
                 // if (collision) {
@@ -436,13 +448,13 @@
                 //     bullet.nextY = 4000;
                 //     this.playSoundAsteroidExplosion();
                 // }
-                
+
             }
         }
-        
-        if ((intScore == 5000 || intScore == 10000) && (boolLevelUp)){
-            this.levelUp();  
-        }        
+
+        if ((intScore == 5000 || intScore == 10000) && (boolLevelUp)) {
+            this.levelUp();
+        }
 
     }
 
@@ -508,37 +520,37 @@
 
 
 
-        txtLevel = "LEVEL: " + intLevel;   
-        this.msgLevel.text = this.msgLevelMain.text = txtLevel;   
+        txtLevel = "LEVEL: " + intLevel;
+        this.msgLevel.text = this.msgLevelMain.text = txtLevel;
         txtScore = "SCORE: " + intScore;
         this.msgScore.text = txtScore;
 
 
 
-        
+
         var currentTime = (new Date()).getTime();
-        txtClock = Math.floor((currentTime-startTime)/1000);
+        txtClock = Math.floor((currentTime - startTime) / 1000);
 
         var minutes = Math.floor(txtClock / 60);
-        var seconds = txtClock - minutes * 60;        
+        var seconds = txtClock - minutes * 60;
 
-        var finalTime = str_pad_left(minutes,'0',2)+':'+str_pad_left(seconds,'0',2);
-        
+        var finalTime = str_pad_left(minutes, '0', 2) + ':' + str_pad_left(seconds, '0', 2);
+
         this.msgClock.text = finalTime;
 
-        
 
 
-        TimeShowOff =  Math.floor((currentTime-TimeShowOn)/1000);
 
-        if (TimeShowOff > 2){
+        TimeShowOff = Math.floor((currentTime - TimeShowOn) / 1000);
+
+        if (TimeShowOff > 2) {
             this.msgLevelMain.y = STAGE_WIDTH;
         }
-        
+
     }
 
-    function str_pad_left(string,pad,length) {
-        return (new Array(length+1).join(pad)+string).slice(-length);
+    function str_pad_left(string, pad, length) {
+        return (new Array(length + 1).join(pad) + string).slice(-length);
     }
 
     p.gameOver = function () {
