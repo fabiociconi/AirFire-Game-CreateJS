@@ -101,7 +101,7 @@
 
     p.showLevelMain = function () { 
         TimeShowOn = (new Date()).getTime();
-        this.msgLevelMain.x = canvas.width/2 - 130;
+        this.msgLevelMain.x = canvas.width/2 - 105;
         this.msgLevelMain.y = canvas.height/2 - 100;
     }
 
@@ -151,7 +151,7 @@
         this.msgLevel.y = 10;
         this.msgScore = new createjs.Text("SCORE: ", '24px Cambria', 'cyan');
         var b = this.msgScore.getBounds();
-        this.msgScore.x = BG_WIDTH / 2 - b.width;
+        this.msgScore.x = 150;
         this.msgScore.y = 10;
 
         this.msgClock = new createjs.Text("", '24px Cambria', 'cyan');
@@ -318,8 +318,7 @@
                 if (intLevel > 1)
                 {          
 
-                    if ((bullet.x > STAGE_WIDTH) && (bulletIndex < 2)) {
-                        
+                    if ((bullet.x > STAGE_WIDTH) && (bulletIndex < 2)) {                        
                     
                         for (var bullet2Index = 0; bullet2Index < bulletLen; bullet2Index++) {
                         var bullet2 = this.bulletContainer.getChildAt(bullet2Index);
@@ -344,11 +343,7 @@
                                 shootKeyDown = false;
                             }
                         }
-
-                        
                     }
-                    
-                    
                 }
                 else{
                     if ((bullet.x > STAGE_WIDTH) && (bulletIndex < 2)) {
@@ -416,13 +411,16 @@
                 bullet.y < asteroid.y + aBounds.height/2 &&
                 bullet.y > asteroid.y - aBounds.height) {
                     intScore += 200;
-                    boolLevelUp = true;
+                    boolLevelUp = true;                    
                     asteroid.nextX = STAGE_WIDTH;
                     asteroid.nextY = 25 + (Math.random() * 575);
                     bullet.nextX = STAGE_WIDTH;
                     bullet.nextY = 4000;
 
                     this.playSoundAsteroidExplosion();
+                    if ((intScore == 5000 || intScore == 10000) && (boolLevelUp)){
+                        this.levelUp();  
+                    }
                 }
                 
                 
@@ -440,9 +438,7 @@
             }
         }
         
-        if ((intScore == 5000 || intScore == 10000) && (boolLevelUp)){
-            this.levelUp();  
-        }        
+                
 
     }
 
@@ -506,28 +502,17 @@
             bullet.y = bullet.nextY;
         }
 
-
-
         txtLevel = "LEVEL: " + intLevel;   
         this.msgLevel.text = this.msgLevelMain.text = txtLevel;   
         txtScore = "SCORE: " + intScore;
         this.msgScore.text = txtScore;
-
-
-
         
         var currentTime = (new Date()).getTime();
         txtClock = Math.floor((currentTime-startTime)/1000);
-
         var minutes = Math.floor(txtClock / 60);
-        var seconds = txtClock - minutes * 60;        
-
-        var finalTime = str_pad_left(minutes,'0',2)+':'+str_pad_left(seconds,'0',2);
-        
+        var seconds = txtClock - minutes * 60;
+        var finalTime = strPadLeft(minutes,'0',2) + ':' + strPadLeft(seconds,'0',2);
         this.msgClock.text = finalTime;
-
-        
-
 
         TimeShowOff =  Math.floor((currentTime-TimeShowOn)/1000);
 
@@ -537,8 +522,8 @@
         
     }
 
-    function str_pad_left(string,pad,length) {
-        return (new Array(length+1).join(pad)+string).slice(-length);
+    function strPadLeft(string, pad, length) {
+        return (new Array(length + 1).join(pad) + string).slice(-length);
     }
 
     p.gameOver = function () {
