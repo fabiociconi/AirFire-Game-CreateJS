@@ -64,7 +64,7 @@
     p.asteroidContainer = null;
     p.bulletContainer = null;
     p.bulletBossContainer = null;
-    p.EXPLOSION_COMPLETE = 'explosion complete';
+
 
   var explode =null;
 
@@ -118,8 +118,8 @@
     }
     p.explosionAsteroids = function (x,y) {
         var explode = new createjs.Sprite(spritesheet, 'explosionAsteroids');
-        explode.x =x;
-        explode.y =y;
+        explode.x = x-150;
+        explode.y = y-140;
         console.log(x);
         console.log(y);
 
@@ -527,7 +527,7 @@ p.update = function () {
                 asteroid.nextY = 25 + (Math.random() * 575);
                 bullet.nextX = STAGE_WIDTH;
                 bullet.nextY = 4000;
-                this.explosionAsteroids(asteroid.x-150,asteroid.y-140);
+                this.explosionAsteroids(asteroid.x,asteroid.y);
                 this.playSoundAsteroidExplosion();
                 if ((intScore == 5000 || intScore == 10000) && (boolLevelUp)) {
                     this.levelUp();

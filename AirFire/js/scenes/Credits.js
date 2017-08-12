@@ -29,7 +29,7 @@
     p.addTitle = function () {
         this.titleTxt = new createjs.Text("CREDITS!", 'bold 40px Cambria', '#F00');
         this.titleTxt.x = canvas.width / 2;
-        this.titleTxt.y = 150;
+        this.titleTxt.y = 40;
         this.titleTxt.textAlign = 'center';
        // this.addChild(this.titleTxt);
 
@@ -40,9 +40,9 @@
                                            "\nThanks to: "+
                                            "Sprites: http://unluckystudio.com/", 
                                            '40px Cambria', 
-                                           'yellow');
+                                           'cyan');
         this.titleTxt1.x = canvas.width / 2;;
-        this.titleTxt1.y = canvas.height / 2 - 50;
+        this.titleTxt1.y = canvas.height / 2 - 180;
         this.titleTxt1.textAlign = 'center';
        
         this.addChild(this.titleTxt1,this.titleTxt);
@@ -75,7 +75,7 @@
         btn.regX = btn.width / 2;
         btn.x = canvas.width / 2;
         btn.y = canvas.height - 75;
-        btn.setButton({ upColor: 'FF0000', color: 'cyan', borderColor: 'cyan', overColor: '#900' });
+        btn.setButton({ upColor: '#000000', color: 'cyan', borderColor: 'cyan', overColor: '#900' });
         this.addChild(btn);
     }
     p.mainMenu = function (e) {

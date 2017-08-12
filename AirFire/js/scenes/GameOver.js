@@ -47,7 +47,7 @@
         btn.regX = btn.width / 2;        
         btn.x = canvas.width / 2;
         btn.y = canvas.height -260;      
-        btn.setButton({upColor:'#cc000000', color:'cyan', borderColor:'cyan', overColor:'blue'});
+        btn.setButton({upColor:'#000000', color: 'cyan', borderColor: 'cyan', overColor: '#900' });
         this.addChild(btn);
 
         btn2 = new ui.SimpleButton('Play Again');
@@ -56,7 +56,7 @@
         btn2.x = canvas.width / 2;
         btn2.y = canvas.height -340;   
         
-        btn2.setButton({upColor:'#cc000000', color:'cyan', borderColor:'cyan', overColor:'blue'});
+        btn2.setButton({upColor:'#000000', color: 'cyan', borderColor: 'cyan', overColor: '#900' });
         this.addChild(btn2);
     }
     p.mainMenu = function (e) {
