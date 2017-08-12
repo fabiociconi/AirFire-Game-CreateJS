@@ -66,6 +66,7 @@
         this.addBackground();
         this.addPauseButton();
         this.addSpaceship();
+        this.addBoss();
         this.addMessages();
         this.createAsteroidContainer();
         this.createAsteroids();
@@ -83,14 +84,18 @@
         boss.bounds = boss.getBounds();
         boss.regX = boss.bounds.width / 2;
         boss.regY = boss.bounds.height / 2;
-
-        boss.scaleY = 1;
+        boss.nextX = canvas.width - 200;        
+        boss.nextY = (canvas.height / 2);        
+        boss.x = boss.nextX;
+        boss.y = boss.nextY;
         boss.scaleX = 1;
+        boss.scaleY = 1;
+        boss.rotation = 90;
+        this.addChild(boss);
+
         //boss.nextX = STAGE_WIDTH + (Math.random() * this.numAsteroids * asteroidSize * 2);
         //boss.nextY = asteroidSize + (Math.random() * this.numAsteroids * asteroidSize * 2);
-        //boss.x = boss.nextX;
-        //boss.y = boss.nextY;
-        this.addChild(this.msgLevel);
+        
     }
     p.playSoundShoot = function () {
         createjs.Sound.play(game.assets.SOUND_SHOOT);
@@ -116,13 +121,9 @@
 
     p.showLevelMain = function () {
         TimeShowOn = (new Date()).getTime();
-<<<<<<< HEAD
+
         this.msgLevelMain.x = canvas.width/2 - 105;
         this.msgLevelMain.y = canvas.height/2 - 100;
-=======
-        this.msgLevelMain.x = canvas.width / 2 - 130;
-        this.msgLevelMain.y = canvas.height / 2 - 100;
->>>>>>> 8d103abd68b68db6185236041d32594cb5ab6c95
     }
 
     p.addPauseButton = function (e) {
@@ -335,14 +336,8 @@
 
                 if (intLevel > 1) {
 
-<<<<<<< HEAD
                     if ((bullet.x > STAGE_WIDTH) && (bulletIndex < 2)) {                        
                     
-=======
-                    if ((bullet.x > STAGE_WIDTH) && (bulletIndex < 2)) {
-
-
->>>>>>> 8d103abd68b68db6185236041d32594cb5ab6c95
                         for (var bullet2Index = 0; bullet2Index < bulletLen; bullet2Index++) {
                             var bullet2 = this.bulletContainer.getChildAt(bullet2Index);
 
@@ -366,15 +361,7 @@
                                 shootKeyDown = false;
                             }
                         }
-<<<<<<< HEAD
                     }
-=======
-
-
-                    }
-
-
->>>>>>> 8d103abd68b68db6185236041d32594cb5ab6c95
                 }
                 else {
                     if ((bullet.x > STAGE_WIDTH) && (bulletIndex < 2)) {
@@ -468,16 +455,6 @@
 
             }
         }
-<<<<<<< HEAD
-        
-                
-=======
-
-        if ((intScore == 5000 || intScore == 10000) && (boolLevelUp)) {
-            this.levelUp();
-        }
->>>>>>> 8d103abd68b68db6185236041d32594cb5ab6c95
-
     }
 
     function moveSpaceship(e) {
@@ -540,7 +517,6 @@
             bullet.y = bullet.nextY;
         }
 
-<<<<<<< HEAD
         txtLevel = "LEVEL: " + intLevel;   
         this.msgLevel.text = this.msgLevelMain.text = txtLevel;   
         txtScore = "SCORE: " + intScore;
@@ -554,30 +530,6 @@
         this.msgClock.text = finalTime;
 
         TimeShowOff =  Math.floor((currentTime-TimeShowOn)/1000);
-=======
-
-
-        txtLevel = "LEVEL: " + intLevel;
-        this.msgLevel.text = this.msgLevelMain.text = txtLevel;
-        txtScore = "SCORE: " + intScore;
-        this.msgScore.text = txtScore;
-
-
-
-
-        var currentTime = (new Date()).getTime();
-        txtClock = Math.floor((currentTime - startTime) / 1000);
-
-        var minutes = Math.floor(txtClock / 60);
-        var seconds = txtClock - minutes * 60;
-
-        var finalTime = str_pad_left(minutes, '0', 2) + ':' + str_pad_left(seconds, '0', 2);
-
-        this.msgClock.text = finalTime;
-
-
-
->>>>>>> 8d103abd68b68db6185236041d32594cb5ab6c95
 
         TimeShowOff = Math.floor((currentTime - TimeShowOn) / 1000);
 
@@ -587,11 +539,7 @@
 
     }
 
-<<<<<<< HEAD
     function strPadLeft(string, pad, length) {
-=======
-    function str_pad_left(string, pad, length) {
->>>>>>> 8d103abd68b68db6185236041d32594cb5ab6c95
         return (new Array(length + 1).join(pad) + string).slice(-length);
     }
 
