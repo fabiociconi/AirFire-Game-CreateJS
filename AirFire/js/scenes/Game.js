@@ -34,11 +34,13 @@
     //The Spaceship
 
     var spaceship;
+    var boss;
     var speedUp = false;
     var boolLevelUp = true;
     var speed;
     var numBullets;
     var numAsteroids;
+    var numBulletsBoss;
 
     var startTime;
 
@@ -47,6 +49,7 @@
     var intScore = 0;
     var intLevel = 1;
     var TimeShowOn, TimeShowOff;
+    var showBoss = false;
 
     var p = Game.prototype = new createjs.Container();
     var leftKeyDown, upKeyDown, rightKeyDown, downKeyDown = false;
@@ -60,18 +63,21 @@
     p.fpsTxt = null;
     p.asteroidContainer = null;
     p.bulletContainer = null;
+    p.bulletBossContainer = null;
 
     p.initialize = function () {
         this.Container_initialize();
         this.addBackground();
         this.addPauseButton();
-        this.addSpaceship();
-        this.addBoss();
+        this.addSpaceship();        
         this.addMessages();
         this.createAsteroidContainer();
         this.createAsteroids();
+        this.addBoss();
         this.createBulletContainer();
         this.createBullets();
+        this.createBulletBossContainer();
+        this.createBulletsBoss();
         intScore = 0;
         intLevel = 1;
         startTime = (new Date()).getTime();
@@ -80,16 +86,19 @@
 
     }
     p.addBoss = function () {
-        var boss = new createjs.Sprite(spritesheet, 'boss');
+        boss = new createjs.Sprite(spritesheet, 'boss');
         boss.bounds = boss.getBounds();
         boss.regX = boss.bounds.width / 2;
         boss.regY = boss.bounds.height / 2;
-        boss.nextX = canvas.width - 200;        
-        boss.nextY = (canvas.height / 2);        
+
+        boss.nextX = STAGE_WIDTH * 3;        
+        boss.nextY = STAGE_WIDTH * 3;
+        //boss.nextX = canvas.width - 200;        
+        //boss.nextY = (canvas.height / 2);        
         boss.x = boss.nextX;
         boss.y = boss.nextY;
-        boss.scaleX = 1;
-        boss.scaleY = 1;
+        boss.scaleX = 0.15;
+        boss.scaleY = 0.15;
         boss.rotation = 90;
         this.addChild(boss);
 
@@ -115,6 +124,13 @@
             asteroid = this.asteroidContainer.getChildAt(i);
             nextX = canvas.width * 2 + asteroid.size;
             asteroid.nextX = nextX;
+        }
+        if (intScore == 10000)
+        {
+            showBoss = true;
+            boss.nextX = canvas.width - 200;        
+            boss.nextY = (canvas.height / 2); 
+
         }
         this.showLevelMain();
     }
@@ -248,6 +264,32 @@
         }
     }
 
+    p.createBulletBossContainer = function () {
+        this.bulletBossContainer = new createjs.Container();
+        this.addChild(this.bulletBossContainer);
+    }
+
+    p.createBulletsBoss = function () {
+        var i, bulletBoss, color;
+        var bulletsBoss = this.bulletBossContainer;
+        this.numBullets = 30;
+        var bulletSize = 10;
+
+        for (i = 0; i < this.numBulletsBoss; i++) {
+            var bulletBoss = new createjs.Sprite(spritesheet, 'bullet');
+            bulletBoss.speed = 20;
+            bulletBoss.rotation = -90;
+            bulletBoss.scaleX = .3;
+            bulletBoss.size = bulletSize;
+            bulletBoss.nextX = STAGE_WIDTH * 2;
+            bulletBoss.nextY = STAGE_WIDTH * 2;
+
+            bulletBoss.x = bullet.nextX;
+            bulletBoss.y = bullet.nextY;
+            bulletsBoss.addChild(bulletBoss);
+        }
+    }
+
     p.update = function () {
         //Moving Asteroids
         var i, asteroid, nextX, nextY;
@@ -275,6 +317,39 @@
             asteroid.nextY = nextY;
 
         }
+
+        //Moving Boss   
+        
+        if (showBoss) //It will be true when Level = 3
+        {             //Moves need improvements :)
+            var destX = 1 + (Math.random() * 4);
+            var destY = 1 + (Math.random() * 4);
+            
+            if (destX >= 1 && destX < 2){
+                boss.nextX = boss.x + 30;
+            }
+            else if (destX >= 2 && destX < 3) {
+                boss.nextX = boss.x - 30;
+            }
+            else if (destX >= 3){
+                boss.nextX = boss.x;
+            }
+
+            if (destY >= 1 && destY < 2){
+                boss.nextY = boss.y + 30;
+            }
+            else if (destY >= 2 && destY < 3){
+                boss.nextY = boss.y - 30;
+            }
+            else if (destY >= 3){
+                boss.nextY = boss.y;
+            }        
+
+        
+            boss.x = boss.nextX;
+            boss.y = boss.nextY;
+        }
+
 
         //Moving Bullets
         var j, bullet, bulletNextX, bulletNextY;
@@ -516,6 +591,9 @@
             bullet.x = bullet.nextX;
             bullet.y = bullet.nextY;
         }
+
+        boss.x = boss.nextX;
+        boss.y = boss.nextY;
 
         txtLevel = "LEVEL: " + intLevel;   
         this.msgLevel.text = this.msgLevelMain.text = txtLevel;   
