@@ -43,7 +43,7 @@
     var numBulletsBoss;
 
     var startTime;
-
+    
 
     var txtScore, txtLevel, txtClock;
     var intScore = 0;
@@ -64,6 +64,7 @@
     p.asteroidContainer = null;
     p.bulletContainer = null;
     p.bulletBossContainer = null;
+    p.EXPLOSION_COMPLETE = 'explosion complete';
 
   var explode =null;
 
@@ -115,16 +116,21 @@
     p.playSoundAsteroidExplosion = function () {
         createjs.Sound.play(game.assets.SOUND_ASTEROID_EXPLOSION);
     }
-    p.explode = function () {
-        explode = new createjs.Sprite(spritesheet, 'explosion');
+    p.explosionAsteroids = function (x,y) {
+        var explode = new createjs.Sprite(spritesheet, 'explosionAsteroids');
+        explode.x =x;
+        explode.y =y;
+        console.log(x);
+        console.log(y);
+
         this.addChild(explode);
+        explode.on('animationend', this.explosionComplete, this, true);
         explode.gotoAndPlay('explosion');
-        explode.on('animationend', this.destroy);
-        //this.paused = true;
     }
-    p.destroy = function () {
-        explode.parent.removeChild(this);
-        explode = null;
+ 
+      p.explosionComplete = function (e) {
+        var explosion = e.target;
+        this.removeChild(explosion);
     }
 
     p.levelUp = function () {
@@ -521,7 +527,7 @@ p.update = function () {
                 asteroid.nextY = 25 + (Math.random() * 575);
                 bullet.nextX = STAGE_WIDTH;
                 bullet.nextY = 4000;
-                this.explode();
+                this.explosionAsteroids(asteroid.x-150,asteroid.y-140);
                 this.playSoundAsteroidExplosion();
                 if ((intScore == 5000 || intScore == 10000) && (boolLevelUp)) {
                     this.levelUp();

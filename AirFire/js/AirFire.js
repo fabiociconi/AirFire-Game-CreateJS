@@ -22,6 +22,7 @@
     p.currentGameState;
     p.currentScene;
     p.loadTxt =null;
+    var perc=0;
     p.initialize = function () {
         canvas = document.getElementById('canvas');
         stage = new createjs.Stage(canvas);
@@ -31,12 +32,13 @@
     //Call Preloader and load all game assets
     p.preloadAssets = function () {
 
-        this.loadTxt = new createjs.Text("Loading...", '40px Calibri', 'cyan');
+        
+        this.loadTxt = new createjs.Text("Loading..."+ perc+"%", '40px Calibri', 'cyan');
+        
         this.loadTxt.x = canvas.width / 2;
         this.loadTxt.y = (canvas.height / 2) + 50;
         this.loadTxt.textAlign = 'center';
-        stage.addChild(this.loadTxt);
-
+         stage.addChild(this.loadTxt);
         game.assets = new game.AssetManager();
         this.preloader = new ui.Preloader('red', 'cyan');
         this.preloader.x = (canvas.width / 2) - (this.preloader.width / 2);
@@ -44,11 +46,17 @@
         stage.addChild(this.preloader);
         game.assets.on(game.assets.ASSETS_PROGRESS, this.onAssetsProgress, this);
         game.assets.on(game.assets.ASSETS_COMPLETE, this.assetsReady, this);
+
+
         game.assets.preloadAssets();
+               
     }
     
     p.onAssetsProgress = function () {
         this.preloader.update(game.assets.loadProgress);
+        perc  =    game.assets.loadProgress;  
+        //console.log(perc)    ;
+        this.loadTxt.text ="Loading...." + Math.floor(perc*100) +"%";
         stage.update();
     }
     p.assetsReady = function () {
