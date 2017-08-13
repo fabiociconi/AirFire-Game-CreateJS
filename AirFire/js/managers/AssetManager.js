@@ -16,6 +16,7 @@
 
     //sounds
     p.SOUND_MENU = 'menu sound';
+    p.SOUND_GAME = 'game sound';
     p.SOUND_SHOOT = 'game shoot';
     p.SOUND_ASTEROID_EXPLOSION = 'game asteroid explosion';
     p.SOUND_SHIP_EXPLOSION = 'game ship explosion';
@@ -66,6 +67,7 @@
             //sound
             {id:this.SOUND_MENU,src:this.assetsPath +'Theme - Star Wars.ogg'},
             {id:this.SOUND_SHOOT,src:this.assetsPath +'laser.wav'},
+            {id:this.SOUND_GAME,src:this.assetsPath +'highway-star.mp3'},
             {id:this.SOUND_ASTEROID_EXPLOSION,src:this.assetsPath +'asteroid_explosion.wav'},
             {id:this.SOUND_SHIP_EXPLOSION,src:this.assetsPath +'spaceship_explosion.wav'}
 

@@ -41,6 +41,7 @@
     var numBullets;
     var numAsteroids;
     var numBulletsBoss;
+    var explode;
 
     var startTime;
     var boolShipOff = false;
@@ -66,7 +67,7 @@
     p.bulletBossContainer = null;
 
 
-  var explode =null;
+  
 
     p.initialize = function () {
         this.Container_initialize();
@@ -81,6 +82,7 @@
         this.createBullets();
         this.createBulletBossContainer();
         this.createBulletsBoss();
+        this.playGameMusic();
         intScore = 0;
         intLevel = 1;
         startTime = (new Date()).getTime();
@@ -88,6 +90,9 @@
         boolShipOff = false;
 
 
+    }
+    p.playGameMusic = function(){
+        createjs.Sound.play(game.assets.SOUND_GAME);
     }
     p.addBoss = function () {
         boss = new createjs.Sprite(spritesheet, 'boss');
@@ -672,7 +677,8 @@ function strPadLeft(string, pad, length) {
     return (new Array(length + 1).join(pad) + string).slice(-length);
 }
 
-p.gameOver = function () {      
+p.gameOver = function () {     
+        createjs.Sound.removeSound(game.assets.SOUND_GAME); 
         this.dispatchEvent(game.GameStateEvents.GAME_OVER);
 }
 
