@@ -57,7 +57,7 @@
         btn.setButton({upColor:'#000000', color: 'cyan', borderColor: 'cyan', overColor: '#900' });
         this.addChild(btn);
 
-        btn2 = new ui.SimpleButton('Play Again');
+        btn2 = new ui.SimpleButton('Play Again ');
         btn2.on('click', this.playGame, this);
         btn2.regX = btn.width / 2;
         btn2.x = canvas.width / 2;
