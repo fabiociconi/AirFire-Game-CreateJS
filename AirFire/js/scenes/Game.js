@@ -677,8 +677,9 @@ function strPadLeft(string, pad, length) {
     return (new Array(length + 1).join(pad) + string).slice(-length);
 }
 
-p.gameOver = function () {     
-        createjs.Sound.removeSound(game.assets.SOUND_GAME); 
+p.gameOver = function () {   
+    createjs.Sound.stop();  
+        //createjs.Sound.removeSound(game.assets.SOUND_GAME); 
         this.dispatchEvent(game.GameStateEvents.GAME_OVER);
 }
 

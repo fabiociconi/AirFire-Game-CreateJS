@@ -37,12 +37,12 @@
         this.titleTxt1.y = 100;
         this.titleTxt1.textAlign = 'center';
 
-        this.titleTxt2 = new createjs.Text("Spaceship Navagation controls", 'bold 20px Cambria', 'cyan');
+        this.titleTxt2 = new createjs.Text("Spaceship Navigation Controls", 'bold 20px Cambria', 'cyan');
         this.titleTxt2.x = 400;
         this.titleTxt2.y = 300;
         this.titleTxt2.textAlign = 'center';
 
-        this.titleTxt3 = new createjs.Text("Spaceship Shoot control", 'bold 20px Cambria', 'cyan');
+        this.titleTxt3 = new createjs.Text("Spaceship Shoot Control", 'bold 20px Cambria', 'cyan');
         this.titleTxt3.x = 800;
         this.titleTxt3.y = 300;
         this.titleTxt3.textAlign = 'center';
