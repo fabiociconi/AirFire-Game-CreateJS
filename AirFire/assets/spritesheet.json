@@ -50,8 +50,8 @@
 	 [512,	1024,   256,256,2],
 	 [768,	1024,   256,256,2],
 	 [1024,	1024,   256,256,2],
-	 [1280,	1024,   256,256,2]
-
+	 [1280,	1024,   256,256,2],
+    [1024,2304,1024,1024,0]
     ],
     "animations": {
         "butPlay":{"frames":[0,1],"speed":0.1},        
@@ -59,7 +59,7 @@
         "butCredits":{"frames":[3],"speed":0.1},
         "butExit":{"frames":[4],"speed":0.1},   
         "SpaceShip": { "frames": [5,6,7,8], "speed":0.1},
-        "mother":{"frames": [9], "speed":0.1},
+        "mother":{"frames": [9,48], "speed":0.009},
         "bullet":{"frames":[10], "speed":0.1},
         "asteroides":{"frames":[11], "speed":0.1},
         "grade":{"frames":[12], "speed":0.1},
