@@ -43,12 +43,12 @@
     var numBulletsBoss;
 
     var startTime;
-    
+    var boolShipOff = false;
 
     var txtScore, txtLevel, txtClock;
     var intScore = 0;
     var intLevel = 1;
-    var TimeShowOn, TimeShowOff;
+    var TimeShowOn, TimeShowOff = 0;
     var showBoss = false;
 
     var p = Game.prototype = new createjs.Container();
@@ -85,6 +85,7 @@
         intLevel = 1;
         startTime = (new Date()).getTime();
         speedUp = false;
+        boolShipOff = false;
 
 
     }
@@ -116,18 +117,30 @@
     p.playSoundAsteroidExplosion = function () {
         createjs.Sound.play(game.assets.SOUND_ASTEROID_EXPLOSION);
     }
+
+    p.playSoundShipExplosion = function () {
+        createjs.Sound.play(game.assets.SOUND_SHIP_EXPLOSION);
+    }    
+
     p.explosionSpaceShip = function(x,y){
        var explode = new createjs.Sprite(spritesheet, 'explosionSpaceShip');
-        explode.x = x-140;
-        explode.y = y-100;
+        explode.x = x-170;
+        explode.y = y-90;
+        
+        boolShipOff = true;  
+        this.playSoundShipExplosion();
         console.log(x);
         console.log(y);
        
 
         this.addChild(explode);
         explode.on('animationend', this.explosionComplete, this, true);
+        spaceship.nextY = -100;
         explode.gotoAndPlay('explosionSpaceShip');
 
+        spaceship.alpha = 1;
+        createjs.Tween.get(spaceship).to({alpha:-3}, 2000);
+        
     }
     p.explosionAsteroids = function (x,y) {
         var explode = new createjs.Sprite(spritesheet, 'explosionAsteroids');
@@ -165,6 +178,8 @@
     }
     this.showLevelMain();
 }
+
+
 
 p.showLevelMain = function () {
     TimeShowOn = (new Date()).getTime();
@@ -409,32 +424,32 @@ p.update = function () {
     var nextX = spaceship.x;
     var nextY = spaceship.y;
 
-    if (leftKeyDown) {
+    if (leftKeyDown && !boolShipOff) {
         nextX = spaceship.x - 10;
         if (nextX - 70 < 0) {
             nextX = 70;
         }
     }
-    if (rightKeyDown) {
+    if (rightKeyDown && !boolShipOff) {
         nextX = spaceship.x + 10;
         if (nextX > canvas.width * .6) {
             nextX = canvas.width * .6;
         }
     }
-    if (upKeyDown) {
+    if (upKeyDown && !boolShipOff) {
         nextY = spaceship.y - 10;
         if (nextY + 10 < 0) {
             nextY = -10;
         }
 
     }
-    if (downKeyDown) {
+    if (downKeyDown && !boolShipOff) {
         nextY = spaceship.y + 10;
         if (nextY > canvas.height - 67) {
             nextY = canvas.height - 67;
         }
     }
-    if (shootKeyDown) {
+    if (shootKeyDown && !boolShipOff) {
         var bulletIndex;
 
         for (bulletIndex = 0; bulletIndex < bulletLen; bulletIndex++) {
@@ -501,11 +516,9 @@ p.update = function () {
         if (spaceship.x < asteroid.x + aBounds.width / 3 &&
             spaceship.x > asteroid.x - aBounds.width / 3 &&
             spaceship.y < asteroid.y + aBounds.height / 2 &&
-            spaceship.y > asteroid.y - aBounds.height) 
-            {
-            this.explosionSpaceShip(spaceship.x,spaceship.y);
-            //setTimeout(gameOver, 1500);
-            this.gameOver();
+            spaceship.y > asteroid.y - aBounds.height && !boolShipOff) 
+        {
+            this.explosionSpaceShip(spaceship.x,spaceship.y);            
         }
     }
 
@@ -643,10 +656,14 @@ p.render = function () {
 
     TimeShowOff = Math.floor((currentTime - TimeShowOn) / 1000);
 
-    TimeShowOff = Math.floor((currentTime - TimeShowOn) / 1000);
-
     if (TimeShowOff > 2) {
         this.msgLevelMain.y = STAGE_WIDTH;
+    }
+
+    
+    if (spaceship.alpha == -3)
+    {
+        this.gameOver();
     }
 
 }
@@ -655,8 +672,8 @@ function strPadLeft(string, pad, length) {
     return (new Array(length + 1).join(pad) + string).slice(-length);
 }
 
-p.gameOver = function () {
-    this.dispatchEvent(game.GameStateEvents.GAME_OVER);
+p.gameOver = function () {      
+        this.dispatchEvent(game.GameStateEvents.GAME_OVER);
 }
 
 p.checkGame = function () {
