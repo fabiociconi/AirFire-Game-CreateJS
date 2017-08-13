@@ -38,6 +38,10 @@
         this.addChild(this.titleTxt);
     }
 
+    p.playSound = function () {
+            createjs.Sound.play(game.assets.SOUND_MENU);
+    }
+
 
 
     p.addButton = function () {
@@ -64,6 +68,7 @@
     }
     p.mainMenu = function (e) {
         this.dispatchEvent(game.GameStateEvents.MAIN_MENU);
+        this.playSound();
     }
     p.playGame = function (e) {
         this.dispatchEvent(game.GameStateEvents.GAME);

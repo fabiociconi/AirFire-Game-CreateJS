@@ -21,6 +21,7 @@
     }
 
     var p = GameMenu.prototype = new createjs.Container();
+    var boolStartingGame = true;
 
     p.Container_initialize = p.initialize;
     p.titleTxt = null;
@@ -43,7 +44,11 @@
     }
 
     p.playSound = function () {
-        createjs.Sound.play(game.assets.SOUND_MENU);
+        if (boolStartingGame){
+            createjs.Sound.stop();
+            createjs.Sound.play(game.assets.SOUND_MENU);
+            boolStartingGame = false;
+        }
     }
 
     p.addBackground = function () {
@@ -128,17 +133,18 @@
             this.exitButton);
     }
     p.playGame = function (e) {
-        createjs.Sound.removeSound(game.assets.SOUND_MENU);
+        createjs.Sound.stop();
+        //createjs.Sound.removeSound(game.assets.SOUND_MENU);
         this.dispatchEvent(game.GameStateEvents.GAME);
     }
 
     p.optionsGame = function (e) {
-        createjs.Sound.removeSound(game.assets.SOUND_MENU);
+        //createjs.Sound.removeSound(game.assets.SOUND_MENU);
         this.dispatchEvent(game.GameStateEvents.OPTIONS);
     }
 
     p.credits = function (e) {
-        createjs.Sound.removeSound(game.assets.SOUND_MENU);
+        //createjs.Sound.removeSound(game.assets.SOUND_MENU);
         this.dispatchEvent(game.GameStateEvents.CREDITS);
     }
 
