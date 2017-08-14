@@ -11,160 +11,164 @@
 
 (function (window) {
 
-    window.game = window.game || {}
+window.game = window.game || {}
 
-    function Game() {
-        this.initialize();
-    }
+function Game() {
+    this.initialize();
+}
 
-    //Key Constants
-    const ARROW_KEY_LEFT = 37;
-    const ARROW_KEY_UP = 38;
-    const ARROW_KEY_RIGHT = 39;
-    const ARROW_KEY_DOWN = 40;
-    const SPACE_BAR = 32;
+//Key Constants
+const ARROW_KEY_LEFT = 37;
+const ARROW_KEY_UP = 38;
+const ARROW_KEY_RIGHT = 39;
+const ARROW_KEY_DOWN = 40;
+const SPACE_BAR = 32;
 
-    //Stage Constants
-    const STAGE_WIDTH = 1200;
-    const BG_WIDTH = 1200;
+//Stage Constants
+const STAGE_WIDTH = 1200;
+const BG_WIDTH = 1200;
 
-    //Backgrounds
-    var background1, background2;
+//Backgrounds
+var background1, background2;
 
-    //The Spaceship
+//The Spaceship
 
-    var spaceship;
-    var boss;
-    var speedUp = false;
-    var boolLevelUp = true;
-    var speed;
-    var numBullets;
-    var numAsteroids;
-    var numBulletsBoss;
-    var explode;
+var spaceship;
+var boss;
+var speedUp = false;
+var boolLevelUp = true;
+var speed;
+var numBullets;
+var numAsteroids;
+var numBulletsBoss;
+var explode;
 
-    var startTime;
-    var boolShipOff = false;
+var startTime;
+var boolShipOff = false;
 
-    var txtScore, txtLevel, txtClock;
-    var intScore = 0;
-    var intLevel = 1;
-    var TimeShowOn, TimeShowOff = 0;
-    var showBoss = false;
+var txtScore, txtLevel, txtClock;
+var intScore = 0;
+var intLevel = 1;
+var TimeShowOn, TimeShowOff = 0;
+var moveBossStart, moveBossEnd = 0;
+var showBoss = false;
+var moveBoss = true;
 
-    var p = Game.prototype = new createjs.Container();
-    var leftKeyDown, upKeyDown, rightKeyDown, downKeyDown = false;
-    var shootKeyDown = false;
+var p = Game.prototype = new createjs.Container();
+var leftKeyDown, upKeyDown, rightKeyDown, downKeyDown = false;
+var shootKeyDown = false;
 
-    p.Container_initialize = p.initialize;
-    p.msgLevel = null;
-    p.msgLevelMain = null;
-    p.msgScore = null;
-    p.msgClock = null;
-    p.fpsTxt = null;
-    p.asteroidContainer = null;
-    p.bulletContainer = null;
-    p.bulletBossContainer = null;
-
-
-  
-
-    p.initialize = function () {
-        this.Container_initialize();
-        this.addBackground();
-        this.addPauseButton();
-        this.addSpaceship();
-        this.addMessages();
-        this.createAsteroidContainer();
-        this.createAsteroids();
-        this.addBoss();
-        this.createBulletContainer();
-        this.createBullets();
-        this.createBulletBossContainer();
-        this.createBulletsBoss();
-        this.playGameMusic();
-        intScore = 0;
-        intLevel = 1;
-        startTime = (new Date()).getTime();
-        speedUp = false;
-        boolShipOff = false;
+p.Container_initialize = p.initialize;
+p.msgLevel = null;
+p.msgLevelMain = null;
+p.msgScore = null;
+p.msgClock = null;
+p.fpsTxt = null;
+p.asteroidContainer = null;
+p.bulletContainer = null;
+p.bulletBossContainer = null;
 
 
-    }
-    p.playGameMusic = function(){
-        createjs.Sound.play(game.assets.SOUND_GAME);
-    }
-    p.addBoss = function () {
-        boss = new createjs.Sprite(spritesheet, 'boss');
-        boss.bounds = boss.getBounds();
-        boss.regX = boss.bounds.width / 2;
-        boss.regY = boss.bounds.height / 2;
 
-        boss.nextX = STAGE_WIDTH * 3;
-        boss.nextY = STAGE_WIDTH * 3;
-        //boss.nextX = canvas.width - 200;        
-        //boss.nextY = (canvas.height / 2);        
-        boss.x = boss.nextX;
-        boss.y = boss.nextY;
-        boss.scaleX = 0.15;
-        boss.scaleY = 0.15;
-        boss.rotation = 90;
-        this.addChild(boss);
 
-        //boss.nextX = STAGE_WIDTH + (Math.random() * this.numAsteroids * asteroidSize * 2);
-        //boss.nextY = asteroidSize + (Math.random() * this.numAsteroids * asteroidSize * 2);
+p.initialize = function () {
+    this.Container_initialize();
+    this.addBackground();
+    this.addPauseButton();
+    this.addSpaceship();
+    this.addMessages();
+    this.createAsteroidContainer();
+    this.createAsteroids();
+    this.addBoss();
+    this.createBulletContainer();
+    this.createBullets();
+    this.createBulletBossContainer();
+    this.createBulletsBoss();
+    this.playGameMusic();
+    intScore = 0;
+    intLevel = 1;
+    startTime = (new Date()).getTime();
+    speedUp = false;
+    boolShipOff = false;
 
-    }
-    p.playSoundShoot = function () {
-        createjs.Sound.play(game.assets.SOUND_SHOOT);
-    }
 
-    p.playSoundAsteroidExplosion = function () {
-        createjs.Sound.play(game.assets.SOUND_ASTEROID_EXPLOSION);
-    }
+}
+p.playGameMusic = function(){
+    createjs.Sound.play(game.assets.SOUND_GAME);
+}
+p.addBoss = function () {
+    boss = new createjs.Sprite(spritesheet, 'boss');
+    boss.bounds = boss.getBounds();
+    boss.regX = boss.bounds.width / 2;
+    boss.regY = boss.bounds.height / 2;
 
-    p.playSoundShipExplosion = function () {
-        createjs.Sound.play(game.assets.SOUND_SHIP_EXPLOSION);
-    }    
+    boss.nextX = STAGE_WIDTH * 3;
+    boss.nextY = STAGE_WIDTH * 3;
+    //boss.nextX = canvas.width - 200;        
+    //boss.nextY = (canvas.height / 2);        
+    boss.x = boss.nextX;
+    boss.y = boss.nextY;
+    boss.scaleX = 0.15;
+    boss.scaleY = 0.15;
+    boss.rotation = 90;
+    boss.speedY = 300;
+    boss.speedX = 300;
+    this.addChild(boss);
 
-    p.explosionSpaceShip = function(x,y){
-       var explode = new createjs.Sprite(spritesheet, 'explosionSpaceShip');
-        explode.x = x-170;
-        explode.y = y-90;
-        
-        boolShipOff = true;  
-        this.playSoundShipExplosion();
-        console.log(x);
-        console.log(y);
-       
+    //boss.nextX = STAGE_WIDTH + (Math.random() * this.numAsteroids * asteroidSize * 2);
+    //boss.nextY = asteroidSize + (Math.random() * this.numAsteroids * asteroidSize * 2);
 
-        this.addChild(explode);
-        explode.on('animationend', this.explosionComplete, this, true);
-        spaceship.nextY = -100;
-        explode.gotoAndPlay('explosionSpaceShip');
+}
+p.playSoundShoot = function () {
+    createjs.Sound.play(game.assets.SOUND_SHOOT);
+}
 
-        spaceship.alpha = 1;
-        createjs.Tween.get(spaceship).to({alpha:-3}, 2000);
-        
-    }
-    p.explosionAsteroids = function (x,y) {
-        var explode = new createjs.Sprite(spritesheet, 'explosionAsteroids');
-        explode.x = x-150;
-        explode.y = y-140;
-        //console.log(x);
-        //console.log(y);
+p.playSoundAsteroidExplosion = function () {
+    createjs.Sound.play(game.assets.SOUND_ASTEROID_EXPLOSION);
+}
 
-        this.addChild(explode);
-        explode.on('animationend', this.explosionComplete, this, true);
-        explode.gotoAndPlay('explosion');
-    }
+p.playSoundShipExplosion = function () {
+    createjs.Sound.play(game.assets.SOUND_SHIP_EXPLOSION);
+}    
+
+p.explosionSpaceShip = function(x,y){
+    var explode = new createjs.Sprite(spritesheet, 'explosionSpaceShip');
+    explode.x = x-170;
+    explode.y = y-90;
+    
+    boolShipOff = true;  
+    this.playSoundShipExplosion();
+    console.log(x);
+    console.log(y);
+    
+
+    this.addChild(explode);
+    explode.on('animationend', this.explosionComplete, this, true);
+    spaceship.nextY = -100;
+    explode.gotoAndPlay('explosionSpaceShip');
+
+    spaceship.alpha = 1;
+    createjs.Tween.get(spaceship).to({alpha:-3}, 2000);
+    
+}
+p.explosionAsteroids = function (x,y) {
+    var explode = new createjs.Sprite(spritesheet, 'explosionAsteroids');
+    explode.x = x-150;
+    explode.y = y-140;
+    //console.log(x);
+    //console.log(y);
+
+    this.addChild(explode);
+    explode.on('animationend', this.explosionComplete, this, true);
+    explode.gotoAndPlay('explosion');
+}
  
-      p.explosionComplete = function (e) {
-        var explosion = e.target;
-        this.removeChild(explosion);
-    }
+p.explosionComplete = function (e) {
+    var explosion = e.target;
+    this.removeChild(explosion);
+}
 
-    p.levelUp = function () {
+p.levelUp = function () {
     intLevel++;
     boolLevelUp = false;
 
@@ -180,11 +184,55 @@
         boss.nextX = canvas.width - 200;
         boss.nextY = (canvas.height / 2);
 
+        
+
+
     }
     this.showLevelMain();
 }
 
+p.moveBoss = function () {
+    moveBoss = false;
+    moveBossStart = (new Date()).getTime();
 
+    var destX = 1 + (Math.random() * 2);
+    var destY = 1 + (Math.random() * 2);
+
+
+    if (destX >= 1 && destX < 2) {  
+        if (boss.nextX >=  canvas.height - 50){   
+            createjs.Tween.get(boss).to({nextX:boss.nextX - boss.speedX},1000);
+        }
+        else{
+            createjs.Tween.get(boss).to({nextX:boss.nextX + boss.speedX},1000);
+        }
+    }
+    else if (destX >= 2 && destX < 3) {
+        if (boss.nextX <=  canvas.width * .7){   
+            createjs.Tween.get(boss).to({nextX:boss.nextX + boss.speedX},1000);
+        }
+        else{
+            createjs.Tween.get(boss).to({nextX:boss.nextX - boss.speedX},1000);
+        }
+    }
+
+    if (destY >= 1 && destY < 2) {
+        if (boss.nextY >=  canvas.height - 50){
+            createjs.Tween.get(boss).to({nextY:boss.nextY - boss.speedY},1000);
+        }
+        else{
+            createjs.Tween.get(boss).to({nextY:boss.nextY + boss.speedY},1000);
+        }        
+    }
+    else if (destY >= 2 && destY < 3) {
+        if (boss.nextY <= 50){            
+            createjs.Tween.get(boss).to({nextY:boss.nextY + boss.speedY},1000);
+        }
+        else{
+            createjs.Tween.get(boss).to({nextY:boss.nextY - boss.speedY},1000);
+        }
+    }
+}
 
 p.showLevelMain = function () {
     TimeShowOn = (new Date()).getTime();
@@ -371,34 +419,38 @@ p.update = function () {
 
     //Moving Boss   
 
-    if (showBoss) //It will be true when Level = 3
+    
+
+    moveBossEnd = (new Date()).getTime();
+    var bossTime = Math.floor((moveBossEnd - moveBossStart) / 1000);
+
+    if (bossTime > 0)
+    {
+        moveBoss = true;
+    }
+
+    if (showBoss && moveBoss) //It will be true when Level = 3
     {             //Moves need improvements :)
-        var destX = 1 + (Math.random() * 4);
-        var destY = 1 + (Math.random() * 4);
+         this.moveBoss();
+    }
 
-        if (destX >= 1 && destX < 2) {
-            boss.nextX = boss.x + 30;
-        }
-        else if (destX >= 2 && destX < 3) {
-            boss.nextX = boss.x - 30;
-        }
-        else if (destX >= 3) {
-            boss.nextX = boss.x;
+    if (showBoss)
+    {
+        if (boss.nextX > canvas.width - 50) {
+            boss.nextX = canvas.width - 50; 
         }
 
-        if (destY >= 1 && destY < 2) {
-            boss.nextY = boss.y + 30;
-        }
-        else if (destY >= 2 && destY < 3) {
-            boss.nextY = boss.y - 30;
-        }
-        else if (destY >= 3) {
-            boss.nextY = boss.y;
+        if (boss.nextX < canvas.width * .7) {            
+            boss.nextX = canvas.width * .7;           
         }
 
+        if (boss.nextY - 50 < 0) {
+            boss.nextY = 50;    
+        }
 
-        boss.x = boss.nextX;
-        boss.y = boss.nextY;
+        if (boss.nextY > canvas.height - 50) {
+            boss.nextY = canvas.height - 50;  
+        }  
     }
 
 
