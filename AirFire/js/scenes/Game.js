@@ -97,7 +97,7 @@ p.playGameMusic = function(){
     createjs.Sound.play(game.assets.SOUND_GAME);
 }
 p.addBoss = function () {
-    boss = new createjs.Sprite(spritesheet, 'boss');
+    boss = new createjs.Sprite(spritesheet, 'redBoss');
     boss.bounds = boss.getBounds();
     boss.regX = boss.bounds.width / 2;
     boss.regY = boss.bounds.height / 2;
@@ -371,11 +371,11 @@ p.createBulletBossContainer = function () {
 p.createBulletsBoss = function () {
     var i, bulletBoss, color;
     var bulletsBoss = this.bulletBossContainer;
-    this.numBullets = 30;
+    this.numBulletsBoss = 30;
     var bulletSize = 10;
 
     for (i = 0; i < this.numBulletsBoss; i++) {
-        var bulletBoss = new createjs.Sprite(spritesheet, 'bullet');
+        var bulletBoss = new createjs.Sprite(spritesheet, 'bulletBoss');
         bulletBoss.speed = 20;
         bulletBoss.rotation = -90;
         bulletBoss.scaleX = .3;
@@ -383,8 +383,8 @@ p.createBulletsBoss = function () {
         bulletBoss.nextX = STAGE_WIDTH * 2;
         bulletBoss.nextY = STAGE_WIDTH * 2;
 
-        bulletBoss.x = bullet.nextX;
-        bulletBoss.y = bullet.nextY;
+        bulletBoss.x = bulletBoss.nextX;
+        bulletBoss.y = bulletBoss.nextY;
         bulletsBoss.addChild(bulletBoss);
     }
 }
@@ -417,10 +417,7 @@ p.update = function () {
 
     }
 
-    //Moving Boss   
-
-    
-
+    //Moving Boss 
     moveBossEnd = (new Date()).getTime();
     var bossTime = Math.floor((moveBossEnd - moveBossStart) / 1000);
 
@@ -460,6 +457,15 @@ p.update = function () {
     for (j = 0; j < bulletLen; j++) {
         bullet = this.bulletContainer.getChildAt(j);
         bulletNextX = bullet.x + bullet.speed;
+        bullet.nextX = bulletNextX;
+    }
+
+    //Moving Boss Bullets
+    var j, bullet, bulletNextX, bulletNextY;
+    var bulletBossLen = this.bulletBossContainer.getNumChildren();
+    for (j = 0; j < bulletBossLen; j++) {
+        bullet = this.bulletBossContainer.getChildAt(j);
+        bulletNextX = bullet.x - bullet.speed;
         bullet.nextX = bulletNextX;
     }
 
@@ -554,8 +560,44 @@ p.update = function () {
             }
         }
     }
+
+    //Moving Boss Bullets to Boss Ship
+    var bulletBossIndex;
+    for (bulletBossIndex = 0; bulletBossIndex < bulletBossLen; bulletBossIndex++) {
+        bullet = this.bulletBossContainer.getChildAt(bulletBossIndex);
+        if ((bullet.x < -STAGE_WIDTH) && (bulletBossIndex < 1)) {
+            bullet.nextX = boss.nextX - 90;
+            bullet.nextY = boss.nextY;
+            bulletBossIndex = bulletBossLen;
+            this.playSoundShoot();
+        }
+    }
+
     spaceship.x = nextX;
     spaceship.y = nextY;
+
+    //Bullet Boss and Spaceship Collision
+    for (bulletBossIndex = 0; bulletBossIndex < bulletBossLen; bulletBossIndex++) {
+        bulletBoss = this.bulletBossContainer.getChildAt(bulletBossIndex);
+
+        var bBossBounds = bulletBoss.getBounds();
+        var sBounds = spaceship.getBounds();
+
+        bulletBoss.regX = bBossBounds.width / 2;
+        bulletBoss.regY = bBossBounds.height / 2;
+
+
+               
+
+        if (bulletBoss.x < spaceship.x + spaceship.getBounds().width*spaceship.scaleX   &&
+            bulletBoss.x > spaceship.x &&
+            bulletBoss.y < spaceship.y + spaceship.getBounds().height*spaceship.scaleY &&
+            bulletBoss.y > spaceship.y  && !boolShipOff) 
+        {
+            this.explosionSpaceShip(spaceship.x,spaceship.y);            
+        }
+    }
+
 
     //Asteroid and Spaceship Collision
     for (i = 0; i < len; i++) {
@@ -578,7 +620,6 @@ p.update = function () {
             this.explosionSpaceShip(spaceship.x,spaceship.y);            
         }
     }
-
 
     //ndgmr.DEBUG_COLLISION = true;
     //var collision;
@@ -696,6 +737,13 @@ p.render = function () {
         bullet.y = bullet.nextY;
     }
 
+    len = this.bulletBossContainer.getNumChildren();
+    for (i = 0; i < len; i++) {
+        bullet = this.bulletBossContainer.getChildAt(i);
+        bullet.x = bullet.nextX;
+        bullet.y = bullet.nextY;
+    }
+
     boss.x = boss.nextX;
     boss.y = boss.nextY;
 
@@ -730,7 +778,8 @@ function strPadLeft(string, pad, length) {
 }
 
 p.gameOver = function () {   
-    createjs.Sound.stop();  
+    createjs.Sound.stop(); 
+        showBoss = false; 
         //createjs.Sound.removeSound(game.assets.SOUND_GAME); 
         this.dispatchEvent(game.GameStateEvents.GAME_OVER);
 }

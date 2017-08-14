@@ -51,7 +51,8 @@
 	    [ 768,1024, 256, 256,   2],
 	    [1024,1024, 256, 256,   2],
 	    [1280,1024, 256, 256,   2],
-        [1024,2304,1024,1024,   0]
+        [1024,2304,1024,1024,   0],        
+        [ 128,   0, 128, 128,   0]
     ],
     "animations": {
         "butPlay":{
@@ -68,12 +69,16 @@
             "frames": [9,48], "speed":0.009},
         "bullet":{
             "frames":[10], "speed":0.1},
+        "bulletBoss":{
+            "frames":[49], "speed":0.1},
         "asteroides":{
             "frames":[11], "speed":0.1},
         "grade":{
             "frames":[12], "speed":0.1},
         "boss":{
             "frames":[13], "speed":0.1},
+        "redBoss":{
+            "frames":[48], "speed":0.1},
         "explosionSpaceShip":{
             "frames":[14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30],"speed":0.3},
         "explosionAsteroids":{
