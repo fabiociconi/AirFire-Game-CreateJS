@@ -282,19 +282,19 @@ p.addSpaceship = function () {
 }
 
 p.addMessages = function () {
-    this.msgLevel = new createjs.Text("LEVEL: ", '24px Cambria', 'cyan');
+    this.msgLevel = new createjs.Text("LEVEL: ", '24px Agency FB', 'cyan');
     this.msgLevel.x = 10;
     this.msgLevel.y = 10;
-    this.msgScore = new createjs.Text("SCORE: ", '24px Cambria', 'cyan');
+    this.msgScore = new createjs.Text("SCORE: ", '24px Agency FB', 'cyan');
     var b = this.msgScore.getBounds();
     this.msgScore.x = 150;
     this.msgScore.y = 10;
 
-    this.msgClock = new createjs.Text("", '24px Cambria', 'cyan');
+    this.msgClock = new createjs.Text("", '24px Agency FB', 'cyan');
     this.msgClock.x = BG_WIDTH - 150;
     this.msgClock.y = 10;
 
-    this.msgLevelMain = new createjs.Text('LEVEL: ' + intLevel, '60px Calibri', 'cyan');
+    this.msgLevelMain = new createjs.Text('LEVEL: ' + intLevel, '60px Agency FB', 'cyan');
     this.showLevelMain();
 
     this.addChild(this.msgLevel, this.msgScore, this.msgClock, this.msgLevelMain);

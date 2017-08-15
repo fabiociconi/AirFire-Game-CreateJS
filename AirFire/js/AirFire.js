@@ -33,7 +33,7 @@
     p.preloadAssets = function () {
 
         
-        this.loadTxt = new createjs.Text("Loading..."+ perc+"%", '40px Calibri', 'cyan');
+        this.loadTxt = new createjs.Text("Loading..."+ perc+"%", '40px Agency FB', 'cyan');
         
         this.loadTxt.x = canvas.width / 2;
         this.loadTxt.y = (canvas.height / 2) + 50;

@@ -61,7 +61,7 @@
     }
 
     p.addTitle = function () {
-        this.titleTxt = new createjs.Text("AIR FIRE", 'bold 150px Cambria', 'red');
+        this.titleTxt = new createjs.Text("AIR FIRE", 'bold 150px Agency FB', 'red');
         this.titleTxt.x = canvas.width / 2;
         this.titleTxt.y = -10;
         this.titleTxt.textAlign = 'center'
