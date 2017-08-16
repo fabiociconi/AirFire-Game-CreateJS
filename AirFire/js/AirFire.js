@@ -33,7 +33,7 @@
     p.preloadAssets = function () {
 
         
-        this.loadTxt = new createjs.Text("Loading..."+ perc+"%", '40px Agency FB', 'cyan');
+        this.loadTxt = new createjs.Text("Loading... "+ perc+"%", '40px Agency FB', 'cyan');
         
         this.loadTxt.x = canvas.width / 2;
         this.loadTxt.y = (canvas.height / 2) + 50;
@@ -56,7 +56,7 @@
         this.preloader.update(game.assets.loadProgress);
         perc  =    game.assets.loadProgress;  
         //console.log(perc)    ;
-        this.loadTxt.text ="Loading...." + Math.floor(perc*100) +"%";
+        this.loadTxt.text ="Loading... " + Math.floor(perc*100) +"%";
         stage.update();
     }
     p.assetsReady = function () {
