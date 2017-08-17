@@ -60,6 +60,8 @@ var showMothership = false;
 var moveBoss = true;
 var moveMothership = true;
 
+var barHealth;
+
 var p = Game.prototype = new createjs.Container();
 var leftKeyDown, upKeyDown, rightKeyDown, downKeyDown = false;
 var shootKeyDown = false;
@@ -73,6 +75,8 @@ p.fpsTxt = null;
 p.asteroidContainer = null;
 p.bulletContainer = null;
 p.bulletBossContainer = null;
+p.barEnergy=null;
+
 
 
 
@@ -390,12 +394,22 @@ p.addSpaceship = function () {
 
     window.onkeydown = moveSpaceship;
     window.onkeyup = stopSpaceship;
+
+    var barHealth = new game.HealthBar();
+    barHealth.x= 375; 
+    barHealth.y= 14;
+    this.addChild(barHealth);
 }
 
 p.addMessages = function () {
     this.msgLevel = new createjs.Text("LEVEL: ", '24px Agency FB', 'cyan');
     this.msgLevel.x = 10;
     this.msgLevel.y = 10;
+
+    this.barEnergy = new createjs.Text("ENERGY: ", '24px Agency FB', 'cyan');
+    this.barEnergy.x = 300;
+    this.barEnergy.y = 10;
+
     this.msgScore = new createjs.Text("SCORE: ", '24px Agency FB', 'cyan');
     var b = this.msgScore.getBounds();
     this.msgScore.x = 200;
@@ -408,7 +422,7 @@ p.addMessages = function () {
     this.msgLevelMain = new createjs.Text('LEVEL: ' + intLevel, '60px Agency FB', 'cyan');
     this.showLevelMain();
 
-    this.addChild(this.msgLevel, this.msgScore, this.msgClock, this.msgLevelMain);
+    this.addChild(this.msgLevel, this.msgScore, this.msgClock, this.msgLevelMain, this.barEnergy);
 
 }
 
