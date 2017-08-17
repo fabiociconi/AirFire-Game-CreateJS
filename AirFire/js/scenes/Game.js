@@ -438,8 +438,8 @@ p.createAsteroids = function () {
         asteroid.size = asteroidSize;
         //asteroid.regX = asteroid.width / 2;
         //asteroid.regY = asteroid.height / 2;
-        asteroid.nextX = STAGE_WIDTH + (Math.random() * this.numTotalAsteroids * asteroidSize * 2);
-        asteroid.nextY = asteroidSize*2 + (Math.random() * this.numTotalAsteroids * asteroidSize * 2);
+        asteroid.nextX = STAGE_WIDTH + asteroidSize*2 + (Math.random() * this.numTotalAsteroids * asteroidSize * 2);
+        asteroid.nextY = asteroidSize + (Math.random() * this.numTotalAsteroids * asteroidSize * 2);
         asteroid.x = asteroid.nextX;
         asteroid.y = asteroid.nextY;
         asteroids.addChild(asteroid);
@@ -860,7 +860,7 @@ p.update = function () {
                 bullet.y > asteroid.y - aBounds.height) {
                 intScore += 200;
                 boolLevelUp = true;
-                asteroid.nextX = STAGE_WIDTH;
+                asteroid.nextX = STAGE_WIDTH + asteroid.size * 2;
                 asteroid.nextY = 25 + (Math.random() * 575);
                 bullet.nextX = STAGE_WIDTH;
                 bullet.nextY = 4000;
