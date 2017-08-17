@@ -27,19 +27,19 @@
         this.addButton();
     }
     p.addTitle = function () {
-        this.titleTxt = new createjs.Text("CREDITS!", 'bold 40px Cambria', '#F00');
+        this.titleTxt = new createjs.Text("CREDITS!", 'bold 40px Agency FB', '#F00');
         this.titleTxt.x = canvas.width / 2;
         this.titleTxt.y = 40;
         this.titleTxt.textAlign = 'center';
        // this.addChild(this.titleTxt);
 
-        this.titleTxt1 = new createjs.Text("Andre Lemos\n" +
-                                           "Fabio Ciconi\n" +
-                                           "Rodrigo Geronimo\n"+
+        this.titleTxt1 = new createjs.Text("Andre Lemos\n\n" +
+                                           "Fabio Ciconi\n\n" +
+                                           "Rodrigo Geronimo\n\n"+
                                            "\n"+
                                            "\nThanks to: "+
                                            "Sprites: http://unluckystudio.com/", 
-                                           '40px Cambria', 
+                                           '40px Agency FB', 
                                            'cyan');
         this.titleTxt1.x = canvas.width / 2;;
         this.titleTxt1.y = canvas.height / 2 - 180;

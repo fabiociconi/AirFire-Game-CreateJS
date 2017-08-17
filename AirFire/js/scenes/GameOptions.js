@@ -28,22 +28,22 @@
 
         
     p.addTitle = function () {
-        this.titleTxt = new createjs.Text("OPTIONS", 'bold 40px Cambria', '#F00');
+        this.titleTxt = new createjs.Text("OPTIONS", 'bold 40px Agency FB', '#F00');
         this.titleTxt.x = canvas.width / 2;
         this.titleTxt.y = 40;
         this.titleTxt.textAlign = 'center';
-        this.titleTxt1 = new createjs.Text("CONTROLS", 'bold 40px Cambria', '#F00');
+        this.titleTxt1 = new createjs.Text("CONTROLS", 'bold 40px Agency FB', '#F00');
         this.titleTxt1.x = canvas.width / 2;
         this.titleTxt1.y = 100;
         this.titleTxt1.textAlign = 'center';
 
-        this.titleTxt2 = new createjs.Text("Spaceship Navigation Controls", 'bold 20px Cambria', 'cyan');
+        this.titleTxt2 = new createjs.Text("Spaceship Navigation Controls", 'bold 28px Agency FB', 'cyan');
         this.titleTxt2.x = 400;
         this.titleTxt2.y = 300;
         this.titleTxt2.textAlign = 'center';
 
-        this.titleTxt3 = new createjs.Text("Spaceship Shoot Control", 'bold 20px Cambria', 'cyan');
-        this.titleTxt3.x = 800;
+        this.titleTxt3 = new createjs.Text("Spaceship Shoot Control", 'bold 28px Agency FB', 'cyan');
+        this.titleTxt3.x = 810;
         this.titleTxt3.y = 300;
         this.titleTxt3.textAlign = 'center';
        // this.addChild(this.titleTxt);

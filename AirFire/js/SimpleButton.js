@@ -32,11 +32,11 @@
     }
     p.drawButton = function(){
         this.removeAllChildren();
-        this.labelTxt = new createjs.Text(this.label,this.fontSize + 'px Cambria',this.color);
+        this.labelTxt = new createjs.Text(this.label,this.fontSize + 'px Agency FB',this.color);
         this.labelTxt.textAlign = 'center';
         this.labelTxt.textBaseline = 'top';
         this.width = this.labelTxt.getMeasuredWidth() + 30;
-        this.height = this.labelTxt.getMeasuredHeight() + 20;
+        this.height = this.labelTxt.getMeasuredHeight() + 30;
         this.labelTxt.x = this.width / 2;
         this.labelTxt.y = 10;
         this.background = new createjs.Shape();
