@@ -26,7 +26,8 @@
     //graphics
     p.GAME_SPRITES = 'game sprites';
     p.GAME_SPRITES_2 = 'game sprites 2';
-    p.GAME_SPRITES_2 = 'game sprites 3';
+    p.GAME_SPRITES_3 = 'game sprites 3';
+    p.GAME_SPRITES_4 = 'game sprites 4';
     //p.FONT_SPRITES = 'font sprites';
     p.BATTLE_BG = 'game bg';
     p.MENU_BG = 'menu bg';
@@ -58,6 +59,7 @@
             {id:this.GAME_SPRITES, src:this.assetsPath    + 'spritesheet-part1.png'},
             {id:this.GAME_SPRITES_2, src:this.assetsPath + 'spritesheet-part2.png'},
             {id:this.GAME_SPRITES_3, src:this.assetsPath + 'spritesheet-part3.png'},
+            {id:this.GAME_SPRITES_4, src:this.assetsPath + 'spritesheet-part4.png'},
             //backgrounds
             {id:this.BATTLE_BG, src:this.assetsPath +  'Level1BG.jpg'},
             {id:this.MENU_BG, src:this.assetsPath    + 'MenuBG.jpg'},

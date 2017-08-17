@@ -181,9 +181,9 @@ p.explosionSpaceShip = function(x,y){
 }
 
 p.explosionBoss = function(x,y){
-    var explode = new createjs.Sprite(spritesheet, 'explosionBoss');
-    explode.x = x-130;
-    explode.y = y-130;
+    var explode = new createjs.Sprite(spritesheet, 'explosionEnemy');
+    explode.x = x-170;
+    explode.y = y-90;
       
     this.playSoundShipExplosion();
     console.log(x);
@@ -193,7 +193,7 @@ p.explosionBoss = function(x,y){
     this.addChild(explode);
     explode.on('animationend', this.explosionComplete, this, true);
     boss.nextY = STAGE_WIDTH * 3;
-    explode.gotoAndPlay('explosionBoss');
+    explode.gotoAndPlay('explosionEnemy');
 
     boss.alpha = 0;
     showBoss = false;
@@ -204,7 +204,7 @@ p.explosionBoss = function(x,y){
 }
 
 p.explosionMothership = function(x,y){
-    var explode = new createjs.Sprite(spritesheet, 'explosionBoss');
+    var explode = new createjs.Sprite(spritesheet, 'explosionEnemy');
     explode.x = x-170;
     explode.y = y-90;
       
@@ -216,7 +216,7 @@ p.explosionMothership = function(x,y){
     this.addChild(explode);
     explode.on('animationend', this.explosionComplete, this, true);
     mothership.nextY = STAGE_WIDTH * 3;
-    explode.gotoAndPlay('explosionBoss');
+    explode.gotoAndPlay('explosionEnemy');
 
     mothership.alpha = 0;
     showMothership = false;
@@ -535,8 +535,7 @@ p.update = function () {
     //}
 
 
- //Testing boss
-showMothership = true;
+ 
 
     for (i = 0; i < this.numAsteroids; i++) {
         asteroid = this.asteroidContainer.getChildAt(i);
@@ -755,10 +754,10 @@ showMothership = true;
 
                
 
-        if (bullet.x < boss.x + boss.getBounds().width * boss.scaleX / 2 &&
-            bullet.x > boss.x - boss.getBounds().width * boss.scaleX / 2 &&
-            bullet.y < boss.y + boss.getBounds().height* boss.scaleY / 2 &&
-            bullet.y > boss.y - boss.getBounds().height* boss.scaleY / 2 && showBoss) 
+        if (bullet.x < boss.x + boss.getBounds().width * boss.scaleX &&
+            bullet.x > boss.x &&
+            bullet.y < boss.y + boss.getBounds().height* boss.scaleY &&
+            bullet.y > boss.y && showBoss) 
         {
             this.explosionBoss(boss.x,boss.y);                 
             this.levelUp();           
