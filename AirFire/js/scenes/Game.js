@@ -39,7 +39,9 @@ var speedUp = false;
 var boolLevelUp = true;
 var speed;
 var numBullets;
-var numAsteroids;
+var numTotalAsteroids;
+var numAsteroids = 3;
+
 var numBulletsBoss;
 var explode;
 
@@ -96,29 +98,27 @@ p.initialize = function () {
 p.playGameMusic = function(){
     createjs.Sound.play(game.assets.SOUND_GAME);
 }
+
 p.addBoss = function () {
-    boss = new createjs.Sprite(spritesheet, 'redBoss');
+    boss = new createjs.Sprite(spritesheet, 'bossLevel2');
     boss.bounds = boss.getBounds();
     boss.regX = boss.bounds.width / 2;
     boss.regY = boss.bounds.height / 2;
 
     boss.nextX = STAGE_WIDTH * 3;
-    boss.nextY = STAGE_WIDTH * 3;
-    //boss.nextX = canvas.width - 200;        
-    //boss.nextY = (canvas.height / 2);        
+    boss.nextY = STAGE_WIDTH * 3;    
     boss.x = boss.nextX;
     boss.y = boss.nextY;
-    boss.scaleX = 0.15;
-    boss.scaleY = 0.15;
-    boss.rotation = 90;
+    boss.scaleX = 0.16;
+    boss.scaleY = 0.16;
+    boss.rotation = -90;
     boss.speedY = 300;
     boss.speedX = 300;
     this.addChild(boss);
-
-    //boss.nextX = STAGE_WIDTH + (Math.random() * this.numAsteroids * asteroidSize * 2);
-    //boss.nextY = asteroidSize + (Math.random() * this.numAsteroids * asteroidSize * 2);
-
 }
+
+
+
 p.playSoundShoot = function () {
     createjs.Sound.play(game.assets.SOUND_SHOOT);
 }
@@ -151,6 +151,30 @@ p.explosionSpaceShip = function(x,y){
     createjs.Tween.get(spaceship).to({alpha:-3}, 2000);
     
 }
+
+p.explosionBoss = function(x,y){
+    var explode = new createjs.Sprite(spritesheet, 'explosionSpaceShip');
+    explode.x = x-170;
+    explode.y = y-90;
+      
+    this.playSoundShipExplosion();
+    console.log(x);
+    console.log(y);
+    
+
+    this.addChild(explode);
+    explode.on('animationend', this.explosionComplete, this, true);
+    boss.nextY = -100;
+    explode.gotoAndPlay('explosionSpaceShip');
+
+    boss.alpha = 0;
+    showBoss = false;
+
+    boss.nextX = STAGE_WIDTH * 3;
+    boss.nextY = STAGE_WIDTH * 3;
+    
+}
+
 p.explosionAsteroids = function (x,y) {
     var explode = new createjs.Sprite(spritesheet, 'explosionAsteroids');
     explode.x = x-150;
@@ -173,21 +197,13 @@ p.levelUp = function () {
     boolLevelUp = false;
 
     var i, asteroid, nextX, nextY;
-    var len = this.asteroidContainer.getNumChildren();
-    for (i = 0; i < len; i++) {
+    //var len = this.asteroidContainer.getNumChildren();
+    for (i = 0; i < this.numAsteroids; i++) {
         asteroid = this.asteroidContainer.getChildAt(i);
         nextX = canvas.width * 2 + asteroid.size;
         asteroid.nextX = nextX;
-    }
-    if (intScore == 10000) {
-        showBoss = true;
-        boss.nextX = canvas.width - 200;
-        boss.nextY = (canvas.height / 2);
+    }   
 
-        
-
-
-    }
     this.showLevelMain();
 }
 
@@ -309,9 +325,9 @@ p.createAsteroidContainer = function () {
 p.createAsteroids = function () {
     var i, asteroid;
     var asteroids = this.asteroidContainer;
-    this.numAsteroids = 12;
+    this.numTotalAsteroids = 12;
     var asteroidSize = 25;
-    for (i = 0; i < this.numAsteroids; i++) {
+    for (i = 0; i < this.numTotalAsteroids; i++) {
         //color = '#' + Math.floor(Math.random() * 16777215).toString(16);
         asteroid = new game.Enemy();
 
@@ -327,8 +343,8 @@ p.createAsteroids = function () {
         asteroid.size = asteroidSize;
         //asteroid.regX = asteroid.width / 2;
         //asteroid.regY = asteroid.height / 2;
-        asteroid.nextX = STAGE_WIDTH + (Math.random() * this.numAsteroids * asteroidSize * 2);
-        asteroid.nextY = asteroidSize + (Math.random() * this.numAsteroids * asteroidSize * 2);
+        asteroid.nextX = STAGE_WIDTH + (Math.random() * this.numTotalAsteroids * asteroidSize * 2);
+        asteroid.nextY = asteroidSize + (Math.random() * this.numTotalAsteroids * asteroidSize * 2);
         asteroid.x = asteroid.nextX;
         asteroid.y = asteroid.nextY;
         asteroids.addChild(asteroid);
@@ -392,17 +408,37 @@ p.createBulletsBoss = function () {
 p.update = function () {
     //Moving Asteroids
     var i, asteroid, nextX, nextY;
-    var len = this.asteroidContainer.getNumChildren();
-    for (i = 0; i < len; i++) {
+    //var len = this.asteroidContainer.getNumChildren();
+
+
+    if (intScore == 0){        
+        this.numAsteroids = 3;
+    }
+    else if (intScore == 3000){        
+        this.numAsteroids = 6;
+    }
+    else if (intScore == 6000){        
+        this.numAsteroids = 9;
+    }
+    else if (intLevel > 2){        
+        this.numAsteroids = 12;
+    }
+
+ 
+
+    for (i = 0; i < this.numAsteroids; i++) {
         asteroid = this.asteroidContainer.getChildAt(i);
 
-        if ((intScore == 2000) && (!speedUp)) {
-            var len = this.asteroidContainer.getNumChildren();
-            for (var ispeed = 0; ispeed < len; ispeed++) {
+        if ((intScore >= 10000) && (!speedUp)) {
+            //var len = this.asteroidContainer.getNumChildren();
+            for (var ispeed = 0; ispeed < this.numAsteroids; ispeed++) {
                 asteroid = this.asteroidContainer.getChildAt(ispeed);
                 asteroid.speed *= 1.6;
             }
             speedUp = true;
+            showBoss = true;
+            //boss.nextX = canvas.width - 200;
+            //boss.nextY = (canvas.height / 2);
         }
 
         asteroid.rotation += asteroid.speed / 10;
@@ -561,15 +597,41 @@ p.update = function () {
         }
     }
 
+    //Bullet and Boss Collision
+    for (bulletIndex = 0; bulletIndex < bulletLen; bulletIndex++) {
+        bullet = this.bulletContainer.getChildAt(bulletIndex);
+
+        //var bBounds = bullet.getBounds();
+        //var bossBounds = boss.getBounds();
+
+        //bullet.regX = bBounds.width / 2;
+        //bullet.regY = bBounds.height / 2;
+
+
+               
+
+        if (bullet.x < boss.x + boss.getBounds().width * boss.scaleX &&
+            bullet.x > boss.x &&
+            bullet.y < boss.y + boss.getBounds().height* boss.scaleY &&
+            bullet.y > boss.y && showBoss) 
+        {
+            this.explosionBoss(boss.x,boss.y);                 
+            this.levelUp();           
+        }
+    }
+
     //Moving Boss Bullets to Boss Ship
     var bulletBossIndex;
-    for (bulletBossIndex = 0; bulletBossIndex < bulletBossLen; bulletBossIndex++) {
-        bullet = this.bulletBossContainer.getChildAt(bulletBossIndex);
-        if ((bullet.x < -STAGE_WIDTH) && (bulletBossIndex < 1)) {
-            bullet.nextX = boss.nextX - 90;
-            bullet.nextY = boss.nextY;
-            bulletBossIndex = bulletBossLen;
-            this.playSoundShoot();
+    if (showBoss)
+    {
+        for (bulletBossIndex = 0; bulletBossIndex < bulletBossLen; bulletBossIndex++) {
+            bullet = this.bulletBossContainer.getChildAt(bulletBossIndex);
+            if ((bullet.x < -STAGE_WIDTH) && (bulletBossIndex < 1)) {
+                bullet.nextX = boss.nextX - 90;
+                bullet.nextY = boss.nextY;
+                bulletBossIndex = bulletBossLen;
+                this.playSoundShoot();
+            }
         }
     }
 
@@ -596,11 +658,11 @@ p.update = function () {
         {
             this.explosionSpaceShip(spaceship.x,spaceship.y);            
         }
-    }
+    } 
 
 
     //Asteroid and Spaceship Collision
-    for (i = 0; i < len; i++) {
+    for (i = 0; i < this.numAsteroids; i++) {
         asteroid = this.asteroidContainer.getChildAt(i);
 
         var aBounds = asteroid.getBounds();
@@ -630,7 +692,7 @@ p.update = function () {
 
 
     //Asteroid and Shoot Collision
-    for (i = 0; i < len; i++) {
+    for (i = 0; i < this.numAsteroids; i++) {
         asteroid = this.asteroidContainer.getChildAt(i);
 
         var slot = asteroid;
@@ -656,7 +718,7 @@ p.update = function () {
                 bullet.nextY = 4000;
                 this.explosionAsteroids(asteroid.x,asteroid.y);
                 this.playSoundAsteroidExplosion();
-                if ((intScore == 5000 || intScore == 10000) && (boolLevelUp)) {
+                if ((intScore == 6000) && (boolLevelUp)) {
                     this.levelUp();
                 }
             }
@@ -722,15 +784,15 @@ function stopSpaceship(e) {
 p.render = function () {
 
     var i, asteroid, bullet;
-    var len = this.asteroidContainer.getNumChildren();
+    //var len = this.asteroidContainer.getNumChildren();
 
-    for (i = 0; i < len; i++) {
+    for (i = 0; i < this.numAsteroids; i++) {
         asteroid = this.asteroidContainer.getChildAt(i);
         asteroid.x = asteroid.nextX;
         asteroid.y = asteroid.nextY;
     }
 
-    len = this.bulletContainer.getNumChildren();
+    var len = this.bulletContainer.getNumChildren();
     for (i = 0; i < len; i++) {
         bullet = this.bulletContainer.getChildAt(i);
         bullet.x = bullet.nextX;
@@ -779,9 +841,9 @@ function strPadLeft(string, pad, length) {
 
 p.gameOver = function () {   
     createjs.Sound.stop(); 
-        showBoss = false; 
-        //createjs.Sound.removeSound(game.assets.SOUND_GAME); 
-        this.dispatchEvent(game.GameStateEvents.GAME_OVER);
+    showBoss = false; 
+    //createjs.Sound.removeSound(game.assets.SOUND_GAME); 
+    this.dispatchEvent(game.GameStateEvents.GAME_OVER);
 }
 
 p.checkGame = function () {
