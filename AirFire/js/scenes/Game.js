@@ -42,6 +42,7 @@ var speed;
 var numBullets;
 var numTotalAsteroids;
 var numAsteroids = 3;
+var spaceshipLife = 1;
 
 var numBulletsBoss;
 var explode;
@@ -395,8 +396,8 @@ p.addSpaceship = function () {
     window.onkeydown = moveSpaceship;
     window.onkeyup = stopSpaceship;
 
-    var barHealth = new game.HealthBar();
-    barHealth.x= 375; 
+    barHealth = new game.HealthBar();
+    barHealth.x= 400; 
     barHealth.y= 14;
     this.addChild(barHealth);
 }
@@ -407,7 +408,7 @@ p.addMessages = function () {
     this.msgLevel.y = 10;
 
     this.barEnergy = new createjs.Text("ENERGY: ", '24px Agency FB', 'cyan');
-    this.barEnergy.x = 300;
+    this.barEnergy.x = 325;
     this.barEnergy.y = 10;
 
     this.msgScore = new createjs.Text("SCORE: ", '24px Agency FB', 'cyan');
@@ -819,7 +820,16 @@ showMothership = true;
             bulletBoss.y < spaceship.y + spaceship.getBounds().height*spaceship.scaleY &&
             bulletBoss.y > spaceship.y  && !boolShipOff) 
         {
-            this.explosionSpaceShip(spaceship.x,spaceship.y);            
+            spaceshipLife = spaceshipLife - 0.05;
+            if (spaceshipLife < 0)
+            {
+                spaceshipLife = 0;
+            }
+            barHealth.updateLife(spaceshipLife);
+            if (spaceshipLife == 0)
+            {
+                this.explosionSpaceShip(spaceship.x,spaceship.y);   
+            }         
         }
     } 
 
@@ -842,7 +852,16 @@ showMothership = true;
             spaceship.y < asteroid.y + aBounds.height / 2 &&
             spaceship.y > asteroid.y - aBounds.height && !boolShipOff) 
         {
-            this.explosionSpaceShip(spaceship.x,spaceship.y);            
+            spaceshipLife = spaceshipLife - 0.01;
+            if (spaceshipLife < 0)
+            {
+                spaceshipLife = 0;
+            }
+            barHealth.updateLife(spaceshipLife);
+            if (spaceshipLife == 0)
+            {
+                this.explosionSpaceShip(spaceship.x,spaceship.y);   
+            }            
         }
     }
 
@@ -1009,6 +1028,7 @@ p.gameOver = function () {
     createjs.Sound.stop(); 
     showBoss = false; 
     showMothership = false;
+    spaceshipLife = 1;
     //createjs.Sound.removeSound(game.assets.SOUND_GAME); 
     this.dispatchEvent(game.GameStateEvents.GAME_OVER);
 }
