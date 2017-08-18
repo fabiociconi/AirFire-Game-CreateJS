@@ -43,6 +43,9 @@ var numBullets;
 var numTotalAsteroids;
 var numAsteroids = 3;
 var spaceshipLife = 1;
+var bossLife= 1;
+var mothershipLife = 1;
+
 
 var numBulletsBoss;
 var explode;
@@ -62,6 +65,9 @@ var moveBoss = true;
 var moveMothership = true;
 
 var barHealth;
+var barHealthBoss;
+var barHealthMothership;
+
 
 var p = Game.prototype = new createjs.Container();
 var leftKeyDown, upKeyDown, rightKeyDown, downKeyDown = false;
@@ -77,6 +83,9 @@ p.asteroidContainer = null;
 p.bulletContainer = null;
 p.bulletBossContainer = null;
 p.barEnergy=null;
+p.barEnergyBoss=null;
+p.barEnergyMothership=null;
+
 
 
 
@@ -125,6 +134,11 @@ p.addBoss = function () {
     boss.speedY = 300;
     boss.speedX = 300;
     this.addChild(boss);
+
+    barHealthBoss = new game.HealthBar();
+    barHealthBoss.x= -(STAGE_WIDTH - 115); 
+    barHealthBoss.y= 13;
+    this.addChild(barHealthBoss);
 }
 
 p.addMothership = function () {
@@ -143,6 +157,12 @@ p.addMothership = function () {
     mothership.speedY = 300;
     mothership.speedX = 300;
     this.addChild(mothership);
+
+    barHealthMothership = new game.HealthBar();
+    barHealthMothership.x= -(STAGE_WIDTH - 115); 
+    barHealthMothership.y= 13;
+    this.addChild(barHealthMothership);
+
 }
 
 
@@ -157,6 +177,10 @@ p.playSoundAsteroidExplosion = function () {
 
 p.playSoundShipExplosion = function () {
     createjs.Sound.play(game.assets.SOUND_SHIP_EXPLOSION);
+}   
+
+p.playSoundShipCollision = function () {
+    createjs.Sound.play(game.assets.SOUND_COLLISION);
 }    
 
 p.explosionSpaceShip = function(x,y){
@@ -180,10 +204,37 @@ p.explosionSpaceShip = function(x,y){
     
 }
 
+p.hitSpaceShip = function(x,y){
+    var explode = new createjs.Sprite(spritesheet, 'hitSpaceShip');
+    explode.x = x-170;
+    explode.y = y-90;    
+    this.playSoundShipCollision();
+    console.log(x);
+    console.log(y);
+    
+
+    this.addChild(explode);
+    explode.on('animationend', this.explosionComplete, this, true);
+    spaceship.nextY = -100;
+    explode.gotoAndPlay('hitSpaceShip');
+}
+
+p.hitEnemy = function(x,y){
+    var explode = new createjs.Sprite(spritesheet, 'hitEnemy');
+    explode.x = x-130;
+    explode.y = y-130;      
+    this.playSoundShipCollision();
+    console.log(x);
+    console.log(y);
+    this.addChild(explode);
+    explode.on('animationend', this.explosionComplete, this, true);
+    explode.gotoAndPlay('hitEnemy');    
+}
+
 p.explosionBoss = function(x,y){
     var explode = new createjs.Sprite(spritesheet, 'explosionEnemy');
-    explode.x = x-170;
-    explode.y = y-90;
+    explode.x = x-130;
+    explode.y = y-130;
       
     this.playSoundShipExplosion();
     console.log(x);
@@ -197,6 +248,8 @@ p.explosionBoss = function(x,y){
 
     boss.alpha = 0;
     showBoss = false;
+    this.barEnergyBoss.nextX *= -1;
+    barHealthBoss.x *= -1;
 
     boss.nextX = STAGE_WIDTH * 3;
     boss.nextY = STAGE_WIDTH * -3;
@@ -220,6 +273,8 @@ p.explosionMothership = function(x,y){
 
     mothership.alpha = 0;
     showMothership = false;
+    this.barEnergyMothership.nextX *= -1;
+    barHealthMothership.x *= -1;
 
     mothership.nextX = STAGE_WIDTH * 3;
     mothership.nextY = STAGE_WIDTH * -3;
@@ -257,6 +312,8 @@ p.levelUp = function () {
 
     if (intLevel == 3){        
         showMothership = true;
+        barHealthMothership.x *= -1;
+        this.barEnergyMothership.nextX *= -1;
     }
 
     this.showLevelMain();
@@ -351,7 +408,7 @@ p.moveMothership = function () {
 p.showLevelMain = function () {
     TimeShowOn = (new Date()).getTime();
 
-    this.msgLevelMain.x = canvas.width / 2 - 105;
+    this.msgLevelMain.x = canvas.width / 2 - 80;
     this.msgLevelMain.y = canvas.height / 2 - 100;
 }
 
@@ -362,8 +419,8 @@ p.addPauseButton = function (e) {
     btnPause.regX = btnPause.width / 2;
     btnPause.scaleX = .6;
     btnPause.scaleY = .6;
-    btnPause.x = 1170;
-    btnPause.y = 15;
+    btnPause.x = 1175;
+    btnPause.y = 13;
     btnPause.setButton({ upColor: 'black',  color: 'cyan', borderColor: 'cyan', overColor: 'white' });
     this.addChild(btnPause);
 }
@@ -398,7 +455,7 @@ p.addSpaceship = function () {
 
     barHealth = new game.HealthBar();
     barHealth.x= 400; 
-    barHealth.y= 14;
+    barHealth.y= 13;
     this.addChild(barHealth);
 }
 
@@ -408,8 +465,19 @@ p.addMessages = function () {
     this.msgLevel.y = 10;
 
     this.barEnergy = new createjs.Text("ENERGY: ", '24px Agency FB', 'cyan');
-    this.barEnergy.x = 325;
+    this.barEnergy.x = 330;
     this.barEnergy.y = 10;
+
+    this.barEnergyBoss = new createjs.Text("BOSS: ", '24px Agency FB', 'cyan');
+    this.barEnergyBoss.nextX = -(STAGE_WIDTH - 170);
+    this.barEnergyBoss.y = 10;
+
+    this.barEnergyMothership = new createjs.Text("MOTHERSHIP: ", '24px Agency FB', 'cyan');
+    this.barEnergyMothership.nextX = -(STAGE_WIDTH - 220);
+    this.barEnergyMothership.y = 10;
+
+
+
 
     this.msgScore = new createjs.Text("SCORE: ", '24px Agency FB', 'cyan');
     var b = this.msgScore.getBounds();
@@ -423,7 +491,7 @@ p.addMessages = function () {
     this.msgLevelMain = new createjs.Text('LEVEL: ' + intLevel, '60px Agency FB', 'cyan');
     this.showLevelMain();
 
-    this.addChild(this.msgLevel, this.msgScore, this.msgClock, this.msgLevelMain, this.barEnergy);
+    this.addChild(this.msgLevel, this.msgScore, this.msgClock, this.msgLevelMain, this.barEnergy, this.barEnergyBoss, this.barEnergyMothership);
 
 }
 
@@ -535,7 +603,8 @@ p.update = function () {
     //}
 
 
- 
+    //Testing
+    //showBoss = true;
 
     for (i = 0; i < this.numAsteroids; i++) {
         asteroid = this.asteroidContainer.getChildAt(i);
@@ -548,8 +617,10 @@ p.update = function () {
             }
             speedUp = true;
             showBoss = true;
-            //boss.nextX = canvas.width - 200;
-            //boss.nextY = (canvas.height / 2);
+            barHealthBoss.x *= -1;
+            this.barEnergyBoss.nextX *= -1;
+            boss.nextX = canvas.width - 200;
+            boss.nextY = (canvas.height / 2);
         }
 
         asteroid.rotation += asteroid.speed / 10;
@@ -752,27 +823,46 @@ p.update = function () {
         //bullet.regY = bBounds.height / 2;
 
 
-               
-
-        if (bullet.x < boss.x + boss.getBounds().width * boss.scaleX &&
-            bullet.x > boss.x &&
-            bullet.y < boss.y + boss.getBounds().height* boss.scaleY &&
-            bullet.y > boss.y && showBoss) 
+        if (bullet.x - 15 < boss.x + boss.getBounds().width * boss.scaleX / 2 &&
+            bullet.x - 15 > boss.x - boss.getBounds().width * boss.scaleX / 2 &&
+            bullet.y + 35 < boss.y + boss.getBounds().height* boss.scaleY / 2 &&
+            bullet.y + 35 > boss.y - boss.getBounds().height* boss.scaleY / 2 && showBoss)
         {
-            this.explosionBoss(boss.x,boss.y);                 
-            this.levelUp();           
+            bossLife = bossLife - 0.03;
+            if (bossLife < 0)
+            {
+                bossLife = 0;
+            }
+            barHealthBoss.updateLife(bossLife);                  
+            this.hitEnemy(boss.x,boss.y);
+            if (bossLife == 0)
+            {
+                this.explosionBoss(boss.x,boss.y);                 
+                this.levelUp();  
+            }  
+                       
         }
 
-        if (bullet.x < mothership.x + mothership.getBounds().width * mothership.scaleX &&
-            bullet.x > mothership.x &&
-            bullet.y < mothership.y + mothership.getBounds().height* mothership.scaleY &&
-            bullet.y > mothership.y && showMothership) 
+        if (bullet.x < mothership.x + mothership.getBounds().width * mothership.scaleX / 2 &&
+            bullet.x > mothership.x - mothership.getBounds().width * mothership.scaleX / 2 &&
+            bullet.y < mothership.y + mothership.getBounds().height* mothership.scaleY / 2 &&
+            bullet.y > mothership.y - mothership.getBounds().height* mothership.scaleY / 2 && showMothership) 
         {
-            this.explosionMothership(mothership.x,mothership.y);                 
-            //this.levelUp();           
+
+            mothershipLife = mothershipLife - 0.001;
+            if (mothershipLife < 0)
+            {
+                mothershipLife = 0;
+            }
+            barHealthMothership.updateLife(mothershipLife);
+                            
+            this.hitEnemy(mothership.x,mothership.y);
+            if (mothershipLife == 0)
+            {
+                this.explosionMothership(mothership.x,mothership.y);                 
+                //this.levelUp();  
+            }   
         }
-
-
     }
 
     //Moving Boss Bullets to Boss Ship
@@ -819,12 +909,13 @@ p.update = function () {
             bulletBoss.y < spaceship.y + spaceship.getBounds().height*spaceship.scaleY &&
             bulletBoss.y > spaceship.y  && !boolShipOff) 
         {
-            spaceshipLife = spaceshipLife - 0.05;
+            spaceshipLife = spaceshipLife - 0.06;
             if (spaceshipLife < 0)
             {
                 spaceshipLife = 0;
             }
             barHealth.updateLife(spaceshipLife);
+            this.hitSpaceShip(spaceship.x,spaceship.y);
             if (spaceshipLife == 0)
             {
                 this.explosionSpaceShip(spaceship.x,spaceship.y);   
@@ -856,7 +947,8 @@ p.update = function () {
             {
                 spaceshipLife = 0;
             }
-            barHealth.updateLife(spaceshipLife);
+            barHealth.updateLife(spaceshipLife);            
+            this.hitSpaceShip(spaceship.x,spaceship.y);
             if (spaceshipLife == 0)
             {
                 this.explosionSpaceShip(spaceship.x,spaceship.y);   
@@ -993,6 +1085,9 @@ p.render = function () {
     mothership.x = mothership.nextX;
     mothership.y = mothership.nextY;
 
+    this.barEnergyBoss.x = this.barEnergyBoss.nextX;
+    this.barEnergyMothership.x = this.barEnergyMothership.nextX;
+
     txtLevel = "LEVEL: " + intLevel;
     this.msgLevel.text = this.msgLevelMain.text = txtLevel;
     txtScore = "SCORE: " + intScore;
@@ -1028,6 +1123,8 @@ p.gameOver = function () {
     showBoss = false; 
     showMothership = false;
     spaceshipLife = 1;
+    bossLife = 1;
+    mothershipLife = 1;
     //createjs.Sound.removeSound(game.assets.SOUND_GAME); 
     this.dispatchEvent(game.GameStateEvents.GAME_OVER);
 }
