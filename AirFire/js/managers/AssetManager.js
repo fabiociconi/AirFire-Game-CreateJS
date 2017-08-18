@@ -21,6 +21,7 @@
     p.SOUND_ASTEROID_EXPLOSION = 'game asteroid explosion';
     p.SOUND_SHIP_EXPLOSION = 'game ship explosion';
     p.SOUND_COLLISION = 'game collision';
+    p.SOUND_SPACESHIP_COLLISION = 'game spaceship collision';
     
     
 
@@ -74,7 +75,8 @@
             {id:this.SOUND_GAME,src:this.assetsPath +'highway-star.mp3'},
             {id:this.SOUND_ASTEROID_EXPLOSION,src:this.assetsPath +'asteroid_explosion.wav'},
             {id:this.SOUND_SHIP_EXPLOSION,src:this.assetsPath +'spaceship_explosion.wav'},
-            {id:this.SOUND_COLLISION,src:this.assetsPath +'metal_collision.wav'}
+            {id:this.SOUND_COLLISION,src:this.assetsPath +'metal_collision.wav'},
+            {id:this.SOUND_SPACESHIP_COLLISION,src:this.assetsPath +'spaceship_collision.wav'}
 
 
         ];

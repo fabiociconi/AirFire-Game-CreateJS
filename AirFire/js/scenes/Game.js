@@ -55,6 +55,7 @@ var boolShipOff = false;
 
 var txtScore, txtLevel, txtClock;
 var intScore = 0;
+var intScoreMothership = 0;
 var intLevel = 1;
 var TimeShowOn, TimeShowOff = 0;
 var moveBossStart, moveBossEnd = 0;
@@ -125,14 +126,14 @@ p.addBoss = function () {
     boss.regY = boss.bounds.height / 2;
 
     boss.nextX = STAGE_WIDTH * 3;
-    boss.nextY = STAGE_WIDTH * -3;    
+    boss.nextY = STAGE_WIDTH * 3;    
     boss.x = boss.nextX;
     boss.y = boss.nextY;
     boss.scaleX = 0.16;
     boss.scaleY = 0.16;
     boss.rotation = -90;
-    boss.speedY = 300;
-    boss.speedX = 300;
+    boss.speedY = 200;
+    boss.speedX = 200;
     this.addChild(boss);
 
     barHealthBoss = new game.HealthBar();
@@ -154,8 +155,8 @@ p.addMothership = function () {
     mothership.scaleX = 0.3;
     mothership.scaleY = 0.3;
     mothership.rotation = 90;
-    mothership.speedY = 300;
-    mothership.speedX = 300;
+    mothership.speedY = 200;
+    mothership.speedX = 200;
     this.addChild(mothership);
 
     barHealthMothership = new game.HealthBar();
@@ -181,6 +182,10 @@ p.playSoundShipExplosion = function () {
 
 p.playSoundShipCollision = function () {
     createjs.Sound.play(game.assets.SOUND_COLLISION);
+}   
+
+p.playSoundSpaceshipCollision = function () {
+    createjs.Sound.play(game.assets.SOUND_SPACESHIP_COLLISION);
 }    
 
 p.explosionSpaceShip = function(x,y){
@@ -208,7 +213,7 @@ p.hitSpaceShip = function(x,y){
     var explode = new createjs.Sprite(spritesheet, 'hitSpaceShip');
     explode.x = x-170;
     explode.y = y-90;    
-    this.playSoundShipCollision();
+    this.playSoundSpaceshipCollision();
     console.log(x);
     console.log(y);
     
@@ -243,16 +248,15 @@ p.explosionBoss = function(x,y){
 
     this.addChild(explode);
     explode.on('animationend', this.explosionComplete, this, true);
-    boss.nextY = STAGE_WIDTH * 3;
     explode.gotoAndPlay('explosionEnemy');
-
-    boss.alpha = 0;
+    boss.alpha = 1;
+    createjs.Tween.get(boss).to({alpha: -999}, 2000);
     showBoss = false;
     this.barEnergyBoss.nextX *= -1;
     barHealthBoss.x *= -1;
 
     boss.nextX = STAGE_WIDTH * 3;
-    boss.nextY = STAGE_WIDTH * -3;
+    boss.nextY = STAGE_WIDTH * 3;
     
 }
 
@@ -269,16 +273,14 @@ p.explosionMothership = function(x,y){
     this.addChild(explode);
     explode.on('animationend', this.explosionComplete, this, true);
     mothership.nextY = STAGE_WIDTH * 3;
-    explode.gotoAndPlay('explosionEnemy');
-
-    mothership.alpha = 0;
-    showMothership = false;
+    explode.gotoAndPlay('explosionEnemy');  
     this.barEnergyMothership.nextX *= -1;
     barHealthMothership.x *= -1;
 
     mothership.nextX = STAGE_WIDTH * 3;
-    mothership.nextY = STAGE_WIDTH * -3;
-    
+    mothership.nextY = STAGE_WIDTH * 3;
+    mothership.alpha = 0;
+    showMothership = false;    
 }
 
 p.explosionAsteroids = function (x,y) {
@@ -303,17 +305,15 @@ p.levelUp = function () {
     boolLevelUp = false;
 
     var i, asteroid, nextX, nextY;
-    //var len = this.asteroidContainer.getNumChildren();
+    var len = this.asteroidContainer.getNumChildren();
     for (i = 0; i < this.numAsteroids; i++) {
         asteroid = this.asteroidContainer.getChildAt(i);
         nextX = canvas.width * 2 + asteroid.size;
         asteroid.nextX = nextX;
     }   
 
-    if (intLevel == 3){        
-        showMothership = true;
-        barHealthMothership.x *= -1;
-        this.barEnergyMothership.nextX *= -1;
+    if (intLevel == 3){  
+        intScoreMothership = intScore; 
     }
 
     this.showLevelMain();
@@ -596,11 +596,11 @@ p.update = function () {
         this.numAsteroids = 6;
     }
     else if (intScore == 6000){        
-        this.numAsteroids = 9;
+        this.numAsteroids = 10;
     }
-    //else if (intLevel > 2){        
-     //   this.numAsteroids = 12;
-    //}
+    else if (intLevel > 2){        
+       this.numAsteroids = 12;
+    }
 
 
     //Testing
@@ -619,7 +619,7 @@ p.update = function () {
             showBoss = true;
             barHealthBoss.x *= -1;
             this.barEnergyBoss.nextX *= -1;
-            boss.nextX = canvas.width - 200;
+            boss.nextX = canvas.width - 100;
             boss.nextY = (canvas.height / 2);
         }
 
@@ -674,7 +674,7 @@ p.update = function () {
 
     if (mothershipTime > 0)
     {
-        moveMothership = true;
+        moveMothership = true;        
     }
 
     if (showMothership && moveMothership) 
@@ -769,7 +769,7 @@ p.update = function () {
         for (bulletIndex = 0; bulletIndex < bulletLen; bulletIndex++) {
             bullet = this.bulletContainer.getChildAt(bulletIndex);
 
-            if (intLevel > 1) {
+            if (intLevel > 2) {
 
                 if ((bullet.x > STAGE_WIDTH) && (bulletIndex < 2)) {
 
@@ -838,7 +838,7 @@ p.update = function () {
             if (bossLife == 0)
             {
                 this.explosionBoss(boss.x,boss.y);                 
-                this.levelUp();  
+                //this.levelUp();  
             }  
                        
         }
@@ -871,6 +871,9 @@ p.update = function () {
     {
         for (bulletBossIndex = 0; bulletBossIndex < bulletBossLen; bulletBossIndex++) {
             bullet = this.bulletBossContainer.getChildAt(bulletBossIndex);
+            var bullet2 = this.bulletBossContainer.getChildAt(bulletBossIndex + 1);
+            var bullet3 = this.bulletBossContainer.getChildAt(bulletBossIndex + 2);
+
             if ((bullet.x < -STAGE_WIDTH) && (bulletBossIndex < 1)) {
                 if (showBoss)
                 {
@@ -880,7 +883,11 @@ p.update = function () {
                 else if (showMothership)
                 {
                     bullet.nextX = mothership.nextX - 90;
-                    bullet.nextY = mothership.nextY
+                    bullet.nextY = mothership.nextY;
+                    bullet2.nextX = mothership.nextX - 45;
+                    bullet2.nextY = mothership.nextY + 70;
+                    bullet3.nextX = mothership.nextX - 45;
+                    bullet3.nextY = mothership.nextY - 70;
                 }
                 bulletBossIndex = bulletBossLen;
                 this.playSoundShoot();
@@ -1010,6 +1017,16 @@ p.update = function () {
 
         }
     }
+
+    if ((intScore >= intScoreMothership + 10000) && (!showMothership) && (intLevel == 3))
+    {        
+        showMothership = true;
+        mothership.nextX = canvas.width - 100;
+        mothership.nextY = (canvas.height / 2);
+        barHealthMothership.x *= -1;
+        this.barEnergyMothership.nextX *= -1;
+        intScoreMothership = 9999999;
+    }
 }
 
 function moveSpaceship(e) {
@@ -1106,6 +1123,12 @@ p.render = function () {
         this.msgLevelMain.y = STAGE_WIDTH;
     }
 
+
+    if (boss.alpha == -999)
+    {
+        this.levelUp();
+        boss.alpha = 0;
+    }
     
     if (spaceship.alpha == -3)
     {
