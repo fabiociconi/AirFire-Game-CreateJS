@@ -698,7 +698,10 @@ p.update = function () {
 
         if (mothership.nextY > canvas.height - 100) {
             mothership.nextY = canvas.height - 100;  
-        }  
+        } 
+        //rotation animation 
+        createjs.Tween.get(mothership, { loop: true })
+        .to({ rotation: 360 }, 7000);
     }
 
 
@@ -719,6 +722,7 @@ p.update = function () {
         bulletNextX = bullet.x - bullet.speed;
         bullet.nextX = bulletNextX;
     }
+    
 
     //Moving Spaceship
     var bg1NextX, bg2NextX;
