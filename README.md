@@ -2,7 +2,7 @@
 
 <p>AirFire is webgame created using CreateJS Library. </p>
 
-This game is only to academics studies purposes
+<p>This game is only to academics studies purposes</p>
 
 
 Click in the link bellow to play the game:
@@ -12,5 +12,5 @@ Click in the link bellow to play the game:
 
 
 
-For more information about Create JS Library: 
+For more information about Create JS Library:</br> 
 https://createjs.com/
