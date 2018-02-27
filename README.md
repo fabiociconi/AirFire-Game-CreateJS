@@ -1,10 +1,15 @@
-#Air Fire
+<h1> Air Fire</h1>
 
-AirFire is webgame created using CreateJS Library. This game is an imcomplete with only three stages.
+<p>AirFire is webgame created using CreateJS Library. </p>
 
-You want to play the game:
+This game is only to academics studies purposes
 
-http://airfire.azurewebsites.net/
+
+Click in the link bellow to play the game:
+
+[PLAY THE GAME ](http://airfire.azurewebsites.net)
+
+
 
 
 For more information about Create JS Library: 
